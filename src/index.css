@@ -52,7 +52,7 @@ body {
 
 a {
   text-decoration: none;
-  color: var(--black);
+  color: var(--prussian-blue-500);
 }
 
 ul {
@@ -70,6 +70,7 @@ ul {
 p {
   margin-bottom: 1.5rem;
   max-width: 40em;
+  color: var(--prussian-blue-500);
 }
 
 h1,
