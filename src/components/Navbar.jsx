@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { toggleSidebar } from '../features/navigation/navSlice';
 import { toggleSignInModal } from '../features/users/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { openCart } from '../features/cart/cartSlice';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -19,21 +21,26 @@ const Navbar = () => {
         <Box className="nav-links">
           <List>
             <List.Item>
-              <a href="/">home</a>
+              <Link to="/">home</Link>
             </List.Item>
             <List.Item>
-              <a href="/">about</a>
+              <Link to="/about">about</Link>
             </List.Item>
             <List.Item>
-              <a href="/">our store</a>
+              <Link to="/products">our store</Link>
             </List.Item>
             <List.Item>
-              <a href="/">contact</a>
+              <Link to="/contact">contact</Link>
             </List.Item>
           </List>
         </Box>
         <Group position="center" px="md" className="btn-container">
-          <Button p={0} variant="white" className="cart-btn">
+          <Button
+            p={0}
+            variant="white"
+            className="cart-btn"
+            onClick={() => dispatch(openCart())}
+          >
             <IoIosCart />
           </Button>
 

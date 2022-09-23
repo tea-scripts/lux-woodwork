@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { FeaturedProducts, Hero, Registration } from '../components';
+import { FeaturedProducts, Features, Hero } from '../components';
 
 const Landing = () => {
   return (
     <Wrapper>
-      <Registration />
       <Hero />
+      <Features />
       <FeaturedProducts />
     </Wrapper>
   );

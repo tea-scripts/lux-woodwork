@@ -2,9 +2,9 @@ import {
   Title,
   Text,
   Container,
-  Button,
   Overlay,
   createStyles,
+  Box,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -21,13 +21,17 @@ const useStyles = createStyles((theme) => ({
     minHeight: 600,
 
     '@media (max-width: 520px)': {
-      paddingTop: 80,
+      paddingTop: 150,
       paddingBottom: 50,
     },
   },
 
   inner: {
     position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
     zIndex: 1,
   },
 
@@ -58,7 +62,7 @@ const useStyles = createStyles((theme) => ({
 
     '@media (max-width: 520px)': {
       fontSize: theme.fontSizes.md,
-      textAlign: 'left',
+      marginTop: theme.spacing.md,
     },
   },
 
@@ -101,13 +105,13 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const Hero = () => {
-  const { classes, cx } = useStyles();
+  const { classes } = useStyles();
 
   return (
     <div className={classes.wrapper}>
       <Overlay color="#000" opacity={0.65} zIndex={1} />
 
-      <div className={classes.inner}>
+      <Box className={classes.inner}>
         <Title className={classes.title}>
           Find Your{' '}
           <Text component="span" inherit className={classes.highlight}>
@@ -116,7 +120,12 @@ const Hero = () => {
         </Title>
 
         <Container size={640}>
-          <Text size="lg" className={classes.description}>
+          <Text
+            size="lg"
+            align="center"
+            weight={500}
+            className={classes.description}
+          >
             Here at Lux Woodwork, our main focus is making comfortable yet
             stylish furniture for your home. We have a wide range of products to
             choose from, so you can find the perfect piece for your home.
@@ -125,12 +134,12 @@ const Hero = () => {
 
         <HeroButtonWrapper>
           <div className="button-borders">
-            <Link to="/" className="primary-button">
+            <Link to="/products" className="primary-button">
               Shop Now
             </Link>
           </div>
         </HeroButtonWrapper>
-      </div>
+      </Box>
     </div>
   );
 };
