@@ -7,6 +7,7 @@ const Landing = () => {
       <Hero />
       <Features />
       <FeaturedProducts />
+      <section></section>
     </Wrapper>
   );
 };

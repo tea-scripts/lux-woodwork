@@ -12,13 +12,15 @@ import styled from 'styled-components';
 const useStyles = createStyles((theme) => ({
   wrapper: {
     position: 'relative',
+    marginTop: -60,
     paddingTop: 180,
     paddingBottom: 130,
+    zIndex: 0,
     backgroundImage:
       'url(https://res.cloudinary.com/teascript/image/upload/v1663866947/Lux-Woodwork/steph-wilson-G4fICun7Q48-unsplash_f2equq.jpg)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    minHeight: 600,
+    minHeight: 800,
 
     '@media (max-width: 520px)': {
       paddingTop: 150,
@@ -37,7 +39,7 @@ const useStyles = createStyles((theme) => ({
 
   title: {
     fontWeight: 800,
-    fontSize: 40,
+    fontSize: 60,
     letterSpacing: -1,
     paddingLeft: theme.spacing.md,
     paddingRight: theme.spacing.md,

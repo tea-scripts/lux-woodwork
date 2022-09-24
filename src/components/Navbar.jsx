@@ -1,74 +1,111 @@
-import { Box, Burger, Button, Group, Header, List } from '@mantine/core';
-import { IoIosCart } from 'react-icons/io';
+import {
+  Box,
+  Burger,
+  Button,
+  Container,
+  Group,
+  Header,
+  List,
+} from '@mantine/core';
+import { HiShoppingBag } from 'react-icons/hi';
 import logo from '../assets/logo.svg';
+import logoBlack from '../assets/logo-black.svg';
 import styled from 'styled-components';
 import { toggleSidebar } from '../features/navigation/navSlice';
 import { toggleSignInModal } from '../features/users/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { openCart } from '../features/cart/cartSlice';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const { isSidebarOpen } = useSelector((store) => store.navigation);
+  const [isHome, setIsHome] = useState(true);
+
+  const location = useLocation();
+  useEffect(() => {
+    if (window.location.pathname !== '/') {
+      setIsHome(false);
+    } else {
+      setIsHome(true);
+    }
+  }, [location]);
 
   return (
-    <NavWrapper>
-      <Header className="nav-header" px={15}>
-        <Box className="nav-logo">
-          <img src={logo} alt="lux woodwork" />
-        </Box>
-        <Box className="nav-links">
-          <List>
-            <List.Item>
-              <Link to="/">home</Link>
-            </List.Item>
-            <List.Item>
-              <Link to="/about">about</Link>
-            </List.Item>
-            <List.Item>
-              <Link to="/products">our store</Link>
-            </List.Item>
-            <List.Item>
-              <Link to="/contact">contact</Link>
-            </List.Item>
-          </List>
-        </Box>
-        <Group position="center" px="md" className="btn-container">
-          <Button
-            p={0}
-            variant="white"
-            className="cart-btn"
-            onClick={() => dispatch(openCart())}
-          >
-            <IoIosCart />
-          </Button>
+    <NavWrapper prop={isHome}>
+      <Container size={1200}>
+        <Header className="nav-header" px={15}>
+          <Box className="nav-logo">
+            <img src={isHome ? logo : logoBlack} alt="lux woodwork" />
+          </Box>
+          <Box className="nav-links">
+            <List>
+              <List.Item>
+                <Link to="/">home</Link>
+              </List.Item>
+              <List.Item>
+                <Link to="/about">about</Link>
+              </List.Item>
+              <List.Item>
+                <Link to="/products">our store</Link>
+              </List.Item>
+              <List.Item>
+                <Link to="/contact">contact</Link>
+              </List.Item>
+            </List>
+          </Box>
+          <Group position="center" px="md" className="btn-container">
+            <Button
+              p={0}
+              sx={{ backgroundColor: 'transparent' }}
+              className="cart-btn"
+              color={isHome ? 'white' : 'black'}
+              onClick={() => dispatch(openCart())}
+            >
+              <HiShoppingBag />
+            </Button>
 
-          <Button
-            variant="filled"
-            px=".3rem"
-            onClick={() => dispatch(toggleSignInModal())}
-          >
-            Sign in
-          </Button>
-        </Group>
-        <Burger
-          className="nav-toggle"
-          opened={isSidebarOpen}
-          onClick={() => dispatch(toggleSidebar())}
-        />
-      </Header>
+            <Button
+              variant="filled"
+              sx={{
+                backgroundColor: isHome ? '#f5f5f5' : '#228be6',
+                color: isHome ? '#000' : '#fff',
+              }}
+              px=".3rem"
+              onClick={() => dispatch(toggleSignInModal())}
+              radius="md"
+            >
+              Sign in
+            </Button>
+          </Group>
+          <Burger
+            className="nav-toggle"
+            opened={isSidebarOpen}
+            onClick={() => dispatch(toggleSidebar())}
+          />
+        </Header>
+      </Container>
     </NavWrapper>
   );
 };
 
 const NavWrapper = styled.nav`
+  z-index: 2;
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  color: ${(props) => (props.prop ? '#fff' : '#000')};
+  background: ${(props) => (props.prop ? 'transparent' : '#fff')};
+
   .nav-header {
-    background: #fff;
+    background: transparent;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 60px;
+    border-bottom: none;
   }
 
   .nav-toggle {
@@ -93,10 +130,11 @@ const NavWrapper = styled.nav`
       li {
         a {
           text-decoration: none;
-          color: #000;
-          font-size: 1.1rem;
+          color: ${(props) => (props.prop ? '#fff' : '#000')};
+          font-size: 1rem;
           font-weight: 500;
           text-transform: capitalize;
+          letter-spacing: 1px;
 
           &:hover {
             color: #f26a2e;
@@ -123,6 +161,11 @@ const NavWrapper = styled.nav`
 
       .cart-btn {
         font-size: 1.5rem;
+        color: ${(props) => (props.prop ? '#fff' : '#228be6')};
+
+        &:hover {
+          background: transparent;
+        }
       }
     }
   }

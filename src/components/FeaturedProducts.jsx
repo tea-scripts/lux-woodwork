@@ -19,7 +19,9 @@ const FeaturedProducts = () => {
   return (
     <Container size={1200}>
       <Wrapper>
-        <Title order={2}>Top Products of the Week</Title>
+        <Title order={2} align="center">
+          Top Products of the Week
+        </Title>
         <SimpleGrid
           cols={1}
           breakpoints={[
@@ -42,12 +44,6 @@ const FeaturedProducts = () => {
                 </Badge>
               </Group>
 
-              <Text size="sm" color="dimmed">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Laudantium aliquam voluptas placeat atque, enim reiciendis non
-                pariatur? Repudiandae, architecto nostrum?
-              </Text>
-
               <Text color="dimmed">$56,000</Text>
             </Card>
           </Box>
@@ -66,12 +62,6 @@ const FeaturedProducts = () => {
                   Featured
                 </Badge>
               </Group>
-
-              <Text size="sm" color="dimmed">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Laudantium aliquam voluptas placeat atque, enim reiciendis non
-                pariatur? Repudiandae, architecto nostrum?
-              </Text>
 
               <Text color="dimmed">$56,000</Text>
             </Card>
@@ -92,16 +82,17 @@ const FeaturedProducts = () => {
                 </Badge>
               </Group>
 
-              <Text size="sm" color="dimmed">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Laudantium aliquam voluptas placeat atque, enim reiciendis non
-                pariatur? Repudiandae, architecto nostrum?
-              </Text>
-
               <Text color="dimmed">$56,000</Text>
             </Card>
           </Box>
         </SimpleGrid>
+        <Box className="view-products-container">
+          <Link to="/products" className="view-products-btn">
+            <Text color="pink" weight={500}>
+              View All Products
+            </Text>
+          </Link>
+        </Box>
       </Wrapper>
     </Container>
   );
@@ -110,11 +101,27 @@ const FeaturedProducts = () => {
 const Wrapper = styled.section`
   padding: 1.25rem;
 
-  h2 {
-    margin-bottom: 1.25rem;
+  .view-products-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.25rem;
+
+    .view-products-btn {
+      background: var(--white);
+      padding: 0.5rem 1rem;
+      display: inline-block;
+      border-radius: 0.25rem;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin: 1rem auto;
+
+      &:hover {
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+    }
   }
 
-  div {
+  h2 {
     margin-bottom: 1.25rem;
   }
 `;
