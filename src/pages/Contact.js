@@ -1,15 +1,32 @@
-import styled from 'styled-components';
-import { Container, SimpleGrid, Stack, Text, Title } from '@mantine/core';
-import { ContactForm, ContactInformation } from '../components';
+import styled from "styled-components";
+import {
+  Container,
+  createStyles,
+  Overlay,
+  SimpleGrid,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
+import { ContactForm, ContactInformation } from "../components";
+
+const useStyles = createStyles((theme) => ({
+  title: {
+    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+  },
+}));
 
 const Contact = () => {
+  const { classes } = useStyles();
+
   return (
     <Wrapper>
-      <Stack align="center" justify="center" spacing="xs">
-        <Title order={2} mb={10}>
+      <Stack className="header" align="center" justify="center" spacing="xs">
+        <Overlay opacity={0.5} color="#000" zIndex={1} sx={{ height: 460 }} />
+        <Title className={classes.title} order={2} mb={10}>
           Contact Us
         </Title>
-        <Text align="center">
+        <Text className="description" align="center">
           If you have any questions, we will always be happy to help. Feel free
           to contact us by phone or email and we will be sure to get back to you
           as soon as possible.
@@ -30,29 +47,29 @@ const Contact = () => {
 };
 
 const Wrapper = styled.section`
-  height: calc(100vh - 5rem - 10rem);
-
   > .mantine-Stack-root {
-    background-color: #228be6;
-    height: 300px;
-    margin-bottom: 2rem;
-    padding: 1.5rem;
+    background: url("https://i.ibb.co/cr65GKb/contact-image.jpg") no-repeat top
+      center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 400px;
+    margin-bottom: 3rem;
 
     h2 {
       font-size: 2.5rem;
       color: var(--white);
+      z-index: 2;
     }
 
-    div {
+    .description {
       max-width: 40rem;
       color: #fff;
-      opacity: 0.6;
+      opacity: 0.8;
       font-weight: 500;
+      z-index: 2;
     }
-  }
-
-  .mantine-Container-root {
-    margin-bottom: 2rem;
   }
 `;
 
