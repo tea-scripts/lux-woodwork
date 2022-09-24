@@ -30,6 +30,8 @@ const Contact = () => {
 };
 
 const Wrapper = styled.section`
+  height: calc(100vh - 5rem - 10rem);
+
   > .mantine-Stack-root {
     background-color: #228be6;
     height: 300px;

@@ -18,6 +18,7 @@ import { openCart } from '../features/cart/cartSlice';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import navLinks from '../utils/navLinks';
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -42,18 +43,13 @@ const Navbar = () => {
           </Box>
           <Box className="nav-links">
             <List>
-              <List.Item>
-                <Link to="/">home</Link>
-              </List.Item>
-              <List.Item>
-                <Link to="/about">about</Link>
-              </List.Item>
-              <List.Item>
-                <Link to="/products">our store</Link>
-              </List.Item>
-              <List.Item>
-                <Link to="/contact">contact</Link>
-              </List.Item>
+              {navLinks.map((link) => {
+                return (
+                  <List.Item key={link.id}>
+                    <Link to={link.url}>{link.name}</Link>
+                  </List.Item>
+                );
+              })}
             </List>
           </Box>
           <Group position="center" px="md" className="btn-container">
@@ -83,6 +79,7 @@ const Navbar = () => {
           <Burger
             className="nav-toggle"
             opened={isSidebarOpen}
+            color={isHome ? 'white' : 'black'}
             onClick={() => dispatch(toggleSidebar())}
           />
         </Header>
