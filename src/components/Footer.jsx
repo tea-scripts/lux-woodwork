@@ -3,7 +3,6 @@ import {
   Container,
   Group,
   ActionIcon,
-  Image,
   List,
 } from '@mantine/core';
 import {

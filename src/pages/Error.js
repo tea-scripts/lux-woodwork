@@ -6,7 +6,7 @@ import {
   Button,
   Group,
 } from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import errorImage from '../assets/error-image.svg';
 
 const useStyles = createStyles((theme) => ({
@@ -59,7 +59,6 @@ const useStyles = createStyles((theme) => ({
 
 const Error = () => {
   const { classes } = useStyles();
-  const navigate = useNavigate();
 
   return (
     <Container className={classes.root}>
@@ -67,18 +66,13 @@ const Error = () => {
         <img src={errorImage} className={classes.image} alt="error" />
         <div className={classes.content}>
           <Title className={classes.title}>Nothing to see here</Title>
-          <Text
-            // color="dimmed"
-            size="lg"
-            align="center"
-            className={classes.description}
-          >
+          <Text size="lg" align="center" className={classes.description}>
             Page you are trying to open does not exist. You may have mistyped
             the address, or the page has been moved to another URL. If you think
             this is an error contact support.
           </Text>
           <Group position="center">
-            <Button size="md" onClick={() => navigate('/')}>
+            <Button size="md" component={Link} to="/">
               Take me back to home page
             </Button>
           </Group>

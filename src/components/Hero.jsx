@@ -25,6 +25,7 @@ const useStyles = createStyles((theme) => ({
     '@media (max-width: 520px)': {
       paddingTop: 150,
       paddingBottom: 50,
+      minHeight: 600,
     },
   },
 

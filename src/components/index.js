@@ -7,6 +7,7 @@ import Hero from './Hero';
 import Navbar from './Navbar';
 import Registration from './Registration';
 import Sidebar from './Sidebar';
+import SidebarCart from './Cart';
 
 export {
   Navbar,
@@ -18,4 +19,5 @@ export {
   ContactForm,
   ContactInformation,
   Footer,
+  SidebarCart,
 };

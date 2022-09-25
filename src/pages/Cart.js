@@ -1,13 +1,13 @@
-import { Button, Title } from '@mantine/core';
+import { Button } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const Products = () => {
+const Cart = () => {
   return (
     <Wrapper>
-      <Title order={2}>Welcome to our store</Title>
-      <Button component={Link} to="/">
-        Back to Home
+      Your cart is Empty hehe
+      <Button>
+        <Link to="/products">Fill it up!</Link>
       </Button>
     </Wrapper>
   );
@@ -20,4 +20,4 @@ const Wrapper = styled.section`
   width: 90vw;
   margin: 0 auto;
 `;
-export default Products;
+export default Cart;
