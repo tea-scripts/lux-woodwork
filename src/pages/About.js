@@ -80,6 +80,7 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     marginBottom: 20,
+    maxWidth: 1200,
 
     "@media (min-width: 1000px)": {
       paddingLeft: 120,
@@ -91,6 +92,7 @@ const useStyles = createStyles((theme) => ({
   image_one: {
     boxShadow: "var(--shadow)",
     marginBottom: 96,
+    maxWidth: 800,
 
     "@media (min-width: 1000px)": {
       marginBottom: 0,
@@ -100,6 +102,7 @@ const useStyles = createStyles((theme) => ({
   image_two: {
     boxShadow: "var(--shadow)",
     marginBottom: 20,
+    maxWidth: 800,
 
     "@media (min-width: 1000px)": {
       marginBottom: 0,
@@ -118,7 +121,7 @@ const useStyles = createStyles((theme) => ({
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     fontSize: 26,
     fontWeight: 600,
-    color: "var(--white)",
+    color: "var(--prussian-blue-500)",
     textAlign: "center",
     marginBottom: 10,
 
@@ -162,7 +165,17 @@ const useStyles = createStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     padding: 32,
-    backgroundColor: "var(--gray)",
+  },
+
+  flex_container: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+
+    "@media (min-width: 1000px)": {
+      flexDirection: "row",
+    },
   },
 }));
 
@@ -186,8 +199,11 @@ const About = () => {
         </Title>
       </Container>
 
-      <Grid sx={{ padding: 48 }}>
-        <Grid.Col className={classes.content_column} md={6} sm={12}>
+      <Container
+        className={classes.flex_container}
+        sx={{ maxWidth: 1280, marginBottom: 96 }}
+      >
+        <div style={{ flex: 1 }}>
           <Title className={classes.sub_title} order={3}>
             Our Company
           </Title>
@@ -208,25 +224,21 @@ const About = () => {
             something they want, putting their desires at the top of our
             priority list.
           </Text>
-        </Grid.Col>
-
-        <Grid.Col md={6} sm={12}>
+        </div>
+        <div style={{ flex: 1 }}>
           <Image
             src={imageLinks[0]}
             className={classes.image_one}
             alt="images of furnitures"
           />
-        </Grid.Col>
+        </div>
+      </Container>
 
-        <Grid.Col md={6} sm={12}>
-          <Image
-            src={imageLinks[1]}
-            className={classes.image_two}
-            alt="images of people"
-          />
-        </Grid.Col>
-
-        <Grid.Col md={6} sm={12} className={classes.content_column}>
+      <Container
+        className={classes.flex_container}
+        sx={{ maxWidth: 1280, marginBottom: 96 }}
+      >
+        <div style={{ flex: 1 }}>
           <Title className={classes.sub_title} order={3}>
             Our Story
           </Title>
@@ -246,158 +258,226 @@ const About = () => {
             a smile to your face. That’s why we’re always looking for innovative
             new ways to get the best to you.
           </Text>
-        </Grid.Col>
+        </div>
+        <div style={{ flex: 1 }}>
+          <Image
+            src={imageLinks[1]}
+            className={classes.image_two}
+            alt="images of people"
+          />
+        </div>
+      </Container>
+
+      <Title className={classes.sub_title_2} order={3} mb={30}>
+        Mission & Vision
+      </Title>
+      <Container
+        className={classes.flex_container}
+        sx={{ maxWidth: 1280, marginBottom: 96 }}
+      >
+        <SimpleGrid
+          cols={2}
+          breakpoints={[
+            { maxWidth: 755, cols: 2, spacing: "sm" },
+            { maxWidth: 600, cols: 1, spacing: "sm" },
+          ]}
+        >
+          <Paper shadow="md" p="xl">
+            <ThemeIcon size="xl" align="center">
+              <IconTarget />
+            </ThemeIcon>
+            <Title className={classes.sub_title_3} weight={500} align="center">
+              Our Mission
+            </Title>
+            <Text className={classes.text_2}>
+              To provide an assortment of comfortable and well-designed
+              furnishing products to help you find your dream furniture.
+            </Text>
+          </Paper>
+          <Paper shadow="md" p="xl">
+            <ThemeIcon size="xl">
+              <IconEye />
+            </ThemeIcon>
+            <Title className={classes.sub_title_3} weight={500} align="center">
+              Our Vision
+            </Title>
+            <Text className={classes.text_2}>
+              To be a leading furniture company in the Philippines by providing
+              customers the furniture that best fits them.
+            </Text>
+          </Paper>
+        </SimpleGrid>
+      </Container>
+
+      <Title className={classes.sub_title_2} order={3} mb={30}>
+        Core Values
+      </Title>
+      <Container
+        className={classes.flex_container}
+        sx={{ maxWidth: 1280, marginBottom: 96 }}
+      >
+        <SimpleGrid
+          cols={2}
+          breakpoints={[
+            { maxWidth: 755, cols: 2, spacing: "sm" },
+            { maxWidth: 600, cols: 1, spacing: "sm" },
+          ]}
+        >
+          <Paper className={classes.core_values_container} shadow="md" p="xl">
+            <ThemeIcon mb={15} size="lg" align="center">
+              <IconMedal />
+            </ThemeIcon>
+            <Title
+              className={classes.sub_title_3}
+              size="lg"
+              weight={500}
+              align="center"
+            >
+              Quality
+            </Title>
+            <Text className={classes.text_2}>
+              We strive to provide high-quality services and products that meet
+              the expectations and requirements of our customers.
+            </Text>
+          </Paper>
+          <Paper className={classes.core_values_container} shadow="md" p="xl">
+            <ThemeIcon mb={15} size="lg" align="center">
+              <IconHeartHandshake />
+            </ThemeIcon>
+            <Title
+              className={classes.sub_title_3}
+              size="lg"
+              weight={500}
+              align="center"
+            >
+              Customer First
+            </Title>
+            <Text className={classes.text_2}>
+              We strive to understand our customer’s needs and provide them with
+              the best furnitures available.
+            </Text>
+          </Paper>
+          <Paper className={classes.core_values_container} shadow="md" p="xl">
+            <ThemeIcon mb={15} size="lg" align="center">
+              <IconThumbUp />
+            </ThemeIcon>
+            <Title
+              className={classes.sub_title_3}
+              size="lg"
+              weight={500}
+              align="center"
+            >
+              Honesty and Integrity
+            </Title>
+            <Text className={classes.text_2}>
+              We are honest, transparent and committed to doing what’s best for
+              our customers and our company.
+            </Text>
+          </Paper>
+          <Paper className={classes.core_values_container} shadow="md" p="xl">
+            <ThemeIcon mb={15} size="lg" align="center">
+              <IconChecks />
+            </ThemeIcon>
+            <Title
+              className={classes.sub_title_3}
+              size="lg"
+              weight={500}
+              align="center"
+            >
+              Accountability
+            </Title>
+            <Text className={classes.text_2}>
+              We take ownership for the quality of our work and take pride in
+              what we deliver as a team.
+            </Text>
+          </Paper>
+        </SimpleGrid>
+      </Container>
+      {/* 
 
         <Grid.Col className={classes.company_statements_container} sm={12}>
-          <Paper className={classes.paper_style}>
-            <Title className={classes.sub_title_2} order={3} mb={30}>
-              Mission & Vision
-            </Title>
-            <SimpleGrid
-              cols={2}
-              breakpoints={[
-                { maxWidth: 980, cols: 3, spacing: "md" },
-                { maxWidth: 755, cols: 2, spacing: "sm" },
-                { maxWidth: 600, cols: 1, spacing: "sm" },
-              ]}
-            >
-              <Paper shadow="md" p="xl">
-                <ThemeIcon size="xl" align="center">
-                  <IconTarget />
-                </ThemeIcon>
-                <Title
-                  className={classes.sub_title_3}
-                  weight={500}
-                  align="center"
-                >
-                  Our Mission
-                </Title>
-                <Text className={classes.text_2}>
-                  To provide an assortment of comfortable and well-designed
-                  furnishing products to help you find your dream furniture.
-                </Text>
-              </Paper>
-              <Paper shadow="md" p="xl">
-                <ThemeIcon size="xl">
-                  <IconEye />
-                </ThemeIcon>
-                <Title
-                  className={classes.sub_title_3}
-                  weight={500}
-                  align="center"
-                >
-                  Our Vision
-                </Title>
-                <Text className={classes.text_2}>
-                  To be a leading furniture company in the Philippines by
-                  providing customers the furniture that best fits them.
-                </Text>
-              </Paper>
-            </SimpleGrid>
-          </Paper>
+          <Title className={classes.sub_title_2} order={3} mb={30}>
+            Core Values
+          </Title>
+          <SimpleGrid
+            cols={2}
+            breakpoints={[
+              { maxWidth: 980, cols: 3, spacing: "md" },
+              { maxWidth: 755, cols: 2, spacing: "sm" },
+              { maxWidth: 600, cols: 1, spacing: "sm" },
+            ]}
+          >
+            <Paper className={classes.core_values_container} shadow="md" p="xl">
+              <ThemeIcon mb={15} size="lg" align="center">
+                <IconMedal />
+              </ThemeIcon>
+              <Title
+                className={classes.sub_title_3}
+                size="lg"
+                weight={500}
+                align="center"
+              >
+                Quality
+              </Title>
+              <Text className={classes.text_2}>
+                We strive to provide high-quality services and products that
+                meet the expectations and requirements of our customers.
+              </Text>
+            </Paper>
+            <Paper className={classes.core_values_container} shadow="md" p="xl">
+              <ThemeIcon mb={15} size="lg" align="center">
+                <IconHeartHandshake />
+              </ThemeIcon>
+              <Title
+                className={classes.sub_title_3}
+                size="lg"
+                weight={500}
+                align="center"
+              >
+                Customer First
+              </Title>
+              <Text className={classes.text_2}>
+                We strive to understand our customer’s needs and provide them
+                with the best furnitures available.
+              </Text>
+            </Paper>
+            <Paper className={classes.core_values_container} shadow="md" p="xl">
+              <ThemeIcon mb={15} size="lg" align="center">
+                <IconThumbUp />
+              </ThemeIcon>
+              <Title
+                className={classes.sub_title_3}
+                size="lg"
+                weight={500}
+                align="center"
+              >
+                Honesty and Integrity
+              </Title>
+              <Text className={classes.text_2}>
+                We are honest, transparent and committed to doing what’s best
+                for our customers and our company.
+              </Text>
+            </Paper>
+            <Paper className={classes.core_values_container} shadow="md" p="xl">
+              <ThemeIcon mb={15} size="lg" align="center">
+                <IconChecks />
+              </ThemeIcon>
+              <Title
+                className={classes.sub_title_3}
+                size="lg"
+                weight={500}
+                align="center"
+              >
+                Accountability
+              </Title>
+              <Text className={classes.text_2}>
+                We take ownership for the quality of our work and take pride in
+                what we deliver as a team.
+              </Text>
+            </Paper>
+          </SimpleGrid>
         </Grid.Col>
-
-        <Grid.Col className={classes.company_statements_container} sm={12}>
-          <Paper className={classes.paper_style}>
-            <Title className={classes.sub_title_2} order={3} mb={30}>
-              Core Values
-            </Title>
-            <SimpleGrid
-              cols={2}
-              breakpoints={[
-                { maxWidth: 980, cols: 3, spacing: "md" },
-                { maxWidth: 755, cols: 2, spacing: "sm" },
-                { maxWidth: 600, cols: 1, spacing: "sm" },
-              ]}
-            >
-              <Paper
-                className={classes.core_values_container}
-                shadow="md"
-                p="xl"
-              >
-                <ThemeIcon mb={15} size="lg" align="center">
-                  <IconMedal />
-                </ThemeIcon>
-                <Title
-                  className={classes.sub_title_3}
-                  size="lg"
-                  weight={500}
-                  align="center"
-                >
-                  Quality
-                </Title>
-                <Text className={classes.text_2}>
-                  We strive to provide high-quality services and products that
-                  meet the expectations and requirements of our customers.
-                </Text>
-              </Paper>
-              <Paper
-                className={classes.core_values_container}
-                shadow="md"
-                p="xl"
-              >
-                <ThemeIcon mb={15} size="lg" align="center">
-                  <IconHeartHandshake />
-                </ThemeIcon>
-                <Title
-                  className={classes.sub_title_3}
-                  size="lg"
-                  weight={500}
-                  align="center"
-                >
-                  Customer First
-                </Title>
-                <Text className={classes.text_2}>
-                  We strive to understand our customer’s needs and provide them
-                  with the best furnitures available.
-                </Text>
-              </Paper>
-              <Paper
-                className={classes.core_values_container}
-                shadow="md"
-                p="xl"
-              >
-                <ThemeIcon mb={15} size="lg" align="center">
-                  <IconThumbUp />
-                </ThemeIcon>
-                <Title
-                  className={classes.sub_title_3}
-                  size="lg"
-                  weight={500}
-                  align="center"
-                >
-                  Honesty and Integrity
-                </Title>
-                <Text className={classes.text_2}>
-                  We are honest, transparent and committed to doing what’s best
-                  for our customers and our company.
-                </Text>
-              </Paper>
-              <Paper
-                className={classes.core_values_container}
-                shadow="md"
-                p="xl"
-              >
-                <ThemeIcon mb={15} size="lg" align="center">
-                  <IconChecks />
-                </ThemeIcon>
-                <Title
-                  className={classes.sub_title_3}
-                  size="lg"
-                  weight={500}
-                  align="center"
-                >
-                  Accountability
-                </Title>
-                <Text className={classes.text_2}>
-                  We take ownership for the quality of our work and take pride
-                  in what we deliver as a team.
-                </Text>
-              </Paper>
-            </SimpleGrid>
-          </Paper>
-        </Grid.Col>
-      </Grid>
+      </Grid> */}
     </Container>
   );
 };
