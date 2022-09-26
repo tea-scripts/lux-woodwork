@@ -8,17 +8,74 @@ import {
   Badge,
   Group,
   SimpleGrid,
+  createStyles,
+  Button,
 } from '@mantine/core';
-import styled from 'styled-components';
 import featuredProducts from '../utils/mockProducts';
 import { Link } from 'react-router-dom';
 
+const useStyles = createStyles((theme) => ({
+  wrapper: {
+    padding: '1.25rem',
+  },
+
+  heading: {
+    marginBottom: '1.25rem',
+    textAlign: 'center',
+    fontFamily: 'Poppins, sans-serif',
+
+    span: {
+      color: theme.colors.pink[6],
+      marginRight: '0.5rem',
+    },
+  },
+
+  product: {
+    transition: 'all 0.2s ease-in-out',
+
+    '&:hover': {
+      boxShadow: theme.shadows.md,
+    },
+  },
+
+  viewProductsBtn: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '1.25rem',
+
+    a: {
+      background: theme.colors.pink[6],
+      color: theme.colors.gray[0],
+
+      padding: theme.spacing.xs + ' ' + theme.spacing.md,
+      display: 'inline-block',
+      borderRadius: '0.25rem',
+      transition: 'all 0.3s ease-in-out',
+      boxShadow: theme.shadows.sm,
+      margin: '1rem auto',
+
+      '&:hover': {
+        boxShadow: theme.shadows.md,
+        background: theme.colors.gray[0],
+        color: theme.colors.pink[6],
+
+        [`@media (min-width: ${theme.breakpoints.sm}px)`]: {
+          transform: 'translateY(-2px)',
+        },
+      },
+    },
+  },
+}));
+
 const FeaturedProducts = () => {
+  const { classes } = useStyles();
+
   return (
     <Container size={1200}>
-      <Wrapper>
-        <Title order={2} align="center">
-          Top Products of the Week
+      <section className={classes.wrapper}>
+        <Title order={2} className={classes.heading}>
+          <span>Top Products</span>
+          of the Week
         </Title>
         <SimpleGrid
           cols={1}
@@ -32,6 +89,7 @@ const FeaturedProducts = () => {
               component={Link}
               to={`products/${product.id}`}
               key={product.id}
+              className={classes.product}
             >
               <Card shadow="sm" p="lg" radius="md" withBorder>
                 <Card.Section>
@@ -54,44 +112,14 @@ const FeaturedProducts = () => {
             </Box>
           ))}
         </SimpleGrid>
-        <Box className="view-products-container">
-          <Link to="/products" className="view-products-btn">
-            <Text color="pink" weight={500}>
-              View All Products
-            </Text>
-          </Link>
+        <Box className={classes.viewProductsBtn}>
+          <Button component={Link} to="/products" color="white">
+            View All Products
+          </Button>
         </Box>
-      </Wrapper>
+      </section>
     </Container>
   );
 };
-
-const Wrapper = styled.section`
-  padding: 1.25rem;
-
-  .view-products-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 1.25rem;
-
-    .view-products-btn {
-      background: var(--white);
-      padding: 0.5rem 1rem;
-      display: inline-block;
-      border-radius: 0.25rem;
-      transition: all 0.3s ease-in-out;
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
-      margin: 1rem auto;
-
-      &:hover {
-        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-    }
-  }
-
-  h2 {
-    margin-bottom: 1.25rem;
-  }
-`;
 
 export default FeaturedProducts;

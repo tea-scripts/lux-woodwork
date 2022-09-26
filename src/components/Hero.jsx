@@ -6,7 +6,7 @@ import {
   createStyles,
   Box,
 } from '@mantine/core';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const useStyles = createStyles((theme) => ({
@@ -109,6 +109,7 @@ const useStyles = createStyles((theme) => ({
 
 const Hero = () => {
   const { classes } = useStyles();
+  const navigate = useNavigate();
 
   return (
     <div className={classes.wrapper}>
@@ -135,113 +136,92 @@ const Hero = () => {
           </Text>
         </Container>
 
-        <HeroButtonWrapper>
-          <div className="button-borders">
-            <Link to="/products" className="primary-button">
-              Shop Now
-            </Link>
-          </div>
-        </HeroButtonWrapper>
+        <HeroButton>
+          <button onClick={() => navigate('/products')}>
+            <span className="label">Shop Now</span>
+            <span className="icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+              >
+                <path fill="none" d="M0 0h24v24H0z"></path>
+                <path
+                  fill="currentColor"
+                  d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
+                ></path>
+              </svg>
+            </span>
+          </button>
+        </HeroButton>
       </Box>
     </div>
   );
 };
 
-const HeroButtonWrapper = styled.div`
+const HeroButton = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 2rem;
 
-  .primary-button {
-    color: white;
+  button {
+    position: relative;
+    font-size: 14px;
+    letter-spacing: 3px;
+    height: 3em;
+    padding: 0 3em;
+    border: none;
+    background-color: #c41b54;
+    color: #fff;
+    text-transform: uppercase;
+    overflow: hidden;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 1rem;
-    font-weight: bold;
-    letter-spacing: 0.05rem;
-    border: 1px solid #0e1822;
-    padding: 0.8rem 2.1rem;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 531.28 200'%3E%3Cdefs%3E%3Cstyle%3E .shape %7B fill: %23FF4655 /* fill: %230E1822; */ %7D %3C/style%3E%3C/defs%3E%3Cg id='Layer_2' data-name='Layer 2'%3E%3Cg id='Layer_1-2' data-name='Layer 1'%3E%3Cpolygon class='shape' points='415.81 200 0 200 115.47 0 531.28 0 415.81 200' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E%0A");
-    background-color: #4dabf7;
-    background-size: 200%;
-    background-position: 200%;
-    background-repeat: no-repeat;
-    transition: 0.3s ease-in-out;
-    transition-property: background-position, border, color;
-    position: relative;
-    z-index: 1;
-    height: 3rem;
-    display: inline-block;
-  }
 
-  .primary-button:hover {
-    border: 1px solid var(--imperial-red-500);
-    color: white;
-    background-position: 40%;
-  }
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      z-index: 0;
+      bottom: 0;
+      left: 0;
+      height: 0px;
+      width: 100%;
+      background: rgb(196, 27, 84);
+      background: linear-gradient(
+        90deg,
+        rgba(196, 27, 84, 1) 20%,
+        rgba(124, 7, 46, 1) 100%
+      );
+      transition: 0.2s;
+    }
 
-  .primary-button:before {
-    content: '';
-    position: absolute;
-    background-color: #4dabf7;
-    width: 0.2rem;
-    height: 0.2rem;
-    top: -1px;
-    left: -1px;
-    transition: background-color 0.15s ease-in-out;
-  }
+    .label {
+      position: relative;
+    }
 
-  .primary-button:hover:before {
-    background-color: white;
-  }
+    .icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 3em;
+      width: 3em;
+      position: absolute;
+      top: 3em;
+      right: 0;
+      opacity: 0;
+      transition: 0.4s;
+    }
 
-  .primary-button:hover:after {
-    background-color: white;
-  }
+    &:hover::before {
+      height: 100%;
+    }
 
-  .primary-button:after {
-    content: '';
-    position: absolute;
-    background-color: var(--imperial-red-500);
-    width: 0.3rem;
-    height: 0.3rem;
-    bottom: -1px;
-    right: -1px;
-    transition: background-color 0.15s ease-in-out;
-  }
-
-  .button-borders {
-    position: relative;
-    width: fit-content;
-    height: fit-content;
-  }
-
-  .button-borders:before {
-    content: '';
-    position: absolute;
-    width: calc(100% + 0.5em);
-    height: 50%;
-    left: -0.3em;
-    top: -0.3em;
-    border: 1px solid #4dabf7;
-    border-bottom: 0px;
-    /* opacity: 0.3; */
-  }
-
-  .button-borders:after {
-    content: '';
-    position: absolute;
-    width: calc(100% + 0.5em);
-    height: 50%;
-    left: -0.3em;
-    bottom: -0.3em;
-    border: 1px solid #4dabf7;
-    border-top: 0px;
-    /* opacity: 0.3; */
-    z-index: 0;
-  }
-
-  .shape {
-    fill: #4dabf7;
+    &:hover .icon {
+      top: 0;
+      opacity: 1;
+    }
   }
 `;
 

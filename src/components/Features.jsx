@@ -108,7 +108,7 @@ const Features = () => {
     <Container size={1200}>
       <div className={classes.wrapper}>
         <Grid
-          gutter={dimensions.width < 678 ? 40 : 80}
+          gutter={dimensions.width < 678 ? 40 : 40}
           m="0 auto"
           className="grid-container"
         >
@@ -125,7 +125,6 @@ const Features = () => {
               for both commercial and residential purposes.
             </Text>
 
-            {/* <Grid> */}
             <SimpleGrid
               cols={2}
               mt="1rem"
@@ -156,8 +155,8 @@ const Features = () => {
                 </Text>
               </div>
             </SimpleGrid>
-            {/* </Grid> */}
           </Col>
+
           <Col span={dimensions.width > 641 ? 8 : 12} md={7}>
             <SimpleGrid
               cols={2}

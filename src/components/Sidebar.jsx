@@ -7,6 +7,7 @@ import {
   List,
   SimpleGrid,
   Text,
+  createStyles,
 } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -16,7 +17,38 @@ import logo from '../assets/logo-black.svg';
 import { FaFacebookSquare, FaInstagram, FaTwitterSquare } from 'react-icons/fa';
 import { toggleSignInModal } from '../features/users/userSlice';
 
+const useStyles = createStyles((theme) => ({
+  sidebar: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: '85vh',
+  },
+
+  drawer: {
+    height: '100vh',
+  },
+
+  footer: {
+    display: 'grid',
+    placeItems: 'center',
+    gap: '1rem',
+  },
+
+  icons: {
+    fontSize: '1.2rem',
+
+    a: {
+      transition: 'all 0.3s ease-in-out',
+      '&:hover': {
+        color: theme.colors.blue[6],
+      },
+    },
+  },
+}));
+
 const Sidebar = () => {
+  const { classes } = useStyles();
   const dispatch = useDispatch();
   const { isSidebarOpen } = useSelector((store) => store.navigation);
 
@@ -28,63 +60,66 @@ const Sidebar = () => {
       size="lg"
       position="right"
       overlayBlur={3}
+      className={classes.drawer}
     >
-      <SimpleGrid>
-        <List spacing="lg" mb="xl">
-          {navLinks.map((link) => {
-            return (
-              <List.Item
-                key={link.id}
-                icon={link.icon}
-                onClick={() => dispatch(toggleSidebar())}
-              >
-                <Link to={link.url}>{link.name}</Link>
-              </List.Item>
-            );
-          })}
-        </List>
-        <Button
-          variant="filled"
-          px=".3rem"
-          onClick={() => {
-            dispatch(toggleSignInModal());
-            dispatch(toggleSidebar());
-          }}
-        >
-          Sign in
-        </Button>
+      <div className={classes.sidebar}>
+        <SimpleGrid>
+          <List spacing="lg" mb="xl">
+            {navLinks.map((link) => {
+              return (
+                <List.Item
+                  key={link.id}
+                  icon={link.icon}
+                  onClick={() => dispatch(toggleSidebar())}
+                >
+                  <Link to={link.url}>{link.name}</Link>
+                </List.Item>
+              );
+            })}
+          </List>
+          <Button
+            variant="filled"
+            px=".3rem"
+            onClick={() => {
+              dispatch(toggleSignInModal());
+              dispatch(toggleSidebar());
+            }}
+          >
+            Sign in
+          </Button>
 
-        <Button
-          component={Link}
-          to="/cart"
-          onClick={() => {
-            dispatch(toggleSidebar());
-          }}
-        >
-          Go to Cart
-        </Button>
-      </SimpleGrid>
+          <Button
+            component={Link}
+            to="/cart"
+            onClick={() => {
+              dispatch(toggleSidebar());
+            }}
+          >
+            Go to Cart
+          </Button>
+        </SimpleGrid>
 
-      <Center mt="20rem">
-        <Container>
-          <Text>Follow us on social media</Text>
-          <Group position="center" mt="2rem" spacing="lg">
-            <Link to="https://www.google.com">
-              <FaFacebookSquare />
-            </Link>
-            <Link to="https://www.google.com">
-              <FaInstagram />
-            </Link>
-            <Link to="https://www.google.com">
-              <FaTwitterSquare />
-            </Link>
-          </Group>
+        <Center>
+          <Container className={classes.footer}>
+            <Text>Follow us on social media</Text>
+            <Group position="center" spacing="lg" className={classes.icons}>
+              <Link to="https://www.google.com">
+                <FaFacebookSquare />
+              </Link>
+              <Link to="https://www.google.com">
+                <FaInstagram />
+              </Link>
+              <Link to="https://www.google.com">
+                <FaTwitterSquare />
+              </Link>
+            </Group>
 
-          <Center mt="2rem">
-            <img src={logo} alt="logo" />
-          </Center>
-        </Container>
-      </Center>
+            <Center>
+              <img src={logo} alt="logo" />
+            </Center>
+          </Container>
+        </Center>
+      </div>
     </Drawer>
   );
 };

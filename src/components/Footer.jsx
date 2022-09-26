@@ -24,6 +24,7 @@ const useStyles = createStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    maxWidth: 1200,
 
     [theme.fn.smallerThan('xs')]: {
       flexDirection: 'column',
@@ -46,9 +47,19 @@ const useStyles = createStyles((theme) => ({
         },
       },
     },
+
+    img: {
+      width: '120px',
+      height: '150px',
+    },
   },
 
   links: {
+    '&:hover': {
+      color: 'white',
+      backgroundColor: 'transparent',
+    },
+
     [theme.fn.smallerThan('xs')]: {
       marginTop: theme.spacing.md,
     },
@@ -61,7 +72,7 @@ const Footer = () => {
   return (
     <div className={classes.footer}>
       <Container className={classes.inner}>
-        <img src={logo} alt="logo" width={120} height={150} />
+        <img src={logo} alt="logo" />
         <List>
           {navLinks.map((link) => {
             return (
@@ -73,13 +84,13 @@ const Footer = () => {
         </List>
         <Group spacing={0} className={classes.links} position="right" noWrap>
           <ActionIcon size="lg">
-            <IconBrandTwitter size={18} stroke={1.5} />
+            <IconBrandTwitter stroke={1.5} />
           </ActionIcon>
           <ActionIcon size="lg">
-            <IconBrandYoutube size={18} stroke={1.5} />
+            <IconBrandYoutube stroke={1.5} />
           </ActionIcon>
           <ActionIcon size="lg">
-            <IconBrandInstagram size={18} stroke={1.5} />
+            <IconBrandInstagram stroke={1.5} />
           </ActionIcon>
         </Group>
       </Container>

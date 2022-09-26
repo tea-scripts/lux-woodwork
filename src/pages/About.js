@@ -1,11 +1,19 @@
-import styled from 'styled-components';
+import { createStyles } from '@mantine/core';
+
+const useStyles = createStyles((theme) => ({
+  wrapper: {
+    height: 'calc(100vh - 5rem - 15.6rem)',
+    display: 'grid',
+    placeItems: 'center',
+    width: '90vw',
+    margin: ' 0 auto',
+    maxWidth: 1200,
+  },
+}));
 
 const About = () => {
-  return <Wrapper>About Us</Wrapper>;
+  const { classes } = useStyles();
+  return <section className={classes.wrapper}>About Us</section>;
 };
-
-const Wrapper = styled.section`
-  height: calc(100vh - 5rem - 15.6rem);
-`;
 
 export default About;
