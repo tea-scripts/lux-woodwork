@@ -1,18 +1,52 @@
-import styled from "styled-components";
 import {
   Container,
   createStyles,
   Overlay,
   SimpleGrid,
-  Stack,
   Text,
   Title,
 } from "@mantine/core";
 import { ContactForm, ContactInformation } from "../components";
 
 const useStyles = createStyles((theme) => ({
+  container: {
+    paddingLeft: 0,
+    paddingRight: 0,
+    marginLeft: 0,
+    marginRight: 0,
+  },
+
+  image_container: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundImage:
+      "url(https://res.cloudinary.com/dtyzbmtlz/image/upload/v1664125417/contact-image_msa9wc.jpg)",
+    backgroundRepeat: "no-repeat",
+    backgroundAttachment: "fixed",
+    backgroundPositionX: "center",
+    backgroundPositionY: "top",
+    backgroundSize: "cover",
+    height: 400,
+    marginBottom: 96,
+  },
+
   title: {
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+    fontSize: 48,
+    color: "var(--white)",
+    marginBottom: 10,
+    zIndex: 2,
+  },
+
+  description: {
+    textAlign: "center",
+    maxWidth: 640,
+    color: "#fff",
+    opacity: 0.8,
+    fontWeight: 500,
+    zIndex: 2,
   },
 }));
 
@@ -20,18 +54,22 @@ const Contact = () => {
   const { classes } = useStyles();
 
   return (
-    <Wrapper>
-      <Stack className="header" align="center" justify="center" spacing="xs">
+    <Container className={classes.container} fluid>
+      <Container
+        style={{ maxWidth: "100%" }}
+        className={classes.image_container}
+      >
         <Overlay opacity={0.5} color="#000" zIndex={1} sx={{ height: 460 }} />
-        <Title className={classes.title} order={2} mb={10}>
-          Contact Us
+        <Title className={classes.title} order={2}>
+          About Us
         </Title>
-        <Text className="description" align="center">
+        <Text className={classes.description}>
           If you have any questions, we will always be happy to help. Feel free
           to contact us by phone or email and we will be sure to get back to you
           as soon as possible.
         </Text>
-      </Stack>
+      </Container>
+
       <Container>
         <SimpleGrid
           cols={2}
@@ -42,35 +80,8 @@ const Contact = () => {
           <ContactForm />
         </SimpleGrid>
       </Container>
-    </Wrapper>
+    </Container>
   );
 };
-
-const Wrapper = styled.section`
-  > .mantine-Stack-root {
-    background: url("https://i.ibb.co/cr65GKb/contact-image.jpg") no-repeat top
-      center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    height: 400px;
-    margin-bottom: 3rem;
-
-    h2 {
-      font-size: 2.5rem;
-      color: var(--white);
-      z-index: 2;
-    }
-
-    .description {
-      max-width: 40rem;
-      color: #fff;
-      opacity: 0.8;
-      font-weight: 500;
-      z-index: 2;
-    }
-  }
-`;
 
 export default Contact;
