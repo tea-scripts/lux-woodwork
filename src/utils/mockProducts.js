@@ -8,6 +8,8 @@ const featuredProducts = [
     title: 'accent chair',
     price: '$56,000',
     image: productImage2,
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.',
     featured: true,
   },
   {
@@ -15,6 +17,8 @@ const featuredProducts = [
     title: 'albany sectional',
     price: '$75,000',
     image: productImage4,
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.',
     featured: true,
   },
   {
@@ -22,6 +26,8 @@ const featuredProducts = [
     title: 'utopia sofa',
     price: '$13,000',
     image: productImage15,
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.',
     featured: true,
   },
 ];

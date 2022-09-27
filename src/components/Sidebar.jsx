@@ -15,7 +15,7 @@ import { toggleSidebar } from '../features/navigation/navSlice';
 import navLinks from '../utils/navLinks';
 import logo from '../assets/logo-black.svg';
 import { FaFacebookSquare, FaInstagram, FaTwitterSquare } from 'react-icons/fa';
-import { toggleSignInModal } from '../features/users/userSlice';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const useStyles = createStyles((theme) => ({
   sidebar: {
@@ -27,6 +27,7 @@ const useStyles = createStyles((theme) => ({
 
   drawer: {
     height: '100vh',
+    textTransform: 'capitalize',
   },
 
   footer: {
@@ -51,6 +52,7 @@ const Sidebar = () => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
   const { isSidebarOpen } = useSelector((store) => store.navigation);
+  const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
 
   return (
     <Drawer
@@ -61,6 +63,9 @@ const Sidebar = () => {
       position="right"
       overlayBlur={3}
       className={classes.drawer}
+      title={`Hello, ${
+        isAuthenticated ? user.given_name || user.nickname : 'Guest'
+      }`}
     >
       <div className={classes.sidebar}>
         <SimpleGrid>
@@ -77,26 +82,41 @@ const Sidebar = () => {
               );
             })}
           </List>
-          <Button
-            variant="filled"
-            px=".3rem"
-            onClick={() => {
-              dispatch(toggleSignInModal());
-              dispatch(toggleSidebar());
-            }}
-          >
-            Sign in
-          </Button>
+          {isAuthenticated ? (
+            <Button
+              variant="filled"
+              px=".3rem"
+              onClick={() => {
+                logout({ returnTo: window.location.origin });
+                dispatch(toggleSidebar());
+              }}
+            >
+              Sign Out
+            </Button>
+          ) : (
+            <Button
+              variant="filled"
+              px=".3rem"
+              onClick={() => {
+                loginWithRedirect();
+                dispatch(toggleSidebar());
+              }}
+            >
+              Sign in
+            </Button>
+          )}
 
-          <Button
-            component={Link}
-            to="/cart"
-            onClick={() => {
-              dispatch(toggleSidebar());
-            }}
-          >
-            Go to Cart
-          </Button>
+          {isAuthenticated && (
+            <Button
+              component={Link}
+              to="/cart"
+              onClick={() => {
+                dispatch(toggleSidebar());
+              }}
+            >
+              Go to Cart
+            </Button>
+          )}
         </SimpleGrid>
 
         <Center>

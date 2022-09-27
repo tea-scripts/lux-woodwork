@@ -6,24 +6,28 @@ import {
   Group,
   Header,
   List,
+  Avatar,
+  Menu,
+  Divider,
 } from '@mantine/core';
-import { HiShoppingBag } from 'react-icons/hi';
+import { HiShoppingBag, HiUserCircle } from 'react-icons/hi';
 import logo from '../assets/logo.svg';
 import logoBlack from '../assets/logo-black.svg';
 import styled from 'styled-components';
 import { toggleSidebar } from '../features/navigation/navSlice';
-import { toggleSignInModal } from '../features/users/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { openCart } from '../features/cart/cartSlice';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import navLinks from '../utils/navLinks';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const { isSidebarOpen } = useSelector((store) => store.navigation);
   const [isHome, setIsHome] = useState(true);
+  const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
 
   const location = useLocation();
   useEffect(() => {
@@ -53,28 +57,86 @@ const Navbar = () => {
             </List>
           </Box>
           <Group position="center" px="md" className="btn-container">
-            <Button
-              p={0}
-              sx={{ backgroundColor: 'transparent' }}
-              className="cart-btn"
-              color={isHome ? 'white' : 'black'}
-              onClick={() => dispatch(openCart())}
-            >
-              <HiShoppingBag />
-            </Button>
+            {isAuthenticated && (
+              <Button
+                p={0}
+                sx={{ backgroundColor: 'transparent' }}
+                className="cart-btn"
+                color={isHome ? 'white' : 'black'}
+                onClick={() => dispatch(openCart())}
+              >
+                <HiShoppingBag />
+              </Button>
+            )}
 
-            <Button
-              variant="filled"
-              sx={{
-                backgroundColor: isHome ? '#f5f5f5' : '#228be6',
-                color: isHome ? '#000' : '#fff',
-              }}
-              px=".3rem"
-              onClick={() => dispatch(toggleSignInModal())}
-              radius="md"
-            >
-              Sign in
-            </Button>
+            {isAuthenticated ? (
+              <Button
+                variant="filled"
+                sx={{
+                  backgroundColor: isHome ? '#f5f5f5' : '#228be6',
+                  color: isHome ? '#000' : '#fff',
+                }}
+                px=".3rem"
+                onClick={() => logout()}
+                radius="md"
+              >
+                Sign Out
+              </Button>
+            ) : (
+              <Button
+                variant="filled"
+                sx={{
+                  backgroundColor: isHome ? '#f5f5f5' : '#228be6',
+                  color: isHome ? '#000' : '#fff',
+                }}
+                px=".3rem"
+                onClick={() => loginWithRedirect()}
+                radius="md"
+              >
+                Sign in
+              </Button>
+            )}
+            {isAuthenticated && (
+              <Menu
+                transition="rotate-right"
+                transitionDuration={200}
+                transitionTimingFunction="ease"
+                transitionEnter
+                transitionLeave
+                width={200}
+                position="top-start"
+              >
+                <Menu.Target>
+                  <Avatar
+                    src={isAuthenticated && user.picture}
+                    radius="md"
+                    alt={isAuthenticated && user.given_name}
+                  />
+                </Menu.Target>
+
+                <Menu.Dropdown position="right" shadow="md" radius="md">
+                  <Menu.Item sx={{ textTransform: 'capitalize' }}>
+                    Welcome,{' '}
+                    {(isAuthenticated && user.given_name) ||
+                      (isAuthenticated && user.nickname)}
+                  </Menu.Item>
+
+                  <Divider my="sm" variant="dotted" />
+
+                  <Menu.Item component={Link} icon={<HiUserCircle />} to="/">
+                    Profile
+                  </Menu.Item>
+
+                  <Menu.Item
+                    component={Link}
+                    to="/cart"
+                    icon={<HiShoppingBag />}
+                  >
+                    My Bag
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            )}
           </Group>
           <Burger
             className="nav-toggle"
