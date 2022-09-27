@@ -1,7 +1,6 @@
 import {
   Container,
   createStyles,
-  Grid,
   Image,
   Overlay,
   Paper,
@@ -21,8 +20,6 @@ import {
 
 const useStyles = createStyles((theme) => ({
   container: {
-    paddingLeft: 0,
-    paddingRight: 0,
     marginLeft: 0,
     marginRight: 0,
   },
@@ -56,7 +53,7 @@ const useStyles = createStyles((theme) => ({
     fontSize: 26,
     fontWeight: 600,
     color: "var(--prussian-blue-500)",
-    marginBottom: 10,
+    marginBottom: 30,
 
     "@media (min-width: 1000px)": {
       fontSize: 26,
@@ -68,7 +65,7 @@ const useStyles = createStyles((theme) => ({
     fontSize: 18,
     fontWeight: 400,
     width: "initial",
-    marginBottom: 10,
+    marginBottom: 30,
 
     "@media (min-width: 1000px)": {
       textAlign: "left",
@@ -188,7 +185,7 @@ const About = () => {
   const { classes } = useStyles();
 
   return (
-    <Container className={classes.container} fluid>
+    <section className={classes.container}>
       <Container
         style={{ maxWidth: "100%" }}
         className={classes.image_container}
@@ -393,92 +390,7 @@ const About = () => {
           </Paper>
         </SimpleGrid>
       </Container>
-      {/* 
-
-        <Grid.Col className={classes.company_statements_container} sm={12}>
-          <Title className={classes.sub_title_2} order={3} mb={30}>
-            Core Values
-          </Title>
-          <SimpleGrid
-            cols={2}
-            breakpoints={[
-              { maxWidth: 980, cols: 3, spacing: "md" },
-              { maxWidth: 755, cols: 2, spacing: "sm" },
-              { maxWidth: 600, cols: 1, spacing: "sm" },
-            ]}
-          >
-            <Paper className={classes.core_values_container} shadow="md" p="xl">
-              <ThemeIcon mb={15} size="lg" align="center">
-                <IconMedal />
-              </ThemeIcon>
-              <Title
-                className={classes.sub_title_3}
-                size="lg"
-                weight={500}
-                align="center"
-              >
-                Quality
-              </Title>
-              <Text className={classes.text_2}>
-                We strive to provide high-quality services and products that
-                meet the expectations and requirements of our customers.
-              </Text>
-            </Paper>
-            <Paper className={classes.core_values_container} shadow="md" p="xl">
-              <ThemeIcon mb={15} size="lg" align="center">
-                <IconHeartHandshake />
-              </ThemeIcon>
-              <Title
-                className={classes.sub_title_3}
-                size="lg"
-                weight={500}
-                align="center"
-              >
-                Customer First
-              </Title>
-              <Text className={classes.text_2}>
-                We strive to understand our customer’s needs and provide them
-                with the best furnitures available.
-              </Text>
-            </Paper>
-            <Paper className={classes.core_values_container} shadow="md" p="xl">
-              <ThemeIcon mb={15} size="lg" align="center">
-                <IconThumbUp />
-              </ThemeIcon>
-              <Title
-                className={classes.sub_title_3}
-                size="lg"
-                weight={500}
-                align="center"
-              >
-                Honesty and Integrity
-              </Title>
-              <Text className={classes.text_2}>
-                We are honest, transparent and committed to doing what’s best
-                for our customers and our company.
-              </Text>
-            </Paper>
-            <Paper className={classes.core_values_container} shadow="md" p="xl">
-              <ThemeIcon mb={15} size="lg" align="center">
-                <IconChecks />
-              </ThemeIcon>
-              <Title
-                className={classes.sub_title_3}
-                size="lg"
-                weight={500}
-                align="center"
-              >
-                Accountability
-              </Title>
-              <Text className={classes.text_2}>
-                We take ownership for the quality of our work and take pride in
-                what we deliver as a team.
-              </Text>
-            </Paper>
-          </SimpleGrid>
-        </Grid.Col>
-      </Grid> */}
-    </Container>
+    </section>
   );
 };
 

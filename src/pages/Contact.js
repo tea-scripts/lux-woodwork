@@ -10,8 +10,6 @@ import { ContactForm, ContactInformation } from "../components";
 
 const useStyles = createStyles((theme) => ({
   container: {
-    paddingLeft: 0,
-    paddingRight: 0,
     marginLeft: 0,
     marginRight: 0,
   },
@@ -54,7 +52,7 @@ const Contact = () => {
   const { classes } = useStyles();
 
   return (
-    <Container className={classes.container} fluid>
+    <section className={classes.container}>
       <Container
         style={{ maxWidth: "100%" }}
         className={classes.image_container}
@@ -80,7 +78,7 @@ const Contact = () => {
           <ContactForm />
         </SimpleGrid>
       </Container>
-    </Container>
+    </section>
   );
 };
 
