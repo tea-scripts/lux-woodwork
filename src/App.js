@@ -1,11 +1,5 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import {
-  Footer,
-  Navbar,
-  Registration,
-  Sidebar,
-  SidebarCart,
-} from './components';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Footer, Navbar, Sidebar, SidebarCart } from "./components";
 
 import {
   Landing,
@@ -15,14 +9,13 @@ import {
   Contact,
   SingleProduct,
   Cart,
-} from './pages';
+} from "./pages";
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
       <Sidebar />
-      <Registration />
       <SidebarCart />
       <Routes>
         <Route path="/" element={<Landing />} />
