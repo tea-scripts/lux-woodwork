@@ -22,6 +22,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import navLinks from '../utils/navLinks';
 import { useAuth0 } from '@auth0/auth0-react';
+import { BiLogOut } from 'react-icons/bi';
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -69,20 +70,7 @@ const Navbar = () => {
               </Button>
             )}
 
-            {isAuthenticated ? (
-              <Button
-                variant="filled"
-                sx={{
-                  backgroundColor: isHome ? '#f5f5f5' : '#228be6',
-                  color: isHome ? '#000' : '#fff',
-                }}
-                px=".3rem"
-                onClick={() => logout()}
-                radius="md"
-              >
-                Sign Out
-              </Button>
-            ) : (
+            {!isAuthenticated && (
               <Button
                 variant="filled"
                 sx={{
@@ -134,6 +122,17 @@ const Navbar = () => {
                   >
                     My Bag
                   </Menu.Item>
+
+                  <Divider my="sm" variant="dashed" />
+                  {isAuthenticated && (
+                    <Menu.Item
+                      icon={<BiLogOut />}
+                      component="button"
+                      onClick={() => logout()}
+                    >
+                      Logout
+                    </Menu.Item>
+                  )}
                 </Menu.Dropdown>
               </Menu>
             )}
