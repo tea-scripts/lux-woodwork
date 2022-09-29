@@ -1,12 +1,14 @@
-import ContactForm from "./ContactForm";
-import ContactInformation from "./ContactInformation";
-import FeaturedProducts from "./FeaturedProducts";
-import Features from "./Features";
-import Footer from "./Footer";
-import Hero from "./Hero";
-import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
-import SidebarCart from "./Cart";
+import ContactForm from './ContactForm';
+import ContactInformation from './ContactInformation';
+import FeaturedProducts from './FeaturedProducts';
+import Features from './Features';
+import Footer from './Footer';
+import Hero from './Hero';
+import Navbar from './Navbar';
+import Sidebar from './Sidebar';
+import SidebarCart from './Cart';
+import NewsletterSection from './NewsletterSection';
+import CustomerReview from './CustomerReview';
 
 export {
   Navbar,
@@ -18,4 +20,6 @@ export {
   ContactInformation,
   Footer,
   SidebarCart,
+  NewsletterSection,
+  CustomerReview,
 };

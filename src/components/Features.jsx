@@ -7,6 +7,7 @@ import {
   Grid,
   Col,
   Container,
+  Card,
 } from '@mantine/core';
 
 import {
@@ -27,7 +28,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   title: {
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+    fontFamily: theme.fontFamily,
     fontSize: 36,
     fontWeight: 900,
     lineHeight: 1.1,
@@ -130,30 +131,30 @@ const Features = () => {
               mt="1rem"
               breakpoints={[{ minWidth: 678, cols: 3 }]}
             >
-              <div>
+              <Card shadow="md" radius="md">
                 <Title size="h2" weight={600}>
                   50+
                 </Title>
                 <Text size=".89rem" color="dimmed">
                   Years of Experience
                 </Text>
-              </div>
-              <div>
+              </Card>
+              <Card shadow="md" radius="md">
                 <Title size="h2" weight={600}>
                   100+
                 </Title>
                 <Text size=".89rem" color="dimmed">
                   Happy Customers
                 </Text>
-              </div>
-              <div>
+              </Card>
+              <Card shadow="md" radius="md">
                 <Title size="h2" weight={600}>
                   1000+
                 </Title>
                 <Text size=".89rem" color="dimmed">
                   Furniture Sold
                 </Text>
-              </div>
+              </Card>
             </SimpleGrid>
           </Col>
 

@@ -5,6 +5,7 @@ import {
   Text,
   Button,
   Group,
+  SimpleGrid,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import errorImage from '../assets/error-image.svg';
@@ -13,28 +14,24 @@ const useStyles = createStyles((theme) => ({
   root: {
     paddingTop: 80,
     paddingBottom: 80,
-  },
-
-  inner: {
-    position: 'relative',
+    height: 'calc(100vh - 5rem - 11.25rem)',
+    display: 'grid',
+    width: '100%',
+    margin: ' 0 auto',
+    maxWidth: 1200,
   },
 
   image: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    left: 0,
-    zIndex: 0,
-    opacity: 0.75,
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    margin: '0 auto',
   },
 
   content: {
-    paddingTop: 220,
-    position: 'relative',
-    zIndex: 1,
-
+    alignSelf: 'center',
     [theme.fn.smallerThan('sm')]: {
-      paddingTop: 120,
+      paddingTop: 20,
     },
   },
 
@@ -62,7 +59,11 @@ const Error = () => {
 
   return (
     <Container className={classes.root}>
-      <div className={classes.inner}>
+      <SimpleGrid
+        spacing={10}
+        cols={2}
+        breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
+      >
         <img src={errorImage} className={classes.image} alt="error" />
         <div className={classes.content}>
           <Title className={classes.title}>Nothing to see here</Title>
@@ -77,7 +78,7 @@ const Error = () => {
             </Button>
           </Group>
         </div>
-      </div>
+      </SimpleGrid>
     </Container>
   );
 };

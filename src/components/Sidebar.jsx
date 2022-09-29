@@ -52,7 +52,7 @@ const Sidebar = () => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
   const { isSidebarOpen } = useSelector((store) => store.navigation);
-  const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
+  const { loginWithPopup, isAuthenticated, logout, user } = useAuth0();
 
   return (
     <Drawer
@@ -98,7 +98,7 @@ const Sidebar = () => {
               variant="filled"
               px=".3rem"
               onClick={() => {
-                loginWithRedirect();
+                loginWithPopup();
                 dispatch(toggleSidebar());
               }}
             >

@@ -28,7 +28,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const { isSidebarOpen } = useSelector((store) => store.navigation);
   const [isHome, setIsHome] = useState(true);
-  const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
+  const { loginWithPopup, isAuthenticated, logout, user } = useAuth0();
 
   const location = useLocation();
   useEffect(() => {
@@ -78,7 +78,7 @@ const Navbar = () => {
                   color: isHome ? '#000' : '#fff',
                 }}
                 px=".3rem"
-                onClick={() => loginWithRedirect()}
+                onClick={() => loginWithPopup()}
                 radius="md"
               >
                 Sign in
@@ -88,9 +88,6 @@ const Navbar = () => {
               <Menu
                 transition="rotate-right"
                 transitionDuration={200}
-                transitionTimingFunction="ease"
-                transitionEnter
-                transitionLeave
                 width={200}
                 position="top-start"
               >
@@ -156,6 +153,7 @@ const NavWrapper = styled.nav`
   margin: 0 auto;
   color: ${(props) => (props.prop ? '#fff' : '#000')};
   background: ${(props) => (props.prop ? 'transparent' : '#fff')};
+  box-shadow: ${(props) => (props.prop ? 'none' : '0 2px 4px #0000001a')};
 
   .nav-header {
     background: transparent;

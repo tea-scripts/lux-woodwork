@@ -18,6 +18,7 @@ const useStyles = createStyles((theme) => ({
   footer: {
     marginTop: 120,
     backgroundColor: 'hsla(205, 100%, 13%, 1)',
+    paddingBottom: 30,
   },
 
   inner: {
