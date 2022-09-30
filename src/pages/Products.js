@@ -4,7 +4,7 @@ import { createStyles } from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    height: 'calc(100vh - 5rem - 11.25rem)',
+    height: 'calc(100vh - (60px + 140px))',
     display: 'grid',
     placeItems: 'center',
     width: '90vw',

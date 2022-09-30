@@ -9,22 +9,39 @@ const useStyles = createStyles((theme) => ({
     gridTemplateColumns: 'repeat(3, 1fr)',
     alignItems: 'center',
     justifyItems: 'center',
-    width: '140px',
+    width: '75px',
 
-    h2: {
-      margin: '0 !important',
+    [`@media (min-width: 776px)`]: {
+      width: '140px',
     },
+  },
 
-    button: {
-      background: 'transparent',
-      border: 'none',
-      cursor: 'pointer',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+  heading: {
+    margin: '0 !important',
+    fontSize: '1rem !important',
+    padding: theme.spacing.xs,
+
+    [`@media (min-width: 678px)`]: {
+      fontSize: '1.5rem !important',
+    },
+  },
+
+  toggleBtn: {
+    background: 'transparent',
+    border: 'none',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '1rem',
+    height: '0.5rem',
+    padding: '1rem 0',
+    fontSize: theme.fontSizes.xs,
+
+    [`@media (min-width: 776px)`]: {
       width: '1.5rem',
       height: '1rem',
-      padding: '1rem 0',
+      fontSize: theme.fontSizes.md,
     },
   },
 }));
@@ -44,15 +61,17 @@ const AmountButtons = ({ id, increase, decrease, quantity }) => {
           }
           dispatch(decrease({ id }));
         }}
-        className="amount-btn"
+        className={classes.toggleBtn}
       >
         <FaMinus />
       </button>
-      <h2 className="amount">{quantity}</h2>
+
+      <h2 className={classes.heading}>{quantity}</h2>
+
       <button
+        className={classes.toggleBtn}
         type="button"
         onClick={() => dispatch(increase({ id }))}
-        className="amount-btn"
       >
         <FaPlus />
       </button>

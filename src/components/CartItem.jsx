@@ -31,19 +31,14 @@ const useStyles = createStyles((theme) => ({
     gridTemplateColumns: '75px 125px',
     alignItems: 'center',
     textAlign: 'left',
-    gap: '1rem',
+    justifyContent: 'space-between',
 
     img: {
       width: '100%',
       height: '100%',
       display: 'block',
+      borderRadius: '5px',
       objectFit: 'cover',
-    },
-
-    h5: {
-      fontSize: theme.fontSizes.sm,
-      fontFamily: theme.fontFamily,
-      marginBottom: 0,
     },
 
     [`@media (min-width: 776px)`]: {
@@ -55,9 +50,22 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
+  h5: {
+    fontSize: theme.fontSizes.xs,
+    fontFamily: theme.fontFamily,
+    marginBottom: 0,
+  },
+
   name: {
     fontWeight: 600,
+    fontSize: theme.fontSizes.xs,
     fontFamily: theme.fontFamily,
+    marginBottom: 0,
+    marginLeft: '.5rem',
+
+    [`@media (min-width: 776px)`]: {
+      fontSize: theme.fontSizes.sm,
+    },
   },
 
   subTotal: {
@@ -74,7 +82,10 @@ const useStyles = createStyles((theme) => ({
 
   smallPrice: {
     display: 'block',
+    fontSize: theme.fontSizes.xs,
     fontFamily: theme.fontFamily,
+    marginBottom: 0,
+    marginLeft: '.5rem',
 
     [`@media (min-width: 776px)`]: {
       display: 'none',
@@ -93,34 +104,6 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
-  amountButtons: {
-    width: '75px',
-
-    button: {
-      width: '1rem',
-      height: '0.5rem',
-      fontSize: theme.fontSizes.xs,
-    },
-
-    h2: {
-      fontSize: theme.fontSizes.sm,
-    },
-
-    [`@media (min-width: 776px)`]: {
-      width: '100px',
-
-      button: {
-        width: '1.5rem',
-        height: '1rem',
-        fontSize: theme.fontSizes.sm,
-      },
-
-      h2: {
-        fontSize: theme.fontSizes.md,
-      },
-    },
-  },
-
   removeButton: {
     background: theme.colors.red[5],
     border: 'none',
@@ -132,7 +115,7 @@ const useStyles = createStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: theme.fontSizes.xl * 2,
+    fontSize: theme.fontSizes.xl,
   },
 }));
 

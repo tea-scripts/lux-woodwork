@@ -37,15 +37,16 @@ const useStyles = createStyles((theme) => ({
       fontWeight: 600,
     },
 
-    'a, button': {
-      width: '100%',
-      textAlign: 'center',
-      fontWeight: 700,
-    },
-
     [`@media (min-width: ${theme.breakpoints.md}px)`]: {
       justifyContent: 'flex-end',
     },
+  },
+
+  checkOutBtn: {
+    width: '100%',
+    textAlign: 'center',
+    fontWeight: 700,
+    textTransform: 'capitalize',
   },
 }));
 
@@ -73,7 +74,11 @@ const CartTotals = () => {
         </Card>
 
         {isAuthenticated ? (
-          <Button component={Link} to="/checkout">
+          <Button
+            component={Link}
+            to="/checkout"
+            className={classes.checkOutBtn}
+          >
             proceed to checkout
           </Button>
         ) : (

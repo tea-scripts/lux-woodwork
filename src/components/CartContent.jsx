@@ -7,33 +7,31 @@ import { clearCart } from '../features/cart/cartSlice';
 import CartTotals from './CartTotals';
 import { IoMdTrash } from 'react-icons/io';
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
     maxWidth: 1200,
     margin: '0 auto',
-
-    'a, button': {
-      textTransform: 'capitalize',
-      fontSize: theme.fontSizes.sm,
-      fontWeight: 500,
-      letterSpacing: 0.5,
-      padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
-      borderRadius: theme.radius.sm,
-      transition: 'all 0.2s ease',
-      width: '100%',
-      cursor: 'pointer',
-      height: 40,
-
-      [`@media (min-width: ${theme.breakpoints.sm}px)`]: {
-        width: 'auto',
-      },
-    },
+    marginBottom: '3rem',
   },
+
+  linkBtn: {
+    textTransform: 'capitalize',
+    fontSize: theme.fontSizes.sm,
+    fontWeight: 400,
+    letterSpacing: 0.5,
+    padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
+    borderRadius: theme.radius.sm,
+    transition: 'all 0.2s ease',
+    cursor: 'pointer',
+    height: 40,
+  },
+
   linkContainer: {
     display: 'flex',
     justifyContent: 'space-between',
-    columnGap: theme.spacing.md,
     marginTop: '2rem',
     width: '100%',
   },
@@ -43,9 +41,25 @@ const CartContent = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const { classes } = useStyles();
+  const [dimensions, setDimensions] = useState(window.innerWidth);
+
+  useEffect(() => {
+    function handleResize() {
+      setDimensions({
+        height: window.innerHeight,
+        width: window.innerWidth,
+      });
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    return (_) => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
-    <div className={classes.wrapper}>
+    <section className={classes.wrapper}>
       <CartHeadingColumns />
       {cartItems.map((item) => {
         return <CartItem key={item.id} {...item} />;
@@ -57,16 +71,21 @@ const CartContent = () => {
           variant="gradient"
           gradient={{ from: 'indigo', to: 'hsla(354, 65%, 51%, 1)' }}
           to="/products"
-          leftIcon={<BsFillArrowLeftCircleFill />}
+          leftIcon={dimensions > 678 && <BsFillArrowLeftCircleFill />}
+          className={classes.linkBtn}
         >
           continue shopping
         </Button>
-        <Button onClick={() => dispatch(clearCart())} rightIcon={<IoMdTrash />}>
+        <Button
+          className={classes.linkBtn}
+          onClick={() => dispatch(clearCart())}
+          rightIcon={dimensions > 678 && <IoMdTrash />}
+        >
           clear shopping cart
         </Button>
       </div>
       <CartTotals />
-    </div>
+    </section>
   );
 };
 export default CartContent;

@@ -16,19 +16,32 @@ import navLinks from '../utils/navLinks';
 
 const useStyles = createStyles((theme) => ({
   footer: {
-    marginTop: 120,
     backgroundColor: 'hsla(205, 100%, 13%, 1)',
-    paddingBottom: 30,
+    height: 150,
+    display: 'flex',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 
   inner: {
-    display: 'flex',
+    display: 'grid',
     justifyContent: 'space-between',
     alignItems: 'center',
+    gridTemplateColumns: '1fr 1fr 1fr',
+    gridGap: theme.spacing.md,
+    width: '100%',
     maxWidth: 1200,
+    margin: '0 auto',
+
+    [theme.fn.smallerThan('md')]: {
+      gridTemplateColumns: '1fr 1fr',
+      placeItems: 'center',
+    },
 
     [theme.fn.smallerThan('xs')]: {
-      flexDirection: 'column',
+      gridTemplateColumns: '1fr',
+      placeItems: 'center',
     },
 
     ul: {
@@ -37,7 +50,7 @@ const useStyles = createStyles((theme) => ({
       gap: 10,
       alignItems: 'center',
 
-      [theme.fn.smallerThan('xs')]: {
+      [theme.fn.smallerThan('md')]: {
         display: 'none',
       },
 
@@ -50,8 +63,8 @@ const useStyles = createStyles((theme) => ({
     },
 
     img: {
-      width: '120px',
-      height: '150px',
+      width: '100px',
+      height: '80px',
     },
   },
 

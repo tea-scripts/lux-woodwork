@@ -9,7 +9,7 @@ const useStyles = createStyles((theme) => ({
   wrapper: {
     margin: ' 0 auto',
     padding: '0 1rem',
-    height: '100%',
+    minHeight: 'calc(100vh - (60px + 140px))',
 
     '& main': {
       '& h2': {
@@ -25,7 +25,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   empty: {
-    height: 'calc(100vh - 5rem - 15.6rem)',
+    minHeight: 'calc(100vh - (60px + 140px))',
     margin: ' 0 auto',
     maxWidth: 1200,
     padding: '2rem',
