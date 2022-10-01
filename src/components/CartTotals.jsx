@@ -2,6 +2,7 @@ import { Button, createStyles, Divider, Card } from '@mantine/core';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { formatPrice } from '../utils/helpers';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -61,14 +62,15 @@ const CartTotals = () => {
         <Card shadow="md" mb={20}>
           <article>
             <h5>
-              subtotal : <span>${total_amount}</span>
+              subtotal : <span>{formatPrice(total_amount)}</span>
             </h5>
             <p>
-              shipping fee : <span>${shipping_fee}</span>
+              shipping fee : <span>{formatPrice(shipping_fee)}</span>
             </p>
             <Divider />
             <h4>
-              order total : <span>${total_amount + shipping_fee}</span>
+              order total :{' '}
+              <span>{formatPrice(total_amount + shipping_fee)}</span>
             </h4>
           </article>
         </Card>

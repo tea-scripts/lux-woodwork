@@ -3,6 +3,7 @@ import AmountButtons from './AmountButtons';
 import { removeItem, increase, decrease } from '../features/cart/cartSlice';
 import { useDispatch } from 'react-redux';
 import { IoTrashSharp } from 'react-icons/io5';
+import { formatPrice } from '../utils/helpers';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -119,7 +120,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const CartItem = ({ id, name, image, quantity, price }) => {
+const CartItem = ({ id, title, images, quantity, price }) => {
   const dispatch = useDispatch();
   const { classes } = useStyles();
 
@@ -127,15 +128,15 @@ const CartItem = ({ id, name, image, quantity, price }) => {
     <div className={classes.wrapper}>
       {/* First Column */}
       <div className={classes.title}>
-        <img src={image} alt={name} />
+        <img src={images[0]} alt={title} />
         <div>
-          <h5 className={classes.name}>{name}</h5>
-          <h5 className={classes.smallPrice}>${price}</h5>
+          <h5 className={classes.name}>{title}</h5>
+          <h5 className={classes.smallPrice}>{formatPrice(price)}</h5>
         </div>
       </div>
 
       {/* Second Column */}
-      <h5 className={classes.price}>${price}</h5>
+      <h5 className={classes.price}>{formatPrice(price)}</h5>
 
       {/* Third Column */}
       <AmountButtons
@@ -146,7 +147,7 @@ const CartItem = ({ id, name, image, quantity, price }) => {
       />
 
       {/* Fourth Column */}
-      <h5 className={classes.subTotal}>${price * quantity}</h5>
+      <h5 className={classes.subTotal}>{formatPrice(price * quantity)}</h5>
 
       {/* Fifth Column */}
       <Button

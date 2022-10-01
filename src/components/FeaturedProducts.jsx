@@ -13,6 +13,7 @@ import {
 } from '@mantine/core';
 import featuredProducts from '../utils/mockProducts';
 import { Link } from 'react-router-dom';
+import { formatPrice } from '../utils/helpers';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -93,7 +94,7 @@ const FeaturedProducts = () => {
             >
               <Card shadow="sm" p="lg" radius="md" withBorder>
                 <Card.Section>
-                  <Image src={product.image} height={280} alt="Norway" />
+                  <Image src={product.images[0]} height={280} alt="Norway" />
                 </Card.Section>
 
                 <Group position="apart" mt="md" mb="xs">
@@ -107,7 +108,7 @@ const FeaturedProducts = () => {
                   )}
                 </Group>
 
-                <Text color="dimmed">{product.price}</Text>
+                <Text color="dimmed">{formatPrice(product.price)}</Text>
               </Card>
             </Box>
           ))}

@@ -23,6 +23,7 @@ import { useState } from 'react';
 import navLinks from '../utils/navLinks';
 import { useAuth0 } from '@auth0/auth0-react';
 import { BiLogOut } from 'react-icons/bi';
+import { IoBagCheckOutline } from 'react-icons/io5';
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -118,6 +119,14 @@ const Navbar = () => {
                     icon={<HiShoppingBag />}
                   >
                     My Bag
+                  </Menu.Item>
+
+                  <Menu.Item
+                    icon={<IoBagCheckOutline />}
+                    component={Link}
+                    to="/checkout"
+                  >
+                    Checkout
                   </Menu.Item>
 
                   <Divider my="sm" variant="dashed" />

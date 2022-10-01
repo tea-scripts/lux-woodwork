@@ -12,6 +12,8 @@ import {
   Contact,
   SingleProduct,
   Cart,
+  CheckoutPage,
+  PrivateRoute,
 } from './pages';
 
 function App() {
@@ -35,6 +37,14 @@ function App() {
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
         <Route path="cart" element={<Cart />} />
+        <Route
+          path="/checkout"
+          element={
+            <PrivateRoute>
+              <CheckoutPage />
+            </PrivateRoute>
+          }
+        />
         <Route path="*" element={<Error />} />
       </Routes>
       <Footer />
