@@ -192,7 +192,7 @@ const About = () => {
       >
         <Overlay opacity={0.5} color="#000" zIndex={1} sx={{ height: 460 }} />
         <Title className={classes.title} order={2}>
-          About Us
+          Want to know more about us?
         </Title>
       </Container>
 

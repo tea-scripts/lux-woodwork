@@ -82,7 +82,9 @@ const FeaturedProducts = () => {
         >
           {featuredProducts.map(
             (product) =>
-              product.featured && <ProductCard product={product} height={280} />
+              product.featured && (
+                <ProductCard key={product.key} product={product} height={280} />
+              )
           )}
         </SimpleGrid>
         <Box className={classes.viewProductsBtn}>

@@ -12,6 +12,7 @@ const useStyles = createStyles((theme) => ({
   container: {
     marginLeft: 0,
     marginRight: 0,
+    marginBottom: "5rem",
   },
 
   image_container: {
@@ -59,7 +60,7 @@ const Contact = () => {
       >
         <Overlay opacity={0.5} color="#000" zIndex={1} sx={{ height: 460 }} />
         <Title className={classes.title} order={2}>
-          About Us
+          Talk to us
         </Title>
         <Text className={classes.description}>
           If you have any questions, we will always be happy to help. Feel free
