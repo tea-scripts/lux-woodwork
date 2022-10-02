@@ -1,15 +1,21 @@
-import { Button, Title } from '@mantine/core';
-import { Link } from 'react-router-dom';
-import { createStyles } from '@mantine/core';
+import { createStyles } from "@mantine/core";
+import { Products as ProductsComponent } from "../components";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    height: 'calc(100vh - (60px + 140px))',
-    display: 'grid',
-    placeItems: 'center',
-    width: '90vw',
-    margin: ' 0 auto',
+    minHeight: "calc(100vh - 5rem - 15.6rem)",
+    display: "flex",
+    flexDirection: "column",
+    gap: "1rem",
+    width: "90vw",
+    margin: " 0 auto",
     maxWidth: 1200,
+    padding: "3rem 0",
+
+    "@media (min-width: 481px)": {
+      flexDirection: "row",
+      columnGap: "3rem",
+    },
   },
 }));
 
@@ -18,10 +24,7 @@ const Products = () => {
 
   return (
     <section className={classes.wrapper}>
-      <Title order={2}>Welcome to our store</Title>
-      <Button component={Link} to="/">
-        Back to Home
-      </Button>
+      <ProductsComponent />
     </section>
   );
 };
