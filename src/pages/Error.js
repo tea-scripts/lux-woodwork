@@ -4,7 +4,6 @@ import {
   Title,
   Text,
   Button,
-  Group,
   SimpleGrid,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
@@ -12,13 +11,19 @@ import errorImage from '../assets/error-image.svg';
 
 const useStyles = createStyles((theme) => ({
   root: {
-    paddingTop: 80,
-    paddingBottom: 80,
-    height: 'calc(100vh - 5rem - 11.25rem)',
-    display: 'grid',
-    width: '100%',
+    minHeight: 'calc(100vh - (60px + 140px))',
     margin: ' 0 auto',
+    height: '100%',
     maxWidth: 1200,
+    padding: '2rem',
+
+    a: {
+      width: 'fit-content',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      fontFamily: theme.fontFamily,
+      letterSpacing: 1,
+    },
   },
 
   image: {
@@ -26,6 +31,7 @@ const useStyles = createStyles((theme) => ({
     height: '100%',
     objectFit: 'cover',
     margin: '0 auto',
+    maxWidth: 500,
   },
 
   content: {
@@ -58,26 +64,19 @@ const Error = () => {
   const { classes } = useStyles();
 
   return (
-    <Container className={classes.root}>
-      <SimpleGrid
-        spacing={10}
-        cols={2}
-        breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
-      >
+    <Container size={1200} className={classes.root}>
+      <SimpleGrid spacing={10}>
         <img src={errorImage} className={classes.image} alt="error" />
-        <div className={classes.content}>
-          <Title className={classes.title}>Nothing to see here</Title>
-          <Text size="lg" align="center" className={classes.description}>
-            Page you are trying to open does not exist. You may have mistyped
-            the address, or the page has been moved to another URL. If you think
-            this is an error contact support.
-          </Text>
-          <Group position="center">
-            <Button size="md" component={Link} to="/">
-              Take me back to home page
-            </Button>
-          </Group>
-        </div>
+        <Title className={classes.title}>Nothing to see here</Title>
+        <Text size="lg" align="center" className={classes.description}>
+          Page you are trying to open does not exist. You may have mistyped the
+          address, or the page has been moved to another URL. If you think this
+          is an error contact support.
+        </Text>
+
+        <Button size="sm" component={Link} to="/">
+          Take me back to home page
+        </Button>
       </SimpleGrid>
     </Container>
   );

@@ -1,10 +1,19 @@
-import { Button, Divider, Image } from '@mantine/core';
+import {
+  Button,
+  Container,
+  Divider,
+  Grid,
+  Image,
+  Pagination,
+} from '@mantine/core';
 import { Link, useParams } from 'react-router-dom';
 import { createStyles } from '@mantine/core';
 import mockProducts from '../utils/mockProducts';
 import { Carousel } from '@mantine/carousel';
-import { formatPrice } from '../utils/helpers';
+import { formatPrice, reviews } from '../utils/helpers';
 import AddToCart from '../components/AddToCart';
+import SingleReview from '../components/SingleReview';
+import { Product } from '../components';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -101,6 +110,23 @@ const useStyles = createStyles((theme) => ({
       },
     },
   },
+
+  productReviews: {
+    marginTop: '4rem',
+    maxWidth: 1200,
+  },
+
+  relatedProducts: {
+    marginTop: '4rem',
+    maxWidth: 1200,
+    width: '100%',
+  },
+
+  products: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gap: '1rem',
+  },
 }));
 
 const SingleProduct = () => {
@@ -159,6 +185,24 @@ const SingleProduct = () => {
           {product.stock > 0 && <AddToCart product={product} />}
         </section>
       </div>
+
+      <div className={classes.productReviews}>
+        <h4>Product Reviews</h4>
+        {reviews.map((review, index) => (
+          <SingleReview {...review} key={index} />
+        ))}
+        <Pagination total={10} disabled={true} position="center" />
+      </div>
+
+      <Container size={1200} className={classes.relatedProducts}>
+        <h5>Related Products</h5>
+        <Grid className={classes.products}>
+          {mockProducts
+            .filter((item) => item.id !== product.id)
+            .map((item) => <Product {...item} key={item.id} />)
+            .slice(0, 3)}
+        </Grid>
+      </Container>
     </section>
   );
 };

@@ -10,6 +10,7 @@ const useStyles = createStyles((theme) => ({
     margin: ' 0 auto',
     padding: '0 1rem',
     minHeight: 'calc(100vh - (60px + 140px))',
+    height: '100%',
 
     '& main': {
       '& h2': {

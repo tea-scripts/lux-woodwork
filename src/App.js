@@ -1,8 +1,14 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Footer, Navbar, Sidebar, SidebarCart } from "./components";
-import { calculateTotals } from "./features/cart/cartSlice";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {
+  Footer,
+  Navbar,
+  Sidebar,
+  SidebarCart,
+  ScrollToTop,
+} from './components';
+import { calculateTotals } from './features/cart/cartSlice';
 
 import {
   Landing,
@@ -15,7 +21,7 @@ import {
   CheckoutPage,
   PrivateRoute,
   FAQ,
-} from "./pages";
+} from './pages';
 
 function App() {
   const { cartItems } = useSelector((state) => state.cart);
@@ -31,24 +37,26 @@ function App() {
       <Navbar />
       <Sidebar />
       <SidebarCart />
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="products" element={<Products />} />
-        <Route path="products/:id" element={<SingleProduct />} />
-        <Route path="about" element={<About />} />
-        <Route path="contact" element={<Contact />} />
-        <Route path="faq" element={<FAQ />} />
-        <Route path="cart" element={<Cart />} />
-        <Route
-          path="/checkout"
-          element={
-            <PrivateRoute>
-              <CheckoutPage />
-            </PrivateRoute>
-          }
-        />
-        <Route path="*" element={<Error />} />
-      </Routes>
+      <ScrollToTop>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="products" element={<Products />} />
+          <Route path="products/:id" element={<SingleProduct />} />
+          <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="faq" element={<FAQ />} />
+          <Route path="cart" element={<Cart />} />
+          <Route
+            path="/checkout"
+            element={
+              <PrivateRoute>
+                <CheckoutPage />
+              </PrivateRoute>
+            }
+          />
+          <Route path="*" element={<Error />} />
+        </Routes>
+      </ScrollToTop>
       <Footer />
     </BrowserRouter>
   );
