@@ -53,6 +53,8 @@ const useStyles = createStyles((theme) => ({
 
     "@media (min-width: 481px)": {
       display: "flex",
+      minWidth: "12rem",
+      maxWidth: "12rem",
     },
   },
 

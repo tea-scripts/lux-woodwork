@@ -19,13 +19,20 @@ const useStyles = createStyles((theme) => ({
   addressItem: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
     padding: "1rem",
 
-    "@media (min-width: 481px)": {
+    "@media (min-width: 1080px)": {
       flexDirection: "row",
       justifyContent: "space-between",
       width: "100%",
+    },
+  },
+
+  btn: {
+    marginTop: "1rem",
+
+    "@media (min-width: 1080px)": {
+      marginTop: 0,
     },
   },
 }));
@@ -146,7 +153,7 @@ const UserAddress = () => {
           </div>
           <div style={{ display: "flex" }}>
             <Group mb={10} position="right"></Group>
-            <Group>
+            <Group className={classes.btn}>
               <ActionIcon color="orange">
                 <IconEdit size={18} />
               </ActionIcon>
@@ -158,8 +165,6 @@ const UserAddress = () => {
         </Paper>
         <Paper className={classes.addressItem} withBorder>
           <div>
-            <Badge color="dark">Default</Badge>
-
             <Group>Patrick Santos | (63+)9328762312</Group>
             <Text sx={{ maxWidth: 400, color: "var(--gray)" }}>
               5/F B And L Building 116 Legaspi Street Legaspi Village 1200,
@@ -168,7 +173,7 @@ const UserAddress = () => {
           </div>
           <div style={{ display: "flex" }}>
             <Group mb={10} position="right"></Group>
-            <Group>
+            <Group className={classes.btn}>
               <ActionIcon color="orange">
                 <IconEdit size={18} />
               </ActionIcon>
@@ -181,8 +186,6 @@ const UserAddress = () => {
         </Paper>
         <Paper className={classes.addressItem} withBorder>
           <div>
-            <Badge color="dark">Default</Badge>
-
             <Group>Patrick Santos | (63+)9328762312</Group>
             <Text sx={{ maxWidth: 400, color: "var(--gray)" }}>
               5/F B And L Building 116 Legaspi Street Legaspi Village 1200,
@@ -191,7 +194,7 @@ const UserAddress = () => {
           </div>
           <div style={{ display: "flex" }}>
             <Group mb={10} position="right"></Group>
-            <Group>
+            <Group className={classes.btn}>
               <ActionIcon color="orange">
                 <IconEdit size={18} />
               </ActionIcon>

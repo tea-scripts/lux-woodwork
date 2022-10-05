@@ -1,6 +1,7 @@
 import {
   Badge,
   Button,
+  createStyles,
   Group,
   Image,
   Paper,
@@ -37,46 +38,71 @@ const mockData = [
   },
 ];
 
+const useStyles = createStyles((theme) => ({
+  imageContainer: {
+    // width: 250,
+
+    "@media (min-width: 481px)": {
+      width: 200,
+    },
+  },
+  addressItem: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    padding: "1rem",
+
+    "@media (min-width: 481px)": {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      width: "100%",
+    },
+  },
+}));
+
 const UserPurchases = () => {
-  const displayPurchasedProducts = mockData.map((purchases) => {
+  const { classes } = useStyles();
+
+  const displayPurchasedProducts = mockData.map((purchases, index) => {
     return (
-      <Paper mb={20} p="md" shadow="sm" withBorder>
+      <Paper key={index} shadow="sm" p="xl" mb={20} withBorder>
         <Group position="right" mb={20}>
           <Badge color="dark">Delivered</Badge>
         </Group>
         {purchases.purchases.map((item) => (
-          <SimpleGrid
-            breakpoints={[
-              { minWidth: "xs", cols: 1 },
-              { minWidth: "sm", cols: 4 },
-            ]}
-            mb={20}
-          >
-            <div>
-              <Image fit="cover" radius="md" src={item.img} />
-            </div>
-            <Text
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
+          <Group mb={20}>
+            <SimpleGrid
+              breakpoints={[
+                { minWidth: "xs", cols: 1 },
+                { minWidth: "sm", cols: 3 },
+              ]}
             >
-              {item.title}
-            </Text>
-            <Text
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              x{item.qty}
-            </Text>
-          </SimpleGrid>
+              <div className={classes.imageContainer}>
+                <Image radius="md" src={item.img} />
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {item.title}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {item.qty}
+              </div>
+            </SimpleGrid>
+          </Group>
         ))}
         <Group position="right" mt={20}>
-          <Button>View Order Details</Button>
+          <Button>View Details</Button>
         </Group>
       </Paper>
     );
@@ -87,6 +113,7 @@ const UserPurchases = () => {
       <Text sx={{ color: "#C0C0C0", fontSize: "1.1rem" }} mb={32}>
         My Purchases
       </Text>
+
       {displayPurchasedProducts}
     </>
   );
