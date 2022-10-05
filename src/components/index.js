@@ -15,6 +15,9 @@ import ProductsListSort from './ProductsListSort';
 import ProductsListFilter from './ProductsListFilter';
 import Product from './Product';
 import ScrollToTop from './ScrollToTop';
+import Registration from './Registration';
+import EmailVerificationModal from './EmailVerificationModal';
+import ForgotPasswordModal from './ForgotPasswordModal';
 
 export {
   Navbar,
@@ -34,4 +37,7 @@ export {
   ProductsListFilter,
   Product,
   ScrollToTop,
+  Registration,
+  EmailVerificationModal,
+  ForgotPasswordModal,
 };

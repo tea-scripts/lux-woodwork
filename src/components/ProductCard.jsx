@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   Card,
   Text,
@@ -8,55 +8,54 @@ import {
   Transition,
   Badge,
   Image,
-} from "@mantine/core";
-import { Link } from "react-router-dom";
-import { IconSearch, IconShoppingCartPlus } from "@tabler/icons";
-import { useHover } from "@mantine/hooks";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../features/cart/cartSlice";
-import { formatPrice } from "../utils/helpers";
-import AddToCart from "./AddToCart";
+} from '@mantine/core';
+import { Link } from 'react-router-dom';
+import { IconSearch, IconShoppingCartPlus } from '@tabler/icons';
+import { useHover } from '@mantine/hooks';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../features/cart/cartSlice';
+import { formatPrice } from '../utils/helpers';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
   },
 
   horizontalWrapper: {
-    display: "flex",
+    display: 'flex',
   },
 
   imageContainer: {
-    position: "relative",
+    position: 'relative',
   },
 
   btnContainer: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translateY(-50%) translateX(-50%)",
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translateY(-50%) translateX(-50%)',
     zIndex: 11,
   },
 
   overlay: {
-    height: "100%",
-    width: "100%",
-    backgroundColor: "rgba(0,0,0,.6)",
-    position: "absolute",
+    height: '100%',
+    width: '100%',
+    backgroundColor: 'rgba(0,0,0,.6)',
+    position: 'absolute',
     zIndex: 10,
   },
 
   productBtn: {
-    "&:hover": {
-      transform: "scale(1.2)",
+    '&:hover': {
+      transform: 'scale(1.2)',
     },
   },
 
   detailsContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
 }));
 
@@ -130,7 +129,7 @@ const ProductCard = ({ product, height = 200, horizontal = false }) => {
             src={product.images[0]}
             alt={product.title}
             height={horizontal ? 200 : height}
-            width={horizontal ? 300 : "100%"}
+            width={horizontal ? 300 : '100%'}
             fit="cover"
           />
         </InnerImageContainer>
@@ -138,8 +137,8 @@ const ProductCard = ({ product, height = 200, horizontal = false }) => {
 
       {/* Details */}
       <div
-        className={horizontal ? classes.detailsContainer : ""}
-        style={{ padding: ".5rem 1rem" }}
+        className={horizontal ? classes.detailsContainer : ''}
+        style={{ padding: '.5rem 1rem' }}
       >
         <Group>
           {product.featured && horizontal && (
@@ -152,7 +151,7 @@ const ProductCard = ({ product, height = 200, horizontal = false }) => {
           <Text
             weight={500}
             transform="capitalize"
-            color={"var(--prussian-blue-500)"}
+            color={'var(--prussian-blue-500)'}
           >
             {product.title}
           </Text>

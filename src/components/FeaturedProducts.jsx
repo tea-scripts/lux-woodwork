@@ -5,58 +5,58 @@ import {
   SimpleGrid,
   createStyles,
   Button,
-} from "@mantine/core";
-import featuredProducts from "../utils/mockProducts";
-import { Link } from "react-router-dom";
-import ProductCard from "./ProductCard";
+} from '@mantine/core';
+import featuredProducts from '../utils/mockProducts';
+import { Link } from 'react-router-dom';
+import ProductCard from './ProductCard';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    padding: "1.25rem",
+    padding: '1.25rem',
   },
 
   heading: {
-    marginBottom: "1.25rem",
-    textAlign: "center",
-    fontFamily: "Poppins, sans-serif",
+    marginBottom: '1.25rem',
+    textAlign: 'center',
+    fontFamily: 'Poppins, sans-serif',
 
     span: {
       color: theme.colors.pink[6],
-      marginRight: "0.5rem",
+      marginRight: '0.5rem',
     },
   },
 
   product: {
-    transition: "all 0.2s ease-in-out",
+    transition: 'all 0.2s ease-in-out',
 
-    "&:hover": {
+    '&:hover': {
       boxShadow: theme.shadows.md,
     },
   },
 
   viewProductsBtn: {
-    display: "flex",
-    justifyContent: "center",
-    marginTop: "1.25rem",
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '1.25rem',
 
     a: {
       background: theme.colors.pink[6],
       color: theme.colors.gray[0],
 
-      padding: theme.spacing.xs + " " + theme.spacing.md,
-      display: "inline-block",
-      borderRadius: "0.25rem",
-      transition: "all 0.3s ease-in-out",
+      padding: theme.spacing.xs + ' ' + theme.spacing.md,
+      display: 'inline-block',
+      borderRadius: '0.25rem',
+      transition: 'all 0.3s ease-in-out',
       boxShadow: theme.shadows.sm,
-      margin: "1rem auto",
+      margin: '1rem auto',
 
-      "&:hover": {
+      '&:hover': {
         boxShadow: theme.shadows.md,
         background: theme.colors.gray[0],
         color: theme.colors.pink[6],
 
         [`@media (min-width: ${theme.breakpoints.sm}px)`]: {
-          transform: "translateY(-2px)",
+          transform: 'translateY(-2px)',
         },
       },
     },
@@ -83,7 +83,7 @@ const FeaturedProducts = () => {
           {featuredProducts.map(
             (product) =>
               product.featured && (
-                <ProductCard key={product.key} product={product} height={280} />
+                <ProductCard key={product.id} product={product} height={280} />
               )
           )}
         </SimpleGrid>

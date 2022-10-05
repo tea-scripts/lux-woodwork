@@ -21,15 +21,15 @@ import { Link, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import navLinks from '../utils/navLinks';
-import { useAuth0 } from '@auth0/auth0-react';
 import { BiLogOut } from 'react-icons/bi';
 import { IoBagCheckOutline } from 'react-icons/io5';
+import { toggleSignInModal, logoutUser } from '../features/users/userSlice';
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const { isSidebarOpen } = useSelector((store) => store.navigation);
+  const { user } = useSelector((store) => store.users);
   const [isHome, setIsHome] = useState(true);
-  const { loginWithPopup, isAuthenticated, logout, user } = useAuth0();
 
   const location = useLocation();
   useEffect(() => {
@@ -59,19 +59,16 @@ const Navbar = () => {
             </List>
           </Box>
           <Group position="center" px="md" className="btn-container">
-            {isAuthenticated && (
-              <Button
-                p={0}
-                sx={{ backgroundColor: 'transparent' }}
-                className="cart-btn"
-                color={isHome ? 'white' : 'black'}
-                onClick={() => dispatch(openCart())}
-              >
-                <HiShoppingBag />
-              </Button>
-            )}
-
-            {!isAuthenticated && (
+            <Button
+              p={0}
+              sx={{ backgroundColor: 'transparent' }}
+              className="cart-btn"
+              color={isHome ? 'white' : 'black'}
+              onClick={() => dispatch(openCart())}
+            >
+              <HiShoppingBag />
+            </Button>
+            {!user && (
               <Button
                 variant="filled"
                 sx={{
@@ -79,13 +76,13 @@ const Navbar = () => {
                   color: isHome ? '#000' : '#fff',
                 }}
                 px=".3rem"
-                onClick={() => loginWithPopup()}
+                onClick={() => dispatch(toggleSignInModal())}
                 radius="md"
               >
                 Sign in
               </Button>
             )}
-            {isAuthenticated && (
+            {user && user.role && (
               <Menu
                 transition="rotate-right"
                 transitionDuration={200}
@@ -94,25 +91,24 @@ const Navbar = () => {
               >
                 <Menu.Target>
                   <Avatar
-                    src={isAuthenticated && user.picture}
+                    src="https://avatars.githubusercontent.com/u/1430603?v=4"
                     radius="md"
-                    alt={isAuthenticated && user.given_name}
+                    alt={'isAuthenticated && user.given_name'}
                   />
                 </Menu.Target>
 
                 <Menu.Dropdown position="right" shadow="md" radius="md">
                   <Menu.Item sx={{ textTransform: 'capitalize' }}>
-                    Welcome,{' '}
-                    {(isAuthenticated && user.given_name) ||
-                      (isAuthenticated && user.nickname)}
+                    Welcome, {(user.username && user.username) || 'Guest'}
                   </Menu.Item>
-
                   <Divider my="sm" variant="dotted" />
-
-                  <Menu.Item component={Link} icon={<HiUserCircle />} to="/">
+                  <Menu.Item
+                    component={Link}
+                    icon={<HiUserCircle />}
+                    to="/profile"
+                  >
                     Profile
                   </Menu.Item>
-
                   <Menu.Item
                     component={Link}
                     to="/cart"
@@ -120,7 +116,6 @@ const Navbar = () => {
                   >
                     My Bag
                   </Menu.Item>
-
                   <Menu.Item
                     icon={<IoBagCheckOutline />}
                     component={Link}
@@ -128,17 +123,14 @@ const Navbar = () => {
                   >
                     Checkout
                   </Menu.Item>
-
                   <Divider my="sm" variant="dashed" />
-                  {isAuthenticated && (
-                    <Menu.Item
-                      icon={<BiLogOut />}
-                      component="button"
-                      onClick={() => logout()}
-                    >
-                      Logout
-                    </Menu.Item>
-                  )}
+                  <Menu.Item
+                    icon={<BiLogOut />}
+                    component="button"
+                    onClick={() => dispatch(logoutUser())}
+                  >
+                    Logout
+                  </Menu.Item>
                 </Menu.Dropdown>
               </Menu>
             )}
