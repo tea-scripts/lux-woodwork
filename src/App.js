@@ -16,6 +16,16 @@ import {
   Registration,
   EmailVerificationModal,
   ForgotPasswordModal,
+  AdminDashboard,
+  AdminAddUsers,
+  AdminViewUsers,
+  AdminAddOrders,
+  AdminViewOrders,
+  AdminAddProducts,
+  AdminViewProducts,
+  AdminViewReviews,
+  AdminProfile,
+  AdminSupport,
 } from "./components";
 import { calculateTotals } from "./features/cart/cartSlice";
 import { fetchUsers } from "./features/users/userSlice";
@@ -33,10 +43,12 @@ import {
   EmailVerification,
   PasswordReset,
   PrivateRoute,
+  Admin,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import User from "./pages/User";
+import SharedLayout from "./pages/SharedLayout";
 
 function App() {
   const { cartItems } = useSelector((state) => state.cart);
@@ -57,41 +69,55 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar />
+      {/* <Navbar />
       <Sidebar />
       <Registration />
       <EmailVerificationModal />
       <ForgotPasswordModal />
-      <SidebarCart />
+      <SidebarCart /> */}
       <ScrollToTop>
         <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="products" element={<Products />} />
-          <Route path="products/:id" element={<SingleProduct />} />
-          <Route path="about" element={<About />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="faq" element={<FAQ />} />
-          <Route path="cart" element={<Cart />} />
-          <Route path="/user/verify-email" element={<EmailVerification />} />
-          <Route path="/user/reset-password" element={<PasswordReset />} />
-          <Route path="user" element={<User />}>
-            <Route index element={<UserProfile />} />
-            <Route path="address" element={<UserAddress />} />
-            <Route path="purchases" element={<UserPurchases />} />
-            <Route path="orders" element={<UserTracking />} />
-            <Route path="wishlist" element={<UserWishlist />} />
-            <Route path="reviews" element={<UserReviews />} />
+          <Route path="/" element={<SharedLayout />}>
+            <Route index path="/" element={<Landing />} />
+            <Route path="products" element={<Products />} />
+            <Route path="products/:id" element={<SingleProduct />} />
+            <Route path="about" element={<About />} />
+            <Route path="contact" element={<Contact />} />
+            <Route path="faq" element={<FAQ />} />
+            <Route path="cart" element={<Cart />} />
+            <Route path="/user/verify-email" element={<EmailVerification />} />
+            <Route path="/user/reset-password" element={<PasswordReset />} />
+            <Route path="user" element={<User />}>
+              <Route index element={<UserProfile />} />
+              <Route path="address" element={<UserAddress />} />
+              <Route path="purchases" element={<UserPurchases />} />
+              <Route path="orders" element={<UserTracking />} />
+              <Route path="wishlist" element={<UserWishlist />} />
+              <Route path="reviews" element={<UserReviews />} />
+            </Route>
+
+            <Route
+              path="/checkout"
+              element={
+                <PrivateRoute>
+                  <CheckoutPage />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="*" element={<Error />} />
           </Route>
-          <Route
-            path="/checkout"
-            element={
-              <PrivateRoute>
-                <CheckoutPage />
-              </PrivateRoute>
-            }
-          />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="*" element={<Error />} />
+          <Route path="admin" element={<Admin />}>
+            <Route index path="dashboard" element={<AdminDashboard />} />
+            <Route path="users/add" element={<AdminAddUsers />} />
+            <Route path="users/view" element={<AdminViewUsers />} />
+            <Route path="orders/view" element={<AdminViewOrders />} />
+            <Route path="products/add" element={<AdminAddProducts />} />
+            <Route path="products/view" element={<AdminViewProducts />} />
+            <Route path="reviews/view" element={<AdminViewReviews />} />
+            <Route path="profile" element={<AdminProfile />} />
+            <Route path="support" element={<AdminSupport />} />
+          </Route>
         </Routes>
       </ScrollToTop>
       <Footer />

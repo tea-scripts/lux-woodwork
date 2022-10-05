@@ -20,8 +20,8 @@ const useStyles = createStyles((theme) => ({
     marginBottom: "3rem",
 
     "@media (min-width: 1024px)": {
-      minWidth: "15rem",
-      maxWidth: "15rem",
+      minWidth: "12rem",
+      maxWidth: "12rem",
     },
 
     "@media (min-width: 481px)": {

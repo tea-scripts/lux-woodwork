@@ -25,6 +25,16 @@ import ScrollToTop from "./ScrollToTop";
 import Registration from "./Registration";
 import EmailVerificationModal from "./EmailVerificationModal";
 import ForgotPasswordModal from "./ForgotPasswordModal";
+import LinksGroup from "./LinkGroup";
+import AdminDashboard from "./AdminDashboard";
+import AdminAddUsers from "./AdminAddUsers";
+import AdminViewUsers from "./AdminViewUsers";
+import AdminViewOrders from "./AdminViewOrders";
+import AdminAddProducts from "./AdminAddProducts";
+import AdminViewProducts from "./AdminViewProducts";
+import AdminViewReviews from "./AdminViewReviews";
+import AdminSupport from "./AdminSupport";
+import AdminProfile from "./AdminProfile";
 
 export {
   Navbar,
@@ -54,4 +64,14 @@ export {
   EmailVerificationModal,
   ForgotPasswordModal,
   Product,
+  LinksGroup,
+  AdminDashboard,
+  AdminAddUsers,
+  AdminViewUsers,
+  AdminViewOrders,
+  AdminAddProducts,
+  AdminViewProducts,
+  AdminProfile,
+  AdminSupport,
+  AdminViewReviews,
 };
