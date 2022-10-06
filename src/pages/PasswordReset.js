@@ -114,7 +114,7 @@ const PasswordReset = () => {
         <form>
           <h4 className={classes.text}>Reset your password</h4>
           <PasswordInput
-            placeholder="Enter your password"
+            placeholder="Enter new password"
             label="Password"
             mb={5}
             withAsterisk

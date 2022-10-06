@@ -1,17 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+import { getUserFromLocalStorage } from '../../utils/localStorage';
 
 const initialState = {
-  username: "johnsmith123",
-  email: "john@gmail.com",
-  firstName: "John",
-  lastName: "Smith",
-  phoneNumber: "09782123221",
+  username: 'johnsmith123',
+  email: 'john@gmail.com',
+  firstName: 'John',
+  lastName: 'Smith',
+  phoneNumber: '09782123221',
   addresses: [],
   wishlist: [],
+  user: getUserFromLocalStorage(),
 };
 
 const profileSlice = createSlice({
-  name: "profile",
+  name: 'profile',
   initialState,
   reducers: {
     updateProfile: (state, action) => {

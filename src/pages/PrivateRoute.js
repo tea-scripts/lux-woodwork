@@ -1,8 +1,8 @@
+import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
 
 const PrivateRoute = ({ children }) => {
-  const { user } = useAuth0();
+  const { user } = useSelector((state) => state.users);
   if (!user) {
     return <Navigate to="/" />;
   }

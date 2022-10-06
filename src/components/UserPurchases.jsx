@@ -7,22 +7,22 @@ import {
   Paper,
   SimpleGrid,
   Text,
-} from "@mantine/core";
-import image1 from "../assets/images/product-1.jpg";
-import image2 from "../assets/images/product-7.jpg";
-import image3 from "../assets/images/product-3.jpg";
+} from '@mantine/core';
+import image1 from '../assets/images/product-1.jpg';
+import image2 from '../assets/images/product-7.jpg';
+import image3 from '../assets/images/product-3.jpg';
 
 const mockData = [
   {
     purchases: [
       {
         img: image1,
-        title: "Product 1",
+        title: 'Product 1',
         qty: 1,
       },
       {
         img: image2,
-        title: "Product 2",
+        title: 'Product 2',
         qty: 3,
       },
     ],
@@ -31,7 +31,7 @@ const mockData = [
     purchases: [
       {
         img: image3,
-        title: "Product 3",
+        title: 'Product 3',
         qty: 2,
       },
     ],
@@ -42,20 +42,20 @@ const useStyles = createStyles((theme) => ({
   imageContainer: {
     // width: 250,
 
-    "@media (min-width: 481px)": {
+    '@media (min-width: 481px)': {
       width: 200,
     },
   },
   addressItem: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    padding: "1rem",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    padding: '1rem',
 
-    "@media (min-width: 481px)": {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      width: "100%",
+    '@media (min-width: 481px)': {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      width: '100%',
     },
   },
 }));
@@ -69,31 +69,32 @@ const UserPurchases = () => {
         <Group position="right" mb={20}>
           <Badge color="dark">Delivered</Badge>
         </Group>
-        {purchases.purchases.map((item) => (
+        {purchases.purchases.map((item, index) => (
           <Group mb={20}>
             <SimpleGrid
               breakpoints={[
-                { minWidth: "xs", cols: 1 },
-                { minWidth: "sm", cols: 3 },
+                { minWidth: 'xs', cols: 1 },
+                { minWidth: 'sm', cols: 3 },
               ]}
+              key={index}
             >
               <div className={classes.imageContainer}>
                 <Image radius="md" src={item.img} />
               </div>
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 {item.title}
               </div>
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 {item.qty}
@@ -110,7 +111,7 @@ const UserPurchases = () => {
 
   return (
     <>
-      <Text sx={{ color: "#C0C0C0", fontSize: "1.1rem" }} mb={32}>
+      <Text sx={{ color: '#C0C0C0', fontSize: '1.1rem' }} mb={32}>
         My Purchases
       </Text>
 

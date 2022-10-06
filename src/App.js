@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {
   Footer,
   Navbar,
@@ -16,6 +16,7 @@ import {
   Registration,
   EmailVerificationModal,
   ForgotPasswordModal,
+  UpdatePassword,
   AdminDashboard,
   AdminAddUsers,
   AdminViewUsers,
@@ -26,9 +27,9 @@ import {
   AdminViewReviews,
   AdminProfile,
   AdminSupport,
-} from "./components";
-import { calculateTotals } from "./features/cart/cartSlice";
-import { fetchUsers } from "./features/users/userSlice";
+} from './components';
+import { calculateTotals } from './features/cart/cartSlice';
+import { fetchUsers } from './features/users/userSlice';
 
 import {
   Landing,
@@ -44,11 +45,11 @@ import {
   PasswordReset,
   PrivateRoute,
   Admin,
-} from "./pages";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import User from "./pages/User";
-import SharedLayout from "./pages/SharedLayout";
+} from './pages';
+import { Flip, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import User from './pages/User';
+import SharedLayout from './pages/SharedLayout';
 
 function App() {
   const { cartItems } = useSelector((state) => state.cart);
@@ -87,13 +88,21 @@ function App() {
             <Route path="cart" element={<Cart />} />
             <Route path="/user/verify-email" element={<EmailVerification />} />
             <Route path="/user/reset-password" element={<PasswordReset />} />
-            <Route path="user" element={<User />}>
+            <Route
+              path="user"
+              element={
+                <PrivateRoute>
+                  <User />
+                </PrivateRoute>
+              }
+            >
               <Route index element={<UserProfile />} />
               <Route path="address" element={<UserAddress />} />
               <Route path="purchases" element={<UserPurchases />} />
               <Route path="orders" element={<UserTracking />} />
               <Route path="wishlist" element={<UserWishlist />} />
               <Route path="reviews" element={<UserReviews />} />
+              <Route path="update-password" element={<UpdatePassword />} />
             </Route>
 
             <Route
@@ -121,7 +130,7 @@ function App() {
         </Routes>
       </ScrollToTop>
       <Footer />
-      <ToastContainer position="top-center" />
+      <ToastContainer position="top-center" transition={Flip} />
     </BrowserRouter>
   );
 }
