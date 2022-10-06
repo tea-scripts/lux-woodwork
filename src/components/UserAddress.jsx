@@ -50,10 +50,10 @@ const UserAddress = () => {
   const [opened, setOpened] = useState(false);
   const [userAddress, setUserAddress] = useState({
     userId: user?._id,
-    name: user?.first_name + ' ' + user?.last_name || '',
-    phone: address?.phone || '',
+    name: `${user?.first_name || ''} ${user?.last_name || ''}`,
+    phone: user?.phone || '',
     city: address?.city || '',
-    state: address?.state,
+    state: address?.state || '',
     zip: address?.zip || '',
     province: address?.province || '',
     region: address?.region || '',
@@ -69,9 +69,7 @@ const UserAddress = () => {
 
     dispatch(createAddress(userAddress));
 
-    if (!isLoading) {
-      setOpened(false);
-    }
+    setOpened(false);
   };
 
   return (
@@ -104,6 +102,7 @@ const UserAddress = () => {
                   onChange={handleAddressChange}
                   label="Full Name"
                   size="md"
+                  readOnly
                 />
               </Grid.Col>
               <Grid.Col xs={12} sm={6}>
@@ -113,7 +112,8 @@ const UserAddress = () => {
                   name="phone"
                   value={userAddress.phone}
                   onChange={handleAddressChange}
-                  size="sm"
+                  size="md"
+                  readOnly
                 />
               </Grid.Col>
               <Grid.Col xs={12} sm={6}>

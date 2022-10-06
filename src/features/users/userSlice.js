@@ -253,7 +253,7 @@ const userSlice = createSlice({
     [createAddress.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.address = action.payload.address;
-      toast.success(action.payload.msg);
+      toast.success('Address created successfully');
     },
     [createAddress.rejected]: (state, action) => {
       state.isLoading = false;
