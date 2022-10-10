@@ -140,7 +140,7 @@ const Registration = () => {
             fullWidth
             mt={15}
             loading={isLoading}
-            type="button"
+            type="submit"
             onClick={handleSubmit}
           >
             {isNewUser ? 'Sign Up' : 'Sign In'}

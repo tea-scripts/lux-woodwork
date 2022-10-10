@@ -15,7 +15,7 @@ import { toggleSidebar } from '../features/navigation/navSlice';
 import navLinks from '../utils/navLinks';
 import logo from '../assets/logo-black.svg';
 import { FaFacebookSquare, FaInstagram, FaTwitterSquare } from 'react-icons/fa';
-import { useAuth0 } from '@auth0/auth0-react';
+import { logoutUser, toggleSignInModal } from '../features/users/userSlice';
 
 const useStyles = createStyles((theme) => ({
   sidebar: {
@@ -52,7 +52,7 @@ const Sidebar = () => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
   const { isSidebarOpen } = useSelector((store) => store.navigation);
-  const { loginWithPopup, isAuthenticated, logout, user } = useAuth0();
+  const { user } = useSelector((store) => store.users);
 
   return (
     <Drawer
@@ -63,9 +63,7 @@ const Sidebar = () => {
       position="right"
       overlayBlur={3}
       className={classes.drawer}
-      title={`Hello, ${
-        isAuthenticated ? user.given_name || user.nickname : 'Guest'
-      }`}
+      title={`Hello, ${user ? user.username || user.first_name : 'Guest'}`}
     >
       <div className={classes.sidebar}>
         <SimpleGrid>
@@ -82,12 +80,12 @@ const Sidebar = () => {
               );
             })}
           </List>
-          {isAuthenticated ? (
+          {user ? (
             <Button
               variant="filled"
               px=".3rem"
               onClick={() => {
-                logout({ returnTo: window.location.origin });
+                dispatch(logoutUser());
                 dispatch(toggleSidebar());
               }}
             >
@@ -98,7 +96,7 @@ const Sidebar = () => {
               variant="filled"
               px=".3rem"
               onClick={() => {
-                loginWithPopup();
+                dispatch(toggleSignInModal());
                 dispatch(toggleSidebar());
               }}
             >
@@ -106,7 +104,7 @@ const Sidebar = () => {
             </Button>
           )}
 
-          {isAuthenticated && (
+          {user && (
             <Button
               component={Link}
               to="/cart"

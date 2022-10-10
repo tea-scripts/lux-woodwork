@@ -3,22 +3,24 @@ import {
   Checkbox,
   Grid,
   Group,
-  Paper,
+  Modal,
   Select,
-  Text,
   Textarea,
   TextInput,
 } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import {
-  createProduct,
-  handleChange,
+  setProductValues,
+  toggleProductEdit,
   uploadProductImage,
+  updateProduct,
+  handleChange,
 } from '../features/products/productsSlice';
+import { toast } from 'react-toastify';
 
-const AdminAddProducts = () => {
+const EditProductModal = () => {
   const {
+    isEditingProduct,
     name,
     price,
     inventory,
@@ -27,8 +29,9 @@ const AdminAddProducts = () => {
     freeShipping,
     description,
     isLoading,
-    image,
     displayProduct,
+    image,
+    productId,
   } = useSelector((store) => store.products);
   const dispatch = useDispatch();
 
@@ -68,15 +71,32 @@ const AdminAddProducts = () => {
     }
 
     dispatch(
-      createProduct({ name, price, inventory, category, description, image })
+      updateProduct({
+        name,
+        price,
+        inventory,
+        category,
+        description,
+        image,
+        featured,
+        freeShipping,
+        displayProduct,
+        productId,
+      })
     );
   };
 
   return (
-    <Paper sx={{ width: '100%', padding: '1rem', minHeight: 600 }}>
-      <Group mb={20}>
-        <Text sx={{ fontSize: '2rem', fontWeight: 500 }}>Add New Product</Text>
-      </Group>
+    <Modal
+      opened={isEditingProduct}
+      onClose={() => {
+        dispatch(toggleProductEdit());
+        dispatch(setProductValues({}));
+      }}
+      centered
+      size="lg"
+      title={`Editing ${name}`}
+    >
       <Grid>
         <Grid.Col xs={12} sm={6}>
           <TextInput
@@ -146,6 +166,7 @@ const AdminAddProducts = () => {
             size="md"
             name="featured"
             mb={15}
+            checked={featured}
             value={featured}
             onChange={handleInputChange}
           />
@@ -154,6 +175,7 @@ const AdminAddProducts = () => {
             label="Free Shipping ?"
             size="md"
             mb={15}
+            checked={freeShipping}
             name="freeShipping"
             value={freeShipping}
             onChange={handleInputChange}
@@ -162,6 +184,7 @@ const AdminAddProducts = () => {
           <Checkbox
             label="Display Product ?"
             size="md"
+            checked={displayProduct}
             name="displayProduct"
             value={displayProduct}
             onChange={handleInputChange}
@@ -183,26 +206,38 @@ const AdminAddProducts = () => {
         </Grid.Col>
 
         <Grid.Col xs={12}>
+          <input
+            type="file"
+            name="image"
+            style={{
+              border: 'transparent !important',
+              width: '250px',
+              background: 'transparent',
+            }}
+            height={15}
+            onChange={handleFileChange}
+          />
+        </Grid.Col>
+
+        <Grid.Col xs={12}>
           <Group position="right">
-            <input
-              type="file"
-              name="image"
-              style={{
-                border: 'transparent !important',
-                width: '250px',
-                background: 'transparent',
+            <Button
+              variant="outline"
+              color="red"
+              onClick={() => {
+                dispatch(toggleProductEdit());
+                dispatch(setProductValues({}));
               }}
-              height={15}
-              onChange={handleFileChange}
-            />
+            >
+              Cancel
+            </Button>
             <Button loading={isLoading} onClick={handleSubmit}>
-              Add Product
+              Update Product
             </Button>
           </Group>
         </Grid.Col>
       </Grid>
-    </Paper>
+    </Modal>
   );
 };
-
-export default AdminAddProducts;
+export default EditProductModal;

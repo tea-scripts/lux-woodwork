@@ -18,8 +18,9 @@ import { useState } from 'react';
 import {
   createAddress,
   deleteAddress,
-  updateAddress,
-} from '../features/users/userSlice';
+  fetchAllUserAddresses,
+} from '../features/address/addressSlice';
+import { useEffect } from 'react';
 
 const useStyles = createStyles((theme) => ({
   addressItem: {
@@ -45,7 +46,9 @@ const useStyles = createStyles((theme) => ({
 
 const UserAddress = () => {
   const dispatch = useDispatch();
-  const { user, address, isLoading } = useSelector((state) => state.users);
+  const { user, isLoading } = useSelector((state) => state.users);
+  const { address, userAddresses } = useSelector((state) => state.address);
+
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
   const [userAddress, setUserAddress] = useState({
@@ -53,7 +56,7 @@ const UserAddress = () => {
     name: `${user?.first_name || ''} ${user?.last_name || ''}`,
     phone: user?.phone || '',
     city: address?.city || '',
-    state: address?.state || '',
+    street: address?.street || '',
     zip: address?.zip || '',
     province: address?.province || '',
     region: address?.region || '',
@@ -68,9 +71,33 @@ const UserAddress = () => {
     e.preventDefault();
 
     dispatch(createAddress(userAddress));
-
-    setOpened(false);
+    dispatch(fetchAllUserAddresses());
   };
+
+  useEffect(() => {
+    if (isLoading === false) {
+      setUserAddress({
+        userId: user?._id,
+        name: `${user?.first_name || ''} ${user?.last_name || ''}`,
+        phone: user?.phone || '',
+        city: '',
+        street: '',
+        zip: '',
+        province: '',
+        region: '',
+        barangay: '',
+      });
+      setOpened(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (isLoading === false) {
+      dispatch(fetchAllUserAddresses());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   return (
     <>
@@ -201,70 +228,47 @@ const UserAddress = () => {
         </Group>
       </div>
       <Stack>
-        <Paper className={classes.addressItem} withBorder>
-          <div>
-            <Badge color="dark">Default</Badge>
+        {userAddresses &&
+          userAddresses.map((address) => {
+            const {
+              _id: addressId,
+              street,
+              city,
+              defaultAddress,
+              province,
+              region,
+              barangay,
+              zip,
+            } = address;
+            return (
+              <Paper className={classes.addressItem} key={addressId} withBorder>
+                <div>
+                  {defaultAddress && <Badge color="dark"> Default</Badge>}
 
-            <Group>Patrick Santos | (63+)9328762312</Group>
-            <Text sx={{ maxWidth: 400, color: 'var(--gray)' }}>
-              5/F B And L Building 116 Legaspi Street Legaspi Village 1200,
-              Makati City, Metro Manila, 1200
-            </Text>
-          </div>
-          <div style={{ display: 'flex' }}>
-            <Group mb={10} position="right"></Group>
-            <Group className={classes.btn}>
-              <ActionIcon color="orange">
-                <IconEdit size={18} />
-              </ActionIcon>
-              <ActionIcon color="red">
-                <IconTrash size={18} />
-              </ActionIcon>
-            </Group>
-          </div>
-        </Paper>
-        <Paper className={classes.addressItem} withBorder>
-          <div>
-            <Group>Patrick Santos | (63+)9328762312</Group>
-            <Text sx={{ maxWidth: 400, color: 'var(--gray)' }}>
-              5/F B And L Building 116 Legaspi Street Legaspi Village 1200,
-              Makati City, Metro Manila, 1200
-            </Text>
-          </div>
-          <div style={{ display: 'flex' }}>
-            <Group mb={10} position="right"></Group>
-            <Group className={classes.btn}>
-              <ActionIcon color="orange">
-                <IconEdit size={18} />
-              </ActionIcon>
-              <ActionIcon color="red">
-                <IconTrash size={18} />
-              </ActionIcon>
-              <Button variant="subtle">Select as default</Button>
-            </Group>
-          </div>
-        </Paper>
-        <Paper className={classes.addressItem} withBorder>
-          <div>
-            <Group>Patrick Santos | (63+)9328762312</Group>
-            <Text sx={{ maxWidth: 400, color: 'var(--gray)' }}>
-              5/F B And L Building 116 Legaspi Street Legaspi Village 1200,
-              Makati City, Metro Manila, 1200
-            </Text>
-          </div>
-          <div style={{ display: 'flex' }}>
-            <Group mb={10} position="right"></Group>
-            <Group className={classes.btn}>
-              <ActionIcon color="orange">
-                <IconEdit size={18} />
-              </ActionIcon>
-              <ActionIcon color="red">
-                <IconTrash size={18} />
-              </ActionIcon>
-              <Button variant="subtle">Select as default</Button>
-            </Group>
-          </div>
-        </Paper>
+                  <Group>
+                    {userAddress.name} | (63+){userAddress.phone}
+                  </Group>
+                  <Text sx={{ maxWidth: 400, color: 'var(--gray)' }}>
+                    {street}, {barangay}, {city},{' '}
+                  </Text>
+                </div>
+                <div style={{ display: 'flex' }}>
+                  <Group mb={10} position="right"></Group>
+                  <Group className={classes.btn}>
+                    <ActionIcon color="orange">
+                      <IconEdit size={18} />
+                    </ActionIcon>
+                    <ActionIcon
+                      color="red"
+                      onClick={() => dispatch(deleteAddress(addressId))}
+                    >
+                      <IconTrash size={18} />
+                    </ActionIcon>
+                  </Group>
+                </div>
+              </Paper>
+            );
+          })}
       </Stack>
     </>
   );

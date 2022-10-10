@@ -1,139 +1,92 @@
-import { Group, Paper, Table, Text } from "@mantine/core";
-import React from "react";
-
-const data = [
-  {
-    id: 1,
-    title: "Sunflower Seed Raw",
-    stock: 20,
-    price: "₱15875.62",
-    brand: "Ursodiol",
-    category: "Overhead Doors",
-  },
-  {
-    id: 2,
-    title: "Honey - Lavender",
-    stock: 78,
-    price: "₱32911.65",
-    brand: "Apricot",
-    category: "Retaining Wall and Brick Pavers",
-  },
-  {
-    id: 3,
-    title: "Clam Nectar",
-    stock: 45,
-    price: "₱99366.10",
-    brand: "Keystone",
-    category: "Fire Sprinkler System",
-  },
-  {
-    id: 4,
-    title: "Sauce - Roasted Red Pepper",
-    stock: 63,
-    price: "₱62928.70",
-    brand: "COUMADIN",
-    category: "Retaining Wall and Brick Pavers",
-  },
-  {
-    id: 5,
-    title: "Vinegar - White",
-    stock: 68,
-    price: "₱72662.77",
-    brand: "Hydrochlorothiazide",
-    category: "Site Furnishings",
-  },
-  {
-    id: 6,
-    title: "Wine - Duboeuf Beaujolais",
-    stock: 86,
-    price: "₱13240.67",
-    brand: "Amoebatox",
-    category: "Soft Flooring and Base",
-  },
-  {
-    id: 7,
-    title: "Veal - Insides, Grains",
-    stock: 35,
-    price: "₱72662.59",
-    brand: "Docetaxel",
-    category: "Plumbing & Medical Gas",
-  },
-  {
-    id: 8,
-    title: "Wine - Red, Harrow Estates, Cab",
-    stock: 58,
-    price: "₱25445.09",
-    brand: "APIS MELLIFICA",
-    category: "EIFS",
-  },
-  {
-    id: 9,
-    title: "Wine - Maipo Valle Cabernet",
-    stock: 24,
-    price: "₱58361.58",
-    brand: "Witch Hazel",
-    category: "Fire Sprinkler System",
-  },
-  {
-    id: 10,
-    title: "Sorrel - Fresh",
-    stock: 47,
-    price: "₱86894.07",
-    brand: "SKIN LIGHTENING COMPLEX",
-    category: "Rebar & Wire Mesh Install",
-  },
-  {
-    id: 11,
-    title: "Syrup - Monin - Granny Smith",
-    stock: 15,
-    price: "₱75332.59",
-    brand: "Quetiapine fumarate",
-    category: "Masonry",
-  },
-  {
-    id: 12,
-    title: "Wine - White, Pinot Grigio",
-    stock: 54,
-    price: "₱73637.07",
-    brand: "NeutrapHorus Rex",
-    category: "Asphalt Paving",
-  },
-  {
-    id: 13,
-    title: "Water - Aquafina Vitamin",
-    stock: 24,
-    price: "₱50524.32",
-    brand: "BLATELLA GERMANICA",
-    category: "Painting & Vinyl Wall Covering",
-  },
-];
+import { ActionIcon, Group, Paper, Table, Text } from '@mantine/core';
+import React from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  deleteProduct,
+  fetchAllProducts,
+  setProductValues,
+  toggleProductEdit,
+  toggleProductView,
+} from '../features/products/productsSlice';
+import { formatPrice } from '../utils/helpers';
+import Loading from './Loading';
+import { IconEdit, IconSquareCheck, IconTrashX } from '@tabler/icons';
+import ViewProductModal from './ViewProductModal';
+import EditProductModal from './EditProductModal';
 
 const AdminViewProducts = () => {
-  const rows = data.map((element) => (
-    <tr key={element.id}>
-      <td>{element.id}</td>
-      <td>{element.title}</td>
-      <td>{element.stock}</td>
-      <td>{element.price}</td>
-      <td>{element.brand}</td>
-      <td>{element.category}</td>
-    </tr>
-  ));
+  const { products, isLoading } = useSelector((store) => store.products);
+  const dispatch = useDispatch();
+  const rows =
+    products &&
+    products.map((product, index) => {
+      const { _id, name, inventory, price, category } = product;
+      return (
+        <tr key={_id}>
+          <td>{index + 1}</td>
+          <td style={{ textTransform: 'capitalize' }}>{name}</td>
+          <td>{inventory}</td>
+          <td>{formatPrice(price)}</td>
+          <td style={{ textTransform: 'capitalize' }}>{category}</td>
+          <td>
+            <Group spacing={5}>
+              <ActionIcon
+                color="green"
+                onClick={() => {
+                  dispatch(toggleProductView());
+                  dispatch(setProductValues(product));
+                }}
+              >
+                <IconSquareCheck size={15} />
+              </ActionIcon>
+
+              <ActionIcon
+                color="yellow"
+                onClick={() => {
+                  dispatch(setProductValues(product));
+                  dispatch(toggleProductEdit());
+                }}
+              >
+                <IconEdit size={15} />
+              </ActionIcon>
+
+              <ActionIcon
+                color="red"
+                onClick={() => dispatch(deleteProduct(_id))}
+              >
+                <IconTrashX size={15} />
+              </ActionIcon>
+            </Group>
+          </td>
+        </tr>
+      );
+    });
+
+  useEffect(() => {
+    dispatch(fetchAllProducts());
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
-    <Paper sx={{ width: "100%", padding: "1rem" }}>
+    <Paper sx={{ width: '100%', padding: '1rem' }}>
       <Group>
-        <Text sx={{ fontSize: "2rem", fontWeight: 500 }}>Products List</Text>
+        <Text sx={{ fontSize: '2rem', fontWeight: 500 }}>Products List</Text>
       </Group>
+      <ViewProductModal />
+      <EditProductModal />
       <Table highlightOnHover striped>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Product name</th>
+            <th>#</th>
+            <th>Product Name</th>
             <th>Stock</th>
             <th>Price</th>
-            <th>Brand</th>
             <th>Category</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>

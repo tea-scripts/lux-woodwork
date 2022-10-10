@@ -116,7 +116,14 @@ function App() {
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="*" element={<Error />} />
           </Route>
-          <Route path="admin" element={<Admin />}>
+          <Route
+            path="admin"
+            element={
+              <PrivateRoute>
+                <Admin />
+              </PrivateRoute>
+            }
+          >
             <Route index path="dashboard" element={<AdminDashboard />} />
             <Route path="users/add" element={<AdminAddUsers />} />
             <Route path="users/view" element={<AdminViewUsers />} />

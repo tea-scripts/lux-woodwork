@@ -24,7 +24,7 @@ const useStyles = createStyles((theme) => ({
 
 const UserWishlist = () => {
   const { classes } = useStyles();
-  const { wishlist } = useSelector((state) => state.profile);
+  const { wishlist } = useSelector((state) => state.users);
   const { products } = useSelector((state) => state.products);
 
   const filteredResult = products.filter((p) =>

@@ -2,18 +2,54 @@ import {
   Button,
   Grid,
   Group,
-  NativeSelect,
   Paper,
   PasswordInput,
   Text,
   TextInput,
-} from "@mantine/core";
+} from '@mantine/core';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { registerUser } from '../features/users/userSlice';
+
+const initialState = {
+  email: '',
+  username: '',
+  password: '',
+  confirmPassword: '',
+};
 
 const AdminAddUsers = () => {
+  const dispatch = useDispatch();
+  const { isLoading } = useSelector((store) => store.users);
+  const [values, setValues] = useState(initialState);
+
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { username, email, password } = values;
+    if (!username || !password || !email) {
+      toast.warning('Please provide all credentials');
+      return;
+    }
+
+    if (values.password !== values.confirmPassword) {
+      toast.warning('Passwords do not match');
+      return;
+    }
+
+    dispatch(registerUser({ username, email, password }));
+
+    setValues(initialState);
+  };
+
   return (
-    <Paper sx={{ width: "100%", padding: "1rem", minHeight: 600 }}>
+    <Paper sx={{ width: '100%', padding: '1rem', minHeight: 600 }}>
       <Group mb={20}>
-        <Text sx={{ fontSize: "2rem", fontWeight: 500 }}>Create New User</Text>
+        <Text sx={{ fontSize: '2rem', fontWeight: 500 }}>Create New User</Text>
       </Group>
       <Grid>
         <Grid.Col xs={12} sm={6}>
@@ -22,6 +58,9 @@ const AdminAddUsers = () => {
             label="Username"
             size="md"
             withAsterisk
+            name="username"
+            value={values.username}
+            onChange={handleChange}
           />
         </Grid.Col>
 
@@ -31,6 +70,9 @@ const AdminAddUsers = () => {
             label="Email"
             size="md"
             withAsterisk
+            name="email"
+            value={values.email}
+            onChange={handleChange}
           />
         </Grid.Col>
 
@@ -40,6 +82,9 @@ const AdminAddUsers = () => {
             label="Password"
             size="md"
             withAsterisk
+            name="password"
+            value={values.password}
+            onChange={handleChange}
           />
         </Grid.Col>
 
@@ -49,36 +94,17 @@ const AdminAddUsers = () => {
             label="Confirm Password"
             size="md"
             withAsterisk
-          />
-        </Grid.Col>
-
-        <Grid.Col xs={12} sm={6}>
-          <TextInput
-            placeholder="Enter first name"
-            label="First Name"
-            size="md"
-          />
-        </Grid.Col>
-
-        <Grid.Col xs={12} sm={6}>
-          <TextInput
-            placeholder="Enter last name"
-            label="Last Name"
-            size="md"
-          />
-        </Grid.Col>
-
-        <Grid.Col xs={12} sm={6}>
-          <TextInput
-            placeholder="Enter phone number"
-            label="Phone Number"
-            size="md"
+            name="confirmPassword"
+            value={values.confirmPassword}
+            onChange={handleChange}
           />
         </Grid.Col>
 
         <Grid.Col xs={12}>
           <Group position="right">
-            <Button>Create User</Button>
+            <Button loading={isLoading} onClick={handleSubmit}>
+              Create User
+            </Button>
           </Group>
         </Grid.Col>
       </Grid>
