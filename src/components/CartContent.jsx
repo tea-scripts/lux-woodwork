@@ -62,7 +62,7 @@ const CartContent = () => {
     <section className={classes.wrapper}>
       <CartHeadingColumns />
       {cartItems.map((item) => {
-        return <CartItem key={item.id} {...item} />;
+        return <CartItem key={item._id} {...item} />;
       })}
       <Divider />
       <div className={classes.linkContainer}>

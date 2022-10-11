@@ -8,12 +8,12 @@ import {
 } from '@mantine/core';
 import { Link, useParams } from 'react-router-dom';
 import { createStyles } from '@mantine/core';
-import mockProducts from '../utils/mockProducts';
 import { Carousel } from '@mantine/carousel';
 import { formatPrice, reviews } from '../utils/helpers';
 import AddToCart from '../components/AddToCart';
 import SingleReview from '../components/SingleReview';
 import { Product } from '../components';
+import { useSelector } from 'react-redux';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -131,15 +131,10 @@ const useStyles = createStyles((theme) => ({
 
 const SingleProduct = () => {
   const { classes } = useStyles();
+  const { products } = useSelector((state) => state.products);
   const { id } = useParams();
 
-  const product = mockProducts.find((item) => item.id === Number(id));
-
-  const slides = product.images.map((image) => (
-    <Carousel.Slide key={image}>
-      <Image src={image} height={400} />
-    </Carousel.Slide>
-  ));
+  const product = products.find((item) => item._id === id);
 
   return (
     <section className={classes.wrapper}>
@@ -147,7 +142,7 @@ const SingleProduct = () => {
         Back to Products
       </Button>
       <div className={classes.product}>
-        <Carousel
+        {/* <Carousel
           withIndicators
           loop
           classNames={{
@@ -156,33 +151,31 @@ const SingleProduct = () => {
             indicator: classes.carouselIndicator,
           }}
         >
-          {slides}
-        </Carousel>
+          <Carousel.Slide key={product.image}> */}
+        <Image src={product.image} height={400} />
+        {/* </Carousel.Slide>
+        </Carousel> */}
         <section className={classes.content}>
-          <h2>{product.title}</h2>
+          <h2>{product.name}</h2>
           <h5>{formatPrice(product.price)}</h5>
           <p className={classes.description}>{product.description}</p>
 
           <p className={classes.info}>
             <span>Available : </span>
-            {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
+            {product.inventory > 0 ? 'In Stock' : 'Out of Stock'}
           </p>
           <p className={classes.info}>
             <span>SKU : </span>
-            {product.id}
-          </p>
-          <p className={classes.info}>
-            <span>Brand : </span>
-            {product.company || 'Ikea'}
+            {product._id}
           </p>
           <p className={classes.info}>
             <span>Category : </span>
-            {product.category || 'Living Room'}
+            {product.category}
           </p>
 
           <Divider />
 
-          {product.stock > 0 && <AddToCart product={product} />}
+          {product.inventory > 0 && <AddToCart product={product} />}
         </section>
       </div>
 
@@ -197,9 +190,9 @@ const SingleProduct = () => {
       <Container size={1200} className={classes.relatedProducts}>
         <h5>Related Products</h5>
         <Grid className={classes.products}>
-          {mockProducts
-            .filter((item) => item.id !== product.id)
-            .map((item) => <Product {...item} key={item.id} />)
+          {products
+            .filter((item) => item._id !== product._id)
+            .map((item) => <Product {...item} key={item._id} />)
             .slice(0, 3)}
         </Grid>
       </Container>

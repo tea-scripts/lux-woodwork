@@ -6,9 +6,10 @@ import {
   createStyles,
   Button,
 } from '@mantine/core';
-import featuredProducts from '../utils/mockProducts';
 import { Link } from 'react-router-dom';
 import ProductCard from './ProductCard';
+import { useSelector } from 'react-redux';
+import Loading from './Loading';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -65,6 +66,11 @@ const useStyles = createStyles((theme) => ({
 
 const FeaturedProducts = () => {
   const { classes } = useStyles();
+  const { products, isLoading } = useSelector((state) => state.products);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <Container size={1200}>
@@ -80,12 +86,11 @@ const FeaturedProducts = () => {
             { minWidth: 992, cols: 3 },
           ]}
         >
-          {featuredProducts.map(
-            (product) =>
-              product.featured && (
-                <ProductCard key={product.id} product={product} height={280} />
-              )
-          )}
+          {products
+            .filter((product) => product.featured)
+            .map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
         </SimpleGrid>
         <Box className={classes.viewProductsBtn}>
           <Button component={Link} to="/products" color="white">

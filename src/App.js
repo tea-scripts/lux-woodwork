@@ -50,6 +50,7 @@ import { Flip, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import User from './pages/User';
 import SharedLayout from './pages/SharedLayout';
+import { fetchAllProducts } from './features/products/productsSlice';
 
 function App() {
   const { cartItems } = useSelector((state) => state.cart);
@@ -67,6 +68,10 @@ function App() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
+
+  useEffect(() => {
+    dispatch(fetchAllProducts());
+  }, []);
 
   return (
     <BrowserRouter>

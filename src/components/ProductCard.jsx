@@ -108,7 +108,7 @@ const ProductCard = ({
                   color="blue"
                   variant="filled"
                   component={Link}
-                  to={`/products/${product.id}`}
+                  to={`/products/${product._id}`}
                   radius="50%"
                   size="lg"
                   className={classes.productBtn}
@@ -126,7 +126,7 @@ const ProductCard = ({
                   to="/cart"
                   onClick={() =>
                     dispatch(
-                      addToCart({ id: product.id, quantity: 1, ...product })
+                      addToCart({ id: product._id, quantity: 1, ...product })
                     )
                   }
                 >
@@ -141,7 +141,7 @@ const ProductCard = ({
                     size="lg"
                     className={classes.productBtn}
                     onClick={() =>
-                      dispatch(removeFromWishlist({ id: product.id }))
+                      dispatch(removeFromWishlist({ id: product._id }))
                     }
                   >
                     <IconTrash size={18} />
@@ -155,7 +155,7 @@ const ProductCard = ({
                     size="lg"
                     className={classes.productBtn}
                     onClick={() => {
-                      dispatch(addToWishlist({ id: product.id }));
+                      dispatch(addToWishlist({ id: product._id }));
                       toast.success(`Added to your wishlist`);
                     }}
                   >
@@ -169,8 +169,8 @@ const ProductCard = ({
 
         <InnerImageContainer height={height}>
           <Image
-            src={product.images[0]}
-            alt={product.title}
+            src={product.image}
+            alt={product.name}
             height={horizontal ? 200 : height}
             width={horizontal ? 300 : '100%'}
             fit="cover"
@@ -196,7 +196,7 @@ const ProductCard = ({
             transform="capitalize"
             color={'var(--prussian-blue-500)'}
           >
-            {product.title}
+            {product.name}
           </Text>
           {product.featured && !horizontal && (
             <Badge color="pink" variant="light">

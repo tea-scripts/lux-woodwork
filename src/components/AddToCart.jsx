@@ -18,7 +18,7 @@ const AddToCart = ({ product }) => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
   const [quantity] = useState(1);
-  const { id } = product;
+  const { _id } = product;
 
   /*
   Will add quantity buttons later
@@ -29,7 +29,7 @@ const AddToCart = ({ product }) => {
       <Button
         component={Link}
         to="/cart"
-        onClick={() => dispatch(addToCart({ id, quantity, ...product }))}
+        onClick={() => dispatch(addToCart({ _id, quantity, ...product }))}
       >
         Add to cart
       </Button>

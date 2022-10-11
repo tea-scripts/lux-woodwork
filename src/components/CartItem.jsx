@@ -120,7 +120,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const CartItem = ({ id, title, images, quantity, price }) => {
+const CartItem = ({ _id, name, image, quantity, price }) => {
   const dispatch = useDispatch();
   const { classes } = useStyles();
 
@@ -128,9 +128,9 @@ const CartItem = ({ id, title, images, quantity, price }) => {
     <div className={classes.wrapper}>
       {/* First Column */}
       <div className={classes.title}>
-        <img src={images[0]} alt={title} />
+        <img src={image} alt={name} />
         <div>
-          <h5 className={classes.name}>{title}</h5>
+          <h5 className={classes.name}>{name}</h5>
           <h5 className={classes.smallPrice}>{formatPrice(price)}</h5>
         </div>
       </div>
@@ -140,7 +140,7 @@ const CartItem = ({ id, title, images, quantity, price }) => {
 
       {/* Third Column */}
       <AmountButtons
-        id={id}
+        id={_id}
         quantity={quantity}
         increase={increase}
         decrease={decrease}
@@ -151,7 +151,7 @@ const CartItem = ({ id, title, images, quantity, price }) => {
 
       {/* Fifth Column */}
       <Button
-        onClick={() => dispatch(removeItem(id))}
+        onClick={() => dispatch(removeItem(_id))}
         className={classes.removeButton}
         icon={<IoTrashSharp />}
       >

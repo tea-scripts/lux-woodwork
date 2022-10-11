@@ -14,6 +14,7 @@ const useStyles = createStyles((theme) => ({
     transition: 'all 0.2s ease-in-out',
     height: '100% !important',
     alignSelf: 'stretch',
+    maxWidth: '300px',
 
     '&:hover': {
       boxShadow: theme.shadows.md,
@@ -29,22 +30,22 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const Product = ({ id, title, images, price }) => {
+const Product = ({ _id, name, image, price }) => {
   const { classes } = useStyles();
   const navigateToProduct = () => {
-    window.location.href = `/products/${id}`;
+    window.location.href = `/products/${_id}`;
   };
 
   return (
     <Box onClick={navigateToProduct} className={classes.product}>
       <Card shadow="sm" p="lg" radius="md" withBorder className={classes.card}>
         <Card.Section>
-          <Image src={images[0]} height={280} alt="Norway" />
+          <Image src={image} height={280} alt="Norway" />
         </Card.Section>
 
         <Group position="apart" mt="md" mb="xs">
           <Text weight={500} transform="capitalize">
-            {title}
+            {name}
           </Text>
 
           <Badge color="pink" variant="light" className={classes.price}>
