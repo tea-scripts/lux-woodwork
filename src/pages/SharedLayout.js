@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import {
   EmailVerificationModal,
+  Footer,
   ForgotPasswordModal,
   Navbar,
   Registration,
@@ -19,6 +20,7 @@ const SharedLayout = () => {
       <ForgotPasswordModal />
       <SidebarCart />
       <Outlet />
+      <Footer />
     </>
   );
 };

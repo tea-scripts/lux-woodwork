@@ -11,34 +11,34 @@ import {
   ActionIcon,
   Badge,
   createStyles,
-} from '@mantine/core';
-import { useDispatch, useSelector } from 'react-redux';
-import { IconEdit, IconTrash } from '@tabler/icons';
-import { useState } from 'react';
+} from "@mantine/core";
+import { useDispatch, useSelector } from "react-redux";
+import { IconEdit, IconTrash } from "@tabler/icons";
+import { useEffect, useState } from "react";
 import {
   createAddress,
   deleteAddress,
   fetchAllUserAddresses,
-} from '../features/address/addressSlice';
-import { useEffect } from 'react';
+} from "../features/address/addressSlice";
+import addressData from "../utils/addresses";
 
 const useStyles = createStyles((theme) => ({
   addressItem: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '1rem',
+    display: "flex",
+    flexDirection: "column",
+    padding: "1rem",
 
-    '@media (min-width: 1080px)': {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      width: '100%',
+    "@media (min-width: 1080px)": {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      width: "100%",
     },
   },
 
   btn: {
-    marginTop: '1rem',
+    marginTop: "1rem",
 
-    '@media (min-width: 1080px)': {
+    "@media (min-width: 1080px)": {
       marginTop: 0,
     },
   },
@@ -53,15 +53,67 @@ const UserAddress = () => {
   const [opened, setOpened] = useState(false);
   const [userAddress, setUserAddress] = useState({
     userId: user?._id,
-    name: `${user?.first_name || ''} ${user?.last_name || ''}`,
-    phone: user?.phone || '',
-    city: address?.city || '',
-    street: address?.street || '',
-    zip: address?.zip || '',
-    province: address?.province || '',
-    region: address?.region || '',
-    barangay: address?.barangay || '',
+    name: `${user?.first_name || ""} ${user?.last_name || ""}`,
+    phone: user?.phone || "",
+    city: address?.city || "",
+    street: address?.street || "",
+    zip: address?.zip || "",
+    province: address?.province || "",
+    region: address?.region || "",
+    barangay: address?.barangay || "",
   });
+
+  const [regionsList, setRegionsList] = useState([]);
+  const [provincesList, setProvincesList] = useState([]);
+  const [cityList, setCityList] = useState([]);
+  const [barangayList, setBarangayList] = useState([]);
+
+  console.log(userAddress);
+
+  useEffect(() => {
+    const regions = addressData.map(({ region_name }) => region_name);
+    setRegionsList(regions);
+  }, []);
+
+  useEffect(() => {
+    const provinces = addressData
+      .filter((region) => region.region_name === userAddress.region)
+      .flatMap((region) =>
+        region.province_list.map((province) => province.province_name)
+      );
+    setProvincesList(provinces);
+  }, [userAddress.region]);
+
+  useEffect(() => {
+    if (!userAddress.province) {
+      return;
+    }
+    const cities = addressData
+      .filter((region) => region.region_name === userAddress.region)
+      .flatMap((region) =>
+        region.province_list
+          .filter((province) => province.province_name === userAddress.province)
+          .flatMap((province) =>
+            province.city_list.map((city) => city.city_name)
+          )
+      );
+    setCityList(cities);
+  }, [userAddress.province, userAddress.region]);
+
+  useEffect(() => {
+    const barangays = addressData
+      .filter((region) => region.region_name === userAddress.region)
+      .flatMap((region) =>
+        region.province_list
+          .filter((province) => province.province_name === userAddress.province)
+          .flatMap((province) =>
+            province.city_list
+              .filter((city) => city.city_name === userAddress.city)
+              .flatMap((city) => city.barangay_list)
+          )
+      );
+    setBarangayList(barangays);
+  }, [userAddress]);
 
   const handleAddressChange = (e) => {
     setUserAddress({ ...userAddress, [e.target.name]: e.target.value });
@@ -72,20 +124,26 @@ const UserAddress = () => {
 
     dispatch(createAddress(userAddress));
     dispatch(fetchAllUserAddresses());
+
+    setOpened(false);
+    setRegionsList([]);
+    setProvincesList([]);
+    setCityList([]);
+    setBarangayList([]);
   };
 
   useEffect(() => {
     if (isLoading === false) {
       setUserAddress({
         userId: user?._id,
-        name: `${user?.first_name || ''} ${user?.last_name || ''}`,
-        phone: user?.phone || '',
-        city: '',
-        street: '',
-        zip: '',
-        province: '',
-        region: '',
-        barangay: '',
+        name: `${user?.first_name || ""} ${user?.last_name || ""}`,
+        phone: user?.phone || "",
+        city: "",
+        street: "",
+        zip: "",
+        province: "",
+        region: "",
+        barangay: "",
       });
       setOpened(false);
     }
@@ -103,13 +161,13 @@ const UserAddress = () => {
     <>
       <div
         style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '2rem',
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "2rem",
         }}
       >
-        <Text sx={{ color: '#C0C0C0', fontSize: '1.1rem' }} mb={10}>
+        <Text sx={{ color: "#C0C0C0", fontSize: "1.1rem" }} mb={10}>
           My Addresses
         </Text>
         <Modal
@@ -147,7 +205,7 @@ const UserAddress = () => {
                 <NativeSelect
                   value={userAddress.region}
                   onChange={handleAddressChange}
-                  data={[]}
+                  data={[...regionsList]}
                   placeholder="Select Region"
                   name="region"
                   label="Region"
@@ -157,40 +215,40 @@ const UserAddress = () => {
 
               <Grid.Col xs={12} sm={6}>
                 <NativeSelect
-                  data={[]}
+                  data={provincesList ? ["", ...provincesList] : []}
                   onChange={handleAddressChange}
                   placeholder="Select Province"
                   label="Province"
                   name="province"
                   value={userAddress.province}
                   size="sm"
-                  disabled
+                  disabled={!userAddress.region}
                 />
               </Grid.Col>
 
               <Grid.Col xs={12} sm={6}>
                 <NativeSelect
-                  data={[]}
+                  data={cityList ? ["", ...cityList] : []}
                   onChange={handleAddressChange}
                   placeholder="Select City"
                   name="city"
                   value={userAddress.city}
                   label="City"
                   size="sm"
-                  disabled
+                  disabled={!userAddress.province}
                 />
               </Grid.Col>
 
               <Grid.Col xs={12} sm={6}>
                 <NativeSelect
-                  data={[]}
+                  data={barangayList ? ["", ...barangayList] : []}
                   onChange={handleAddressChange}
                   placeholder="Select Barangay"
                   name="barangay"
                   value={userAddress.barangay}
                   label="Barangay"
                   size="sm"
-                  disabled
+                  disabled={!userAddress.city}
                 />
               </Grid.Col>
 
@@ -248,11 +306,11 @@ const UserAddress = () => {
                   <Group>
                     {userAddress.name} | (63+){userAddress.phone}
                   </Group>
-                  <Text sx={{ maxWidth: 400, color: 'var(--gray)' }}>
-                    {street}, {barangay}, {city},{' '}
+                  <Text sx={{ maxWidth: 400, color: "var(--gray)" }}>
+                    {street}, {barangay}, {city},{" "}
                   </Text>
                 </div>
-                <div style={{ display: 'flex' }}>
+                <div style={{ display: "flex" }}>
                   <Group mb={10} position="right"></Group>
                   <Group className={classes.btn}>
                     <ActionIcon color="orange">
