@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   Footer,
   Navbar,
@@ -27,9 +27,9 @@ import {
   AdminViewReviews,
   AdminProfile,
   AdminSupport,
-} from './components';
-import { calculateTotals } from './features/cart/cartSlice';
-import { fetchUsers } from './features/users/userSlice';
+} from "./components";
+import { calculateTotals } from "./features/cart/cartSlice";
+import { fetchUsers } from "./features/users/userSlice";
 
 import {
   Landing,
@@ -45,11 +45,11 @@ import {
   PasswordReset,
   PrivateRoute,
   Admin,
-} from './pages';
-import { Flip, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import User from './pages/User';
-import SharedLayout from './pages/SharedLayout';
+} from "./pages";
+import { Flip, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import User from "./pages/User";
+import SharedLayout from "./pages/SharedLayout";
 
 function App() {
   const { cartItems } = useSelector((state) => state.cart);
@@ -125,18 +125,17 @@ function App() {
             }
           >
             <Route index path="dashboard" element={<AdminDashboard />} />
-            <Route path="users/add" element={<AdminAddUsers />} />
-            <Route path="users/view" element={<AdminViewUsers />} />
+            <Route path="users-add" element={<AdminAddUsers />} />
+            <Route path="users-view" element={<AdminViewUsers />} />
             <Route path="orders/view" element={<AdminViewOrders />} />
-            <Route path="products/add" element={<AdminAddProducts />} />
-            <Route path="products/view" element={<AdminViewProducts />} />
+            <Route path="products-add" element={<AdminAddProducts />} />
+            <Route path="products-view" element={<AdminViewProducts />} />
             <Route path="reviews/view" element={<AdminViewReviews />} />
             <Route path="profile" element={<AdminProfile />} />
             <Route path="support" element={<AdminSupport />} />
           </Route>
         </Routes>
       </ScrollToTop>
-      <Footer />
       <ToastContainer position="top-center" transition={Flip} />
     </BrowserRouter>
   );

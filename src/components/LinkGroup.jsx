@@ -8,10 +8,7 @@ import {
   UnstyledButton,
   createStyles,
 } from "@mantine/core";
-import {
-  IconChevronLeft,
-  IconChevronRight,
-} from "@tabler/icons";
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons";
 import { Link } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
@@ -44,9 +41,7 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === "dark"
         ? theme.colors.dark[0]
         : theme.colors.gray[7],
-    borderLeft: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderLeft: `1px solid hsla(205, 100%, 13%, .3)`,
 
     "&:hover": {
       backgroundColor:
@@ -60,15 +55,13 @@ const useStyles = createStyles((theme) => ({
   chevron: {
     transition: "transform 200ms ease",
   },
+
+  themeIcon: {
+    color: "hsla(205, 100%, 13%, 1)",
+  },
 }));
 
- function LinksGroup({
-  icon: Icon,
-  label,
-  initiallyOpened,
-  links,
-  link,
-}) {
+function LinksGroup({ icon: Icon, label, initiallyOpened, links, link }) {
   const { classes, theme } = useStyles();
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
@@ -96,7 +89,7 @@ const useStyles = createStyles((theme) => ({
       >
         <Group position="apart" spacing={0}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <ThemeIcon variant="light" size={30}>
+            <ThemeIcon className={classes.themeIcon} variant="subtle" size={30}>
               <Icon size={18} />
             </ThemeIcon>
             <Box ml="md">{label}</Box>
@@ -120,4 +113,4 @@ const useStyles = createStyles((theme) => ({
   );
 }
 
-export  default LinksGroup;
+export default LinksGroup;
