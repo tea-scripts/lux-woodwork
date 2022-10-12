@@ -1,25 +1,33 @@
-import { Button, Modal } from '@mantine/core';
-import { useDispatch, useSelector } from 'react-redux';
+import {
+  Button,
+  Group,
+  Image,
+  Modal,
+  SimpleGrid,
+  Text,
+  Title,
+} from "@mantine/core";
+import { useDispatch, useSelector } from "react-redux";
 import {
   toggleProductView,
   setProductValues,
-} from '../features/products/productsSlice';
-import { createStyles } from '@mantine/core';
-import Loading from './Loading';
-import { formatPrice } from '../utils/helpers';
+} from "../features/products/productsSlice";
+import { createStyles } from "@mantine/core";
+import Loading from "./Loading";
+import { formatPrice } from "../utils/helpers";
 
 const useStyles = createStyles((theme) => ({
   image: {
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
 
-    '& img': {
-      width: '100%',
-      height: '100%',
-      objectFit: 'cover',
+    "& img": {
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
       borderRadius: theme.radius.md,
     },
   },
@@ -30,9 +38,19 @@ const useStyles = createStyles((theme) => ({
     },
 
     p: {
-      textTransform: 'capitalize',
+      textTransform: "capitalize",
       marginBottom: theme.spacing.xs,
     },
+  },
+
+  button: {
+    "@media (max-width: 600px)": {
+      width: "100%",
+    },
+  },
+
+  text: {
+    color: "var(--prussian-blue-500)",
   },
 }));
 
@@ -61,61 +79,93 @@ const ViewProductModal = () => {
         dispatch(setProductValues({}));
       }}
       centered
-      size="lg"
-      title={'Product Details'}
+      size={1200}
+      title={"Product Details"}
     >
       {isLoading ? (
         <Loading />
       ) : (
-        <div className={classes.wrapper}>
-          <div className={classes.image}>
-            <img src={image} alt={name} />
+        <SimpleGrid
+          breakpoints={[
+            { minWidth: "xs", cols: 1 },
+            { minWidth: "sm", cols: 2 },
+          ]}
+        >
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <Image radius="md" src={image} alt="Random unsplash image" />
           </div>
-          <div>
-            <h3>{name}</h3>
-            <p>{description}</p>
-            <p>
-              <strong>Price: </strong>
-              {formatPrice(price)}
-            </p>
-
-            <p>
-              <strong>Inventory: </strong>
-              {inventory}
-            </p>
-
-            <p>
-              <strong>Category: </strong>
-              {category}
-            </p>
-
-            <p>
-              <strong>Featured: </strong>
-              {featured ? 'Yes' : 'No'}
-            </p>
-
-            <p>
-              <strong>Free Shipping: </strong>
-              {freeShipping ? 'Yes' : 'No'}
-            </p>
-
-            <p>
-              <strong>Published? </strong>
-              {displayProduct ? 'Yes' : 'No'}
-            </p>
+          <div style={{ paddingTop: "1rem", paddingBottom: "1rem" }}>
+            <Title className={classes.text} order={3} mb={15}>
+              {name}
+            </Title>
+            <Text className={classes.text} mb={15}>
+              {description}
+            </Text>
+            <SimpleGrid cols={2}>
+              <div>
+                <Text className={classes.text} weight={500} mb={5}>
+                  Price
+                </Text>
+                <Text className={classes.text} weight={500} mb={5}>
+                  Inventory
+                </Text>
+                <Text className={classes.text} weight={500} mb={5}>
+                  Category
+                </Text>
+                <Text className={classes.text} weight={500} mb={5}>
+                  Featured
+                </Text>
+                <Text className={classes.text} weight={500} mb={5}>
+                  Free Shipping
+                </Text>
+                <Text className={classes.text} weight={500} mb={5}>
+                  Published
+                </Text>
+              </div>
+              <div>
+                <Text className={classes.text} mb={5}>
+                  {formatPrice(price)}
+                </Text>
+                <Text className={classes.text} mb={5}>
+                  {inventory}
+                </Text>
+                <Text className={classes.text} mb={5}>
+                  {category}
+                </Text>
+                <Text className={classes.text} mb={5}>
+                  {featured ? "Yes" : "No"}
+                </Text>
+                <Text className={classes.text} mb={5}>
+                  {freeShipping ? "Yes" : "No"}
+                </Text>
+                <Text className={classes.text} mb={5}>
+                  {" "}
+                  {displayProduct ? "Yes" : "No"}
+                </Text>
+              </div>
+            </SimpleGrid>
           </div>
-        </div>
+        </SimpleGrid>
       )}
 
-      <Button
-        color="red"
-        onClick={() => {
-          dispatch(toggleProductView());
-          dispatch(setProductValues({}));
-        }}
-      >
-        Close
-      </Button>
+      <Group position="right">
+        <Button
+          color="red"
+          onClick={() => {
+            dispatch(toggleProductView());
+            dispatch(setProductValues({}));
+          }}
+          className={classes.button}
+          mt={15}
+        >
+          Close
+        </Button>
+      </Group>
     </Modal>
   );
 };
