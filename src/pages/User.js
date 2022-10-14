@@ -9,28 +9,28 @@ import {
   Text,
   TextInput,
   Title,
-} from '@mantine/core';
-import { useState } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
-import UserSidebar from '../components/UserSidebar';
+} from "@mantine/core";
+import { useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
+import UserSidebar from "../components/UserSidebar";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    minHeight: 'calc(100vh - (60px + 70px))',
-    display: 'flex',
-    flexDirection: 'column',
-    width: '90vw',
-    margin: ' 0 auto',
+    minHeight: "calc(100vh - (60px + 70px))",
+    display: "flex",
+    flexDirection: "column",
+    width: "90vw",
+    margin: " 0 auto",
     maxWidth: 1200,
-    padding: '3rem 0',
+    padding: "3rem 0",
 
-    '@media (min-width: 481px)': {
-      flexDirection: 'row',
+    "@media (min-width: 481px)": {
+      flexDirection: "row",
     },
   },
 
   container: {
-    width: '100%',
+    width: "100%",
     margin: 0,
     padding: 0,
   },
@@ -46,7 +46,7 @@ const User = () => {
 
       <Container className={classes.container} fluid>
         <Group mb={20} noWrap>
-          <Title order={2} sx={{ color: 'var(--prussian-blue-500)' }}>
+          <Title order={2} sx={{ color: "var(--prussian-blue-500)" }}>
             My Account
           </Title>
         </Group>
@@ -54,7 +54,7 @@ const User = () => {
           shadow="xs"
           p="xl"
           withBorder
-          sx={{ backgroundColor: '#fff', minHeight: 350 }}
+          sx={{ backgroundColor: "#fff", minHeight: 420 }}
         >
           <Outlet />
         </Paper>

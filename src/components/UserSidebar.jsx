@@ -5,8 +5,8 @@ import {
   Stack,
   Text,
   ThemeIcon,
-} from '@mantine/core';
-import { useLocalStorage } from '@mantine/hooks';
+} from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import {
   IconUser,
   IconShoppingCart,
@@ -15,89 +15,89 @@ import {
   IconNotes,
   IconHeart,
   IconRotateRectangle,
-} from '@tabler/icons';
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+} from "@tabler/icons";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    minHeight: 'calc(100vh - (60px + 140px))',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1rem',
-    width: '90vw',
-    margin: ' 0 auto',
+    minHeight: "calc(100vh - (60px + 140px))",
+    display: "flex",
+    flexDirection: "column",
+    gap: "1rem",
+    width: "90vw",
+    margin: " 0 auto",
     maxWidth: 1200,
-    padding: '3rem 0',
+    padding: "3rem 0",
 
-    '@media (min-width: 481px)': {
-      flexDirection: 'row',
-      columnGap: '3rem',
+    "@media (min-width: 481px)": {
+      flexDirection: "row",
+      columnGap: "3rem",
     },
   },
 
   title: {
-    color: 'var(--prussian-blue-500)',
-    fontSize: '1rem',
-    marginBottom: '1rem',
+    color: "var(--prussian-blue-500)",
+    fontSize: "1rem",
+    marginBottom: "1rem",
   },
 
   filterBar: {
-    display: 'none',
-    marginTop: '3.5rem',
-    marginBottom: '3rem',
+    display: "none",
+    marginBottom: "3rem",
 
-    '@media (min-width: 1024px)': {
-      minWidth: '15rem',
-      maxWidth: '15rem',
+    "@media (min-width: 1024px)": {
+      minWidth: "15rem",
+      maxWidth: "15rem",
     },
 
-    '@media (min-width: 481px)': {
-      display: 'flex',
-      minWidth: '12rem',
-      maxWidth: '12rem',
+    "@media (min-width: 481px)": {
+      display: "flex",
+      minWidth: "15rem",
+      maxWidth: "15rem",
+      marginTop: "3.5rem",
     },
   },
 
-  openFilterBar: {
-    display: 'flex',
+  openSidebar: {
+    display: "flex",
   },
 
-  openFilterButton: {
-    '@media (min-width: 481px)': {
-      display: 'none',
+  btn: {
+    "@media (min-width: 481px)": {
+      display: "none",
     },
   },
 
   link: {
     fontWeight: 500,
-    padding: '.3rem .3rem .3rem 1rem',
-    borderRadius: '30px',
-    color: 'inherit',
+    padding: ".3rem .3rem .3rem 1rem",
+    borderRadius: "30px",
+    color: "inherit",
 
-    '@media (min-width: 481px)': {
-      borderRadius: '30px 0 0 30px',
+    "@media (min-width: 481px)": {
+      borderRadius: "30px 0 0 30px",
     },
   },
 }));
 
 const mockdata = [
-  { label: 'Profile', icon: <IconUser />, link: '/user' },
-  { label: 'Addresses', icon: <IconAddressBook />, link: '/user/address' },
-  { label: 'Purchases', icon: <IconShoppingCart />, link: '/user/purchases' },
-  { label: 'Orders', icon: <IconTruck />, link: '/user/orders' },
-  { label: 'Reviews', icon: <IconNotes />, link: '/user/reviews' },
-  { label: 'Wishlist', icon: <IconHeart />, link: '/user/wishlist' },
+  { label: "Profile", icon: <IconUser />, link: "/user" },
+  { label: "Addresses", icon: <IconAddressBook />, link: "/user/address" },
+  { label: "Purchases", icon: <IconShoppingCart />, link: "/user/purchases" },
+  { label: "Orders", icon: <IconTruck />, link: "/user/orders" },
+  { label: "Reviews", icon: <IconNotes />, link: "/user/reviews" },
+  { label: "Wishlist", icon: <IconHeart />, link: "/user/wishlist" },
   {
-    label: 'Update Password',
+    label: "Update Password",
     icon: <IconRotateRectangle />,
-    link: '/user/update-password',
+    link: "/user/update-password",
   },
 ];
 
 const UserSidebar = ({ location }) => {
   const { classes } = useStyles();
-  const [openFilter, setOpenFilter] = useState(false);
+  const [opened, setOpened] = useState(false);
 
   const links = mockdata.map((item, index) => {
     return (
@@ -107,12 +107,12 @@ const UserSidebar = ({ location }) => {
         component={Link}
         to={item.link}
         sx={{
-          background: location === item.link ? '#228be6' : '',
-          color: location === item.link ? '#fff' : 'var(--prussian-blue-500)',
-          cursor: 'pointer',
+          background: location === item.link ? "#228be6" : "",
+          color: location === item.link ? "#fff" : "var(--prussian-blue-500)",
+          cursor: "pointer",
         }}
       >
-        <ThemeIcon sx={{ border: 'none', color: 'inherit' }} variant="outline">
+        <ThemeIcon sx={{ border: "none", color: "inherit" }} variant="outline">
           {item.icon}
         </ThemeIcon>
         <Text className={classes.link} to={item.link}>
@@ -125,16 +125,14 @@ const UserSidebar = ({ location }) => {
   return (
     <>
       <Button
-        className={classes.openFilterButton}
-        onClick={() => setOpenFilter((prevState) => !prevState)}
-        sx={{ marginBottom: '1rem' }}
+        className={classes.btn}
+        onClick={() => setOpened((prevState) => !prevState)}
+        sx={{ marginBottom: "1rem" }}
       >
         Open
       </Button>
       <Stack
-        className={`${classes.filterBar} ${
-          openFilter ? classes.openFilterBar : ''
-        }`}
+        className={`${classes.filterBar} ${opened ? classes.openSidebar : ""}`}
       >
         {links}
       </Stack>
