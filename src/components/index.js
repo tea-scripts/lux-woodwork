@@ -1,42 +1,44 @@
-import ContactForm from './ContactForm';
-import ContactInformation from './ContactInformation';
-import FeaturedProducts from './FeaturedProducts';
-import Features from './Features';
-import Footer from './Footer';
-import Hero from './Hero';
-import Navbar from './Navbar';
-import Sidebar from './Sidebar';
-import SidebarCart from './Cart';
-import NewsletterSection from './NewsletterSection';
-import CustomerReview from './CustomerReview';
-import Product from './Product';
-import ProductCard from './ProductCard';
-import Products from './Products';
-import ProductsListSort from './ProductsListSort';
-import ProductsListFilter from './ProductsListFilter';
-import UserSidebar from './UserSidebar';
-import UserAddress from './UserAddress';
-import UserProfile from './UserProfile';
-import UserPurchases from './UserPurchases';
-import UserReviews from './UserReviews';
-import UserTracking from './UserTracking';
-import UserWishlist from './UserWishlist';
-import ScrollToTop from './ScrollToTop';
-import Registration from './Registration';
-import EmailVerificationModal from './EmailVerificationModal';
-import ForgotPasswordModal from './ForgotPasswordModal';
-import UpdatePassword from './UpdatePassword';
-import LinksGroup from './LinkGroup';
-import AdminDashboard from './AdminDashboard';
-import AdminAddUsers from './AdminAddUsers';
-import AdminViewUsers from './AdminViewUsers';
-import AdminViewOrders from './AdminViewOrders';
-import AdminAddProducts from './AdminAddProducts';
-import AdminViewProducts from './AdminViewProducts';
-import AdminViewReviews from './AdminViewReviews';
-import AdminSupport from './AdminSupport';
-import AdminProfile from './AdminProfile';
-import StripeCheckout from './StripeCheckout';
+import ContactForm from "./ContactForm";
+import ContactInformation from "./ContactInformation";
+import FeaturedProducts from "./FeaturedProducts";
+import Features from "./Features";
+import Footer from "./Footer";
+import Hero from "./Hero";
+import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
+import SidebarCart from "./Cart";
+import NewsletterSection from "./NewsletterSection";
+import CustomerReview from "./CustomerReview";
+import Product from "./Product";
+import ProductCard from "./ProductCard";
+import Products from "./Products";
+import ProductsListSort from "./ProductsListSort";
+import ProductsListFilter from "./ProductsListFilter";
+import UserSidebar from "./UserSidebar";
+import UserAddress from "./UserAddress";
+import UserProfile from "./UserProfile";
+import UserReviews from "./UserReviews";
+import UserTracking from "./UserTracking";
+import UserWishlist from "./UserWishlist";
+import ScrollToTop from "./ScrollToTop";
+import Registration from "./Registration";
+import EmailVerificationModal from "./EmailVerificationModal";
+import ForgotPasswordModal from "./ForgotPasswordModal";
+import UpdatePassword from "./UpdatePassword";
+import LinksGroup from "./LinkGroup";
+import AdminDashboard from "./AdminDashboard";
+import AdminAddUsers from "./AdminAddUsers";
+import AdminViewUsers from "./AdminViewUsers";
+import AdminViewOrders from "./AdminViewOrders";
+import AdminAddProducts from "./AdminAddProducts";
+import AdminViewProducts from "./AdminViewProducts";
+import AdminViewReviews from "./AdminViewReviews";
+import AdminSupport from "./AdminSupport";
+import AdminProfile from "./AdminProfile";
+import StripeCheckout from "./StripeCheckout";
+import AddAddressModal from "./AddAddressModal";
+import SingleAddress from "./SingleAddress";
+import EditAddressModal from "./EditAddressModal";
 
 export {
   Navbar,
@@ -57,7 +59,6 @@ export {
   UserSidebar,
   UserProfile,
   UserAddress,
-  UserPurchases,
   UserTracking,
   UserWishlist,
   UserReviews,
@@ -78,4 +79,7 @@ export {
   AdminViewReviews,
   UpdatePassword,
   StripeCheckout,
+  AddAddressModal,
+  SingleAddress,
+  EditAddressModal,
 };
