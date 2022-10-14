@@ -9,18 +9,18 @@ import {
   SimpleGrid,
   Textarea,
   TextInput,
-} from "@mantine/core";
-import { useDispatch, useSelector } from "react-redux";
+} from '@mantine/core';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   setProductValues,
   toggleProductEdit,
   uploadProductImage,
   updateProduct,
   handleChange,
-} from "../features/products/productsSlice";
-import { toast } from "react-toastify";
-import { IconUpload } from "@tabler/icons";
-import { useRef, useState } from "react";
+} from '../features/products/productsSlice';
+import { toast } from 'react-toastify';
+import { IconUpload } from '@tabler/icons';
+import { useRef, useState } from 'react';
 
 const EditProductModal = () => {
   const {
@@ -45,13 +45,13 @@ const EditProductModal = () => {
     let name = e.target.name;
     let value = e.target.value;
 
-    if (name === "featured") {
+    if (name === 'featured') {
       value = e.target.checked;
     }
-    if (name === "freeShipping") {
+    if (name === 'freeShipping') {
       value = e.target.checked;
     }
-    if (name === "displayProduct") {
+    if (name === 'displayProduct') {
       value = e.target.checked;
     }
 
@@ -62,7 +62,7 @@ const EditProductModal = () => {
     const image = e.target.files[0];
     setPrevFile(URL.createObjectURL(e.target.files[0]));
     const formData = new FormData();
-    formData.append("image", image);
+    formData.append('image', image);
 
     if (image) {
       dispatch(uploadProductImage(formData));
@@ -73,7 +73,7 @@ const EditProductModal = () => {
     e.preventDefault();
 
     if (!name || !price || !inventory || !category || !description) {
-      toast.warning("Please provide all credentials");
+      toast.warning('Please provide all credentials');
       return;
     }
 
@@ -101,9 +101,9 @@ const EditProductModal = () => {
     <div
       style={{
         width: 240,
-        marginLeft: "auto",
-        marginRight: "auto",
-        marginTop: "2rem",
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: '2rem',
       }}
     >
       {prevFile && <Image radius="md" src={prevFile} />}
@@ -149,7 +149,7 @@ const EditProductModal = () => {
           <TextInput
             type="number"
             placeholder="Enter product price"
-            label="Price"
+            label="Price (in cents)"
             size="md"
             name="price"
             mb={16}
@@ -160,14 +160,14 @@ const EditProductModal = () => {
 
           <Select
             data={[
-              { label: "Office", value: "office" },
-              { label: "Bedroom", value: "bedroom" },
-              { label: "Kitchen", value: "kitchen" },
-              { label: "Dining", value: "dining" },
-              { label: "Living Room", value: "living room" },
-              { label: "Kids", value: "kids" },
+              { label: 'Office', value: 'office' },
+              { label: 'Bedroom', value: 'bedroom' },
+              { label: 'Kitchen', value: 'kitchen' },
+              { label: 'Dining', value: 'dining' },
+              { label: 'Living Room', value: 'living room' },
+              { label: 'Kids', value: 'kids' },
             ]}
-            sx={{ textTransform: "capitalize" }}
+            sx={{ textTransform: 'capitalize' }}
             placeholder="Select product category"
             label="Category"
             size="md"
@@ -177,11 +177,11 @@ const EditProductModal = () => {
             withAsterisk
             value={category}
             onChange={(value) =>
-              dispatch(handleChange({ name: "category", value }))
+              dispatch(handleChange({ name: 'category', value }))
             }
           />
 
-          <SimpleGrid breakpoints={[{ minWidth: "xs", cols: 1 }]}>
+          <SimpleGrid breakpoints={[{ minWidth: 'xs', cols: 1 }]}>
             <Checkbox
               label="Featured"
               size="md"
@@ -236,7 +236,7 @@ const EditProductModal = () => {
               type="file"
               name="image"
               style={{
-                display: "none",
+                display: 'none',
               }}
               height={15}
               onChange={handleFileChange}

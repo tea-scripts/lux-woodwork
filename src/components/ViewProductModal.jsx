@@ -6,28 +6,28 @@ import {
   SimpleGrid,
   Text,
   Title,
-} from "@mantine/core";
-import { useDispatch, useSelector } from "react-redux";
+} from '@mantine/core';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   toggleProductView,
   setProductValues,
-} from "../features/products/productsSlice";
-import { createStyles } from "@mantine/core";
-import Loading from "./Loading";
-import { formatPrice } from "../utils/helpers";
+} from '../features/products/productsSlice';
+import { createStyles } from '@mantine/core';
+import Loading from './Loading';
+import { formatPrice } from '../utils/helpers';
 
 const useStyles = createStyles((theme) => ({
   image: {
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
 
-    "& img": {
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
+    '& img': {
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
       borderRadius: theme.radius.md,
     },
   },
@@ -38,19 +38,19 @@ const useStyles = createStyles((theme) => ({
     },
 
     p: {
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
       marginBottom: theme.spacing.xs,
     },
   },
 
   button: {
-    "@media (max-width: 600px)": {
-      width: "100%",
+    '@media (max-width: 600px)': {
+      width: '100%',
     },
   },
 
   text: {
-    color: "var(--prussian-blue-500)",
+    color: 'var(--prussian-blue-500)',
   },
 }));
 
@@ -80,26 +80,26 @@ const ViewProductModal = () => {
       }}
       centered
       size={1200}
-      title={"Product Details"}
+      title={'Product Details'}
     >
       {isLoading ? (
         <Loading />
       ) : (
         <SimpleGrid
           breakpoints={[
-            { minWidth: "xs", cols: 1 },
-            { minWidth: "sm", cols: 2 },
+            { minWidth: 'xs', cols: 1 },
+            { minWidth: 'sm', cols: 2 },
           ]}
         >
           <div
             style={{
-              width: "100%",
-              height: "100%",
+              width: '100%',
+              height: '100%',
             }}
           >
             <Image radius="md" src={image} alt="Random unsplash image" />
           </div>
-          <div style={{ paddingTop: "1rem", paddingBottom: "1rem" }}>
+          <div style={{ paddingBottom: '1rem' }}>
             <Title className={classes.text} order={3} mb={15}>
               {name}
             </Title>
@@ -138,14 +138,14 @@ const ViewProductModal = () => {
                   {category}
                 </Text>
                 <Text className={classes.text} mb={5}>
-                  {featured ? "Yes" : "No"}
+                  {featured ? 'Yes' : 'No'}
                 </Text>
                 <Text className={classes.text} mb={5}>
-                  {freeShipping ? "Yes" : "No"}
+                  {freeShipping ? 'Yes' : 'No'}
                 </Text>
                 <Text className={classes.text} mb={5}>
-                  {" "}
-                  {displayProduct ? "Yes" : "No"}
+                  {' '}
+                  {displayProduct ? 'Yes' : 'No'}
                 </Text>
               </div>
             </SimpleGrid>

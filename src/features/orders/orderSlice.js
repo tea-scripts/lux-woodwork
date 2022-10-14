@@ -1,0 +1,120 @@
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
+import {
+  deleteOrderThunk,
+  fetchAllOrdersThunk,
+  fetchOrderThunk,
+  fetchUserOrdersThunk,
+  updateOrderThunk,
+} from './ordersThunk';
+
+const initialState = {
+  orders: [],
+  userOrders: [],
+  order: {},
+  isLoading: false,
+};
+
+export const fetchAllOrders = createAsyncThunk(
+  'orders/fetchAllOrders',
+  async (_, thunkAPI) => {
+    return fetchAllOrdersThunk(`/orders`, thunkAPI);
+  }
+);
+
+export const fetchOrder = createAsyncThunk(
+  'orders/fetchOrder',
+  async (orderId, thunkAPI) => {
+    return fetchOrderThunk(`/orders/${orderId}`, thunkAPI);
+  }
+);
+
+export const updateOrder = createAsyncThunk(
+  'orders/updateOrder',
+  async ({ orderId, paymentIntentId }, thunkAPI) => {
+    return updateOrderThunk(
+      `/orders/${orderId}`,
+      { paymentIntentId },
+      thunkAPI
+    );
+  }
+);
+
+export const fetchUserOrders = createAsyncThunk(
+  'orders/fetchUserOrders',
+  async (_, thunkAPI) => {
+    return fetchUserOrdersThunk(`/orders/show-my-orders`, thunkAPI);
+  }
+);
+
+export const deleteOrder = createAsyncThunk(
+  'orders/deleteOrder',
+  async (orderId, thunkAPI) => {
+    return deleteOrderThunk(`/orders/${orderId}`, thunkAPI);
+  }
+);
+
+const orderSlice = createSlice({
+  name: 'orders',
+  initialState,
+  reducers: {},
+  extraReducers: {
+    [fetchAllOrders.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [fetchAllOrders.fulfilled]: (state, action) => {
+      state.orders = action.payload.orders;
+      state.isLoading = false;
+    },
+    [fetchAllOrders.rejected]: (state, action) => {
+      state.isLoading = false;
+      toast.error(action.payload.msg);
+    },
+    [fetchUserOrders.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [fetchUserOrders.fulfilled]: (state, action) => {
+      state.userOrders = action.payload.orders;
+      state.isLoading = false;
+    },
+    [fetchUserOrders.rejected]: (state, action) => {
+      state.isLoading = false;
+      toast.error(action.payload.msg);
+    },
+    [fetchOrder.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [fetchOrder.fulfilled]: (state, action) => {
+      state.order = action.payload.order;
+      state.isLoading = false;
+    },
+    [fetchOrder.rejected]: (state, action) => {
+      state.isLoading = false;
+      toast.error(action.payload.msg);
+    },
+    [deleteOrder.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [deleteOrder.fulfilled]: (state) => {
+      state.isLoading = false;
+      toast.success('Order deleted successfully');
+    },
+    [deleteOrder.rejected]: (state, action) => {
+      state.isLoading = false;
+      toast.error(action.payload.msg);
+    },
+    [updateOrder.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [updateOrder.fulfilled]: (state) => {
+      state.isLoading = false;
+      toast.success('Order updated successfully');
+    },
+    [updateOrder.rejected]: (state, action) => {
+      state.isLoading = false;
+      toast.error(action.payload.msg);
+    },
+  },
+});
+
+export default orderSlice.reducer;

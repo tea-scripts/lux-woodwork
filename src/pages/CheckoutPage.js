@@ -69,9 +69,7 @@ const CheckoutPage = () => {
           </SimpleGrid>
         </Container>
       ) : (
-        <Container size={1200}>
-          <StripeCheckout />
-        </Container>
+        <StripeCheckout />
       )}
     </div>
   );

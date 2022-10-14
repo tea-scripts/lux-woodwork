@@ -5,28 +5,29 @@ import {
   SimpleGrid,
   Text,
   Title,
-} from "@mantine/core";
-import { ContactForm, ContactInformation } from "../components";
+} from '@mantine/core';
+import { ContactForm, ContactInformation } from '../components';
 
 const useStyles = createStyles((theme) => ({
   container: {
     marginLeft: 0,
     marginRight: 0,
-    marginBottom: "5rem",
+    marginBottom: '5rem',
+    minHeight: 'calc(100vh - (60px + 230px))',
   },
 
   image_container: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundImage:
-      "url(https://res.cloudinary.com/dtyzbmtlz/image/upload/v1664125417/contact-image_msa9wc.jpg)",
-    backgroundRepeat: "no-repeat",
-    backgroundAttachment: "fixed",
-    backgroundPositionX: "center",
-    backgroundPositionY: "top",
-    backgroundSize: "cover",
+      'url(https://res.cloudinary.com/dtyzbmtlz/image/upload/v1664125417/contact-image_msa9wc.jpg)',
+    backgroundRepeat: 'no-repeat',
+    backgroundAttachment: 'fixed',
+    backgroundPositionX: 'center',
+    backgroundPositionY: 'top',
+    backgroundSize: 'cover',
     height: 400,
     marginBottom: 96,
   },
@@ -34,15 +35,15 @@ const useStyles = createStyles((theme) => ({
   title: {
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     fontSize: 48,
-    color: "var(--white)",
+    color: 'var(--white)',
     marginBottom: 10,
     zIndex: 2,
   },
 
   description: {
-    textAlign: "center",
+    textAlign: 'center',
     maxWidth: 640,
-    color: "#fff",
+    color: '#fff',
     opacity: 0.8,
     fontWeight: 500,
     zIndex: 2,
@@ -55,7 +56,7 @@ const Contact = () => {
   return (
     <section className={classes.container}>
       <Container
-        style={{ maxWidth: "100%" }}
+        style={{ maxWidth: '100%' }}
         className={classes.image_container}
       >
         <Overlay opacity={0.5} color="#000" zIndex={1} sx={{ height: 460 }} />

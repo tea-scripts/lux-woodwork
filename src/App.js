@@ -52,6 +52,7 @@ import User from './pages/User';
 import SharedLayout from './pages/SharedLayout';
 import { fetchAllProducts } from './features/products/productsSlice';
 import { fetchAllUserAddresses } from './features/address/addressSlice';
+import { fetchAllOrders } from './features/orders/orderSlice';
 
 function App() {
   const { cartItems } = useSelector((state) => state.cart);
@@ -66,13 +67,16 @@ function App() {
   useEffect(() => {
     if (user && user.isAdmin) {
       dispatch(fetchUsers());
+      dispatch(fetchAllOrders());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   useEffect(() => {
     dispatch(fetchAllProducts());
-    dispatch(fetchAllUserAddresses());
+    if (user) {
+      dispatch(fetchAllUserAddresses());
+    }
   }, []);
 
   return (
