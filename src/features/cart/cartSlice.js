@@ -7,7 +7,8 @@ const initialState = {
   total_items: 0,
   total_amount: 0,
   total_quantity: 0,
-  shipping_fee: 5.34,
+  shipping_fee: 7490,
+  tax: 100,
   isCartOpen: false,
 };
 

@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {
   Footer,
   Navbar,
@@ -27,9 +27,9 @@ import {
   AdminViewReviews,
   AdminProfile,
   AdminSupport,
-} from "./components";
-import { calculateTotals } from "./features/cart/cartSlice";
-import { fetchUsers } from "./features/users/userSlice";
+} from './components';
+import { calculateTotals } from './features/cart/cartSlice';
+import { fetchUsers } from './features/users/userSlice';
 
 import {
   Landing,
@@ -45,12 +45,13 @@ import {
   PasswordReset,
   PrivateRoute,
   Admin,
-} from "./pages";
-import { Flip, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import User from "./pages/User";
-import SharedLayout from "./pages/SharedLayout";
-import { fetchAllProducts } from "./features/products/productsSlice";
+} from './pages';
+import { Flip, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import User from './pages/User';
+import SharedLayout from './pages/SharedLayout';
+import { fetchAllProducts } from './features/products/productsSlice';
+import { fetchAllUserAddresses } from './features/address/addressSlice';
 
 function App() {
   const { cartItems } = useSelector((state) => state.cart);
@@ -71,6 +72,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchAllProducts());
+    dispatch(fetchAllUserAddresses());
   }, []);
 
   return (

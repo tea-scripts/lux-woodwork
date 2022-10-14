@@ -1,8 +1,8 @@
 import { Button, createStyles, Divider, Card } from '@mantine/core';
-import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { formatPrice } from '../utils/helpers';
+import { toggleSignInModal } from '../features/users/userSlice';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -53,7 +53,8 @@ const useStyles = createStyles((theme) => ({
 
 const CartTotals = () => {
   const { classes } = useStyles();
-  const { isAuthenticated, loginWithPopup } = useAuth0();
+  const { user } = useSelector((state) => state.users);
+  const dispatch = useDispatch();
   const { shipping_fee, total_amount } = useSelector((state) => state.cart);
 
   return (
@@ -75,7 +76,7 @@ const CartTotals = () => {
           </article>
         </Card>
 
-        {isAuthenticated ? (
+        {user.isVerified ? (
           <Button
             component={Link}
             to="/checkout"
@@ -84,7 +85,7 @@ const CartTotals = () => {
             proceed to checkout
           </Button>
         ) : (
-          <Button onClick={() => loginWithPopup()}>Sign In</Button>
+          <Button onClick={() => dispatch(toggleSignInModal())}>Sign In</Button>
         )}
       </div>
     </div>

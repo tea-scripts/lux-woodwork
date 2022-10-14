@@ -11,7 +11,7 @@ const initialState = {
   isLoading: false,
   userAddresses: [],
   addresses: [],
-  address: {},
+  defaultAddress: {},
 };
 
 export const fetchAllAddresses = createAsyncThunk(
@@ -92,6 +92,9 @@ const addressSlice = createSlice({
     },
     [fetchAllUserAddresses.fulfilled]: (state, action) => {
       state.isLoading = false;
+      state.defaultAddress = action.payload.userAddresses.find(
+        (address) => address.defaultAddress
+      );
       state.userAddresses = action.payload.userAddresses;
     },
     [fetchAllUserAddresses.rejected]: (state, action) => {

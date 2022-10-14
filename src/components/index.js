@@ -36,6 +36,7 @@ import AdminViewProducts from './AdminViewProducts';
 import AdminViewReviews from './AdminViewReviews';
 import AdminSupport from './AdminSupport';
 import AdminProfile from './AdminProfile';
+import StripeCheckout from './StripeCheckout';
 
 export {
   Navbar,
@@ -76,4 +77,5 @@ export {
   AdminSupport,
   AdminViewReviews,
   UpdatePassword,
+  StripeCheckout,
 };

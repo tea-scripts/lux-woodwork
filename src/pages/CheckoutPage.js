@@ -1,13 +1,8 @@
-import {
-  Button,
-  Container,
-  createStyles,
-  Notification,
-  SimpleGrid,
-} from '@mantine/core';
+import { Button, Container, createStyles, SimpleGrid } from '@mantine/core';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import emptyCartImage from '../assets/empty-cart-alternate.svg';
+import { StripeCheckout } from '../components';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -75,15 +70,7 @@ const CheckoutPage = () => {
         </Container>
       ) : (
         <Container size={1200}>
-          <Notification
-            loading
-            title="Payment Gateway Coming Soon"
-            disallowClose
-          >
-            Please wait until we integrate a payment gateway to process your
-            orders, you cannot close this notification yet as it is still
-            loading 😁
-          </Notification>
+          <StripeCheckout />
         </Container>
       )}
     </div>
