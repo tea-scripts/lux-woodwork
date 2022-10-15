@@ -1,14 +1,14 @@
-import { Container, Text, Group, createStyles, Table } from "@mantine/core";
-import { IconDiscountCheck, IconRefreshAlert } from "@tabler/icons";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers } from "../features/users/userSlice";
-import Loading from "./Loading";
+import { Container, Text, Group, createStyles, Table } from '@mantine/core';
+import { IconDiscountCheck, IconRefreshAlert } from '@tabler/icons';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUsers } from '../features/users/userSlice';
+import Loading from './Loading';
 
 const useStyles = createStyles((theme) => ({
   container: {
     flex: 1,
-    width: "100%",
+    width: '100%',
     padding: 0,
   },
 
@@ -17,10 +17,10 @@ const useStyles = createStyles((theme) => ({
   },
 
   title: {
-    color: "var(--prussian-blue-500)",
-    fontSize: "1.3rem",
+    color: 'var(--prussian-blue-500)',
+    fontSize: '1.3rem',
     paddingTop: 5,
-    marginBottom: "2rem",
+    marginBottom: '2rem',
   },
 }));
 
@@ -28,8 +28,6 @@ const AdminViewUsers = () => {
   const { classes } = useStyles();
   const { users, isLoading } = useSelector((state) => state.users);
   const dispatch = useDispatch();
-
-  console.log(users);
 
   const rows = users.map((user, index) => {
     const { first_name, last_name, email, phone, _id, isVerified } = user;
@@ -47,8 +45,8 @@ const AdminViewUsers = () => {
               <span>Verified</span>
               <span
                 style={{
-                  color: "#40c057",
-                  marginBottom: "-.2rem",
+                  color: '#40c057',
+                  marginBottom: '-.2rem',
                   marginLeft: 5,
                 }}
               >
@@ -58,7 +56,7 @@ const AdminViewUsers = () => {
           ) : (
             <Group spacing="5px" align="center">
               <span>Pending</span>
-              <span style={{ color: "#fada24", marginBottom: "-.2rem" }}>
+              <span style={{ color: '#fada24', marginBottom: '-.2rem' }}>
                 <IconRefreshAlert />
               </span>
             </Group>

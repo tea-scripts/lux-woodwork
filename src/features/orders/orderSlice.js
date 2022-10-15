@@ -13,6 +13,16 @@ const initialState = {
   userOrders: [],
   order: {},
   isLoading: false,
+  isViewing: false,
+  user: {},
+  orderItems: [],
+  tax: 0,
+  shipping: 0,
+  total: 0,
+  subtotal: 0,
+  createdAt: '',
+  orderId: '',
+  status: '',
 };
 
 export const fetchAllOrders = createAsyncThunk(
@@ -57,7 +67,22 @@ export const deleteOrder = createAsyncThunk(
 const orderSlice = createSlice({
   name: 'orders',
   initialState,
-  reducers: {},
+  reducers: {
+    setOrderValues: (state, { payload }) => {
+      state.subtotal = payload.subtotal;
+      state.tax = payload.tax;
+      state.shipping = payload.shippingFee;
+      state.total = payload.total;
+      state.orderItems = payload.orderItems;
+      state.user = payload.user;
+      state.status = payload.status;
+      state.createdAt = payload.createdAt;
+      state.orderId = payload._id;
+    },
+    toggleOrderView: (state) => {
+      state.isViewing = !state.isViewing;
+    },
+  },
   extraReducers: {
     [fetchAllOrders.pending]: (state) => {
       state.isLoading = true;
@@ -116,5 +141,7 @@ const orderSlice = createSlice({
     },
   },
 });
+
+export const { setOrderValues, toggleOrderView } = orderSlice.actions;
 
 export default orderSlice.reducer;

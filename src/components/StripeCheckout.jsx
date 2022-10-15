@@ -8,18 +8,19 @@ import {
 } from '@stripe/react-stripe-js';
 import customFetch from '../utils/axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearCart } from '../features/cart/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { formatPrice } from '../utils/helpers';
 import { Card, Container, Notification } from '@mantine/core';
 import { IconAlertCircle, IconCheck } from '@tabler/icons';
 import { updateOrder } from '../features/orders/orderSlice';
+import { toast } from 'react-toastify';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 const CheckoutForm = () => {
   const { user } = useSelector((state) => state.users);
+  const { defaultAddress } = useSelector((state) => state.address);
   const {
     cartItems,
     tax,
@@ -63,10 +64,12 @@ const CheckoutForm = () => {
         cartItems,
         tax,
         shippingFee,
+        defaultAddress,
       });
       setClientSecret(data.order.clientSecret);
       console.log(data.order.clientSecret);
       setOrderId(data.order._id);
+      toast.success('Order placed successfully!');
     } catch (error) {
       console.log(error.response);
     }
@@ -92,7 +95,20 @@ const CheckoutForm = () => {
       },
 
       receipt_email: user.email,
+      shipping: {
+        name: user.first_name,
+        address: {
+          line1: defaultAddress.street,
+          city: defaultAddress.city,
+          state: defaultAddress.state,
+          postal_code: defaultAddress.zip,
+          country: 'PH',
+        },
+      },
     });
+
+    console.log(payload);
+    console.log(payload.paymentIntent);
 
     if (payload.error) {
       setError(`Payment failed ${payload.error.message}`);
@@ -105,7 +121,7 @@ const CheckoutForm = () => {
         dispatch(
           updateOrder({ orderId, paymentIntentId: payload.paymentIntent.id })
         );
-        dispatch(clearCart());
+
         navigate('/');
       }, 3000);
     }
@@ -186,14 +202,6 @@ const CheckoutForm = () => {
             {error}
           </div>
         )}
-        {/* show a success message upon completion */}
-        <p className={succeeded ? 'result-message' : 'result-message hidden'}>
-          Payment succeeded, see the result in your{' '}
-          <a href={`https://dashboard.stripe.com/test/payments`}>
-            Stripe dashboard
-          </a>
-          Refresh the page to pay again
-        </p>
       </form>
     </div>
   );

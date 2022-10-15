@@ -187,6 +187,7 @@ const EditProductModal = () => {
               size="md"
               name="featured"
               value={featured}
+              checked={featured}
               onChange={handleInputChange}
             />
 
@@ -195,6 +196,7 @@ const EditProductModal = () => {
               size="md"
               name="freeShipping"
               value={featured}
+              checked={freeShipping}
               onChange={handleInputChange}
             />
 
@@ -203,6 +205,7 @@ const EditProductModal = () => {
               size="md"
               name="displayProduct"
               value={featured}
+              checked={displayProduct}
               onChange={handleInputChange}
             />
           </SimpleGrid>

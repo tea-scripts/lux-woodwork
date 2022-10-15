@@ -22,7 +22,6 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import navLinks from '../utils/navLinks';
 import { BiLogOut } from 'react-icons/bi';
-import { IoBagCheckOutline } from 'react-icons/io5';
 import { toggleSignInModal, logoutUser } from '../features/users/userSlice';
 
 const Navbar = () => {
@@ -115,13 +114,6 @@ const Navbar = () => {
                     icon={<HiShoppingBag />}
                   >
                     My Bag
-                  </Menu.Item>
-                  <Menu.Item
-                    icon={<IoBagCheckOutline />}
-                    component={Link}
-                    to="/checkout"
-                  >
-                    Checkout
                   </Menu.Item>
                   <Divider my="sm" variant="dashed" />
                   <Menu.Item

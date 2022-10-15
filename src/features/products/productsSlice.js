@@ -4,12 +4,14 @@ import {
   createProductThunk,
   deleteProductThunk,
   fetchAllProductsThunk,
+  fetchProductThunk,
   updateProductThunk,
   uploadProductImageThunk,
 } from './productsThunk';
 
 const initialState = {
   products: [],
+  product: {},
   isLoading: false,
   productId: '',
   name: '',
@@ -23,6 +25,7 @@ const initialState = {
   isViewing: false,
   displayProduct: false,
   isEditingProduct: false,
+  product_name: '',
 };
 
 export const createProduct = createAsyncThunk(
@@ -43,6 +46,13 @@ export const fetchAllProducts = createAsyncThunk(
   'products/fetchAllProducts',
   async (_, thunkAPI) => {
     return fetchAllProductsThunk('/products', thunkAPI);
+  }
+);
+
+export const fetchProduct = createAsyncThunk(
+  'products/fetchProduct',
+  async (productId, thunkAPI) => {
+    return fetchProductThunk(`/products/${productId}`, thunkAPI);
   }
 );
 
@@ -93,6 +103,7 @@ const productsSlice = createSlice({
       state.description = payload.description;
       state.image = payload.image;
       state.displayProduct = payload.displayProduct;
+      state.product_name = payload.product_name;
     },
   },
   extraReducers: {
@@ -104,6 +115,17 @@ const productsSlice = createSlice({
       state.isLoading = false;
     },
     [fetchAllProducts.rejected]: (state, action) => {
+      state.isLoading = false;
+      toast.error(action.payload.msg);
+    },
+    [fetchProduct.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [fetchProduct.fulfilled]: (state, action) => {
+      state.product = action.payload.product;
+      state.isLoading = false;
+    },
+    [fetchProduct.rejected]: (state, action) => {
       state.isLoading = false;
       toast.error(action.payload.msg);
     },

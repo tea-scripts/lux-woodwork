@@ -8,7 +8,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const SingleReview = ({ avatar, name, postedAt, text }) => {
+const SingleReview = ({ avatar, name, postedAt, text, title }) => {
   const { classes } = useStyles();
 
   return (
@@ -22,6 +22,7 @@ const SingleReview = ({ avatar, name, postedAt, text }) => {
           </Text>
         </div>
       </Group>
+
       <Text className={classes.body} size="sm">
         {text}
       </Text>

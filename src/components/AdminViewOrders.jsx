@@ -3,7 +3,12 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DateTime } from 'luxon';
 import { IconSquareCheck, IconTrashX } from '@tabler/icons';
-import { deleteOrder } from '../features/orders/orderSlice';
+import {
+  deleteOrder,
+  setOrderValues,
+  toggleOrderView,
+} from '../features/orders/orderSlice';
+import ViewOrderModal from './ViewOrderModal';
 
 const AdminOrders = () => {
   const { orders } = useSelector((state) => state.orders);
@@ -22,6 +27,8 @@ const AdminOrders = () => {
         <td>
           {status === 'paid' ? (
             <Badge color="green">Paid</Badge>
+          ) : status === 'cancelled' ? (
+            <Badge color="red">Cancelled</Badge>
           ) : (
             <Badge color="yellow">Pending</Badge>
           )}
@@ -29,7 +36,13 @@ const AdminOrders = () => {
         <td>{DateTime.fromISO(createdAt).toLocaleString(DateTime.DATE_MED)}</td>
         <td>
           <Group spacing={5}>
-            <ActionIcon color="green" onClick={() => {}}>
+            <ActionIcon
+              color="green"
+              onClick={() => {
+                dispatch(toggleOrderView());
+                dispatch(setOrderValues(order));
+              }}
+            >
               <IconSquareCheck size={15} />
             </ActionIcon>
 
@@ -47,6 +60,9 @@ const AdminOrders = () => {
       <Group>
         <Text sx={{ fontSize: '2rem', fontWeight: 500 }}>All Orders</Text>
       </Group>
+
+      <ViewOrderModal />
+
       <Table highlightOnHover striped>
         <thead>
           <tr>

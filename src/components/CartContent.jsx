@@ -1,6 +1,6 @@
 import CartHeadingColumns from './CartHeadingColumns';
 import CartItem from './CartItem';
-import { Button, createStyles, Divider } from '@mantine/core';
+import { Button, createStyles, Divider, Group } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { clearCart } from '../features/cart/cartSlice';
@@ -9,6 +9,7 @@ import { IoMdTrash } from 'react-icons/io';
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import SelectAddress from './SelectAddress';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -39,6 +40,7 @@ const useStyles = createStyles((theme) => ({
 
 const CartContent = () => {
   const { cartItems } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const { classes } = useStyles();
   const [dimensions, setDimensions] = useState(window.innerWidth);
@@ -84,7 +86,18 @@ const CartContent = () => {
           clear shopping cart
         </Button>
       </div>
-      <CartTotals />
+      <Group
+        position="apart"
+        sx={(theme) => ({
+          '@media (max-width: 810px)': {
+            margin: '0 auto',
+            justifyContent: 'center',
+          },
+        })}
+      >
+        {user.isVerified && <SelectAddress />}
+        <CartTotals />
+      </Group>
     </section>
   );
 };

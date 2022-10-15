@@ -1,8 +1,16 @@
-import React from "react";
-import { ProductCard } from ".";
-import { SimpleGrid } from "@mantine/core";
+import React from 'react';
+import { ProductCard } from '.';
+import { Center, SimpleGrid } from '@mantine/core';
+import Loading from './Loading';
+import { useSelector } from 'react-redux';
 
 const ProductsList = ({ gridView, filteredProducts }) => {
+  const { isLoading } = useSelector((state) => state.products);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <SimpleGrid
       cols={1}
@@ -11,13 +19,19 @@ const ProductsList = ({ gridView, filteredProducts }) => {
         { minWidth: 1200, cols: gridView ? 3 : 1 },
       ]}
     >
-      {filteredProducts.map((product) => (
-        <ProductCard
-          key={product.id}
-          product={product}
-          horizontal={gridView ? false : true}
-        />
-      ))}
+      {filteredProducts.length < 1 ? (
+        <Center style={{ width: '100%', height: 200 }}>
+          <h1>No products found</h1>
+        </Center>
+      ) : (
+        filteredProducts.map((product) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            horizontal={gridView ? false : true}
+          />
+        ))
+      )}
     </SimpleGrid>
   );
 };

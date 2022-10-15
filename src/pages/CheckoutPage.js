@@ -56,7 +56,7 @@ const CheckoutPage = () => {
   const { classes } = useStyles();
 
   return (
-    <div className={classes.wrapper}>
+    <section className={classes.wrapper}>
       <h1>Checkout Page</h1>
       {cartItems.length === 0 ? (
         <Container size={1200} className={classes.empty}>
@@ -71,7 +71,7 @@ const CheckoutPage = () => {
       ) : (
         <StripeCheckout />
       )}
-    </div>
+    </section>
   );
 };
 

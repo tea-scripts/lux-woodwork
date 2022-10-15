@@ -13,7 +13,10 @@ import { formatPrice, reviews } from '../utils/helpers';
 import AddToCart from '../components/AddToCart';
 import SingleReview from '../components/SingleReview';
 import { Product } from '../components';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Loading from '../components/Loading';
+import { useEffect } from 'react';
+import { fetchProduct } from '../features/products/productsSlice';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -131,10 +134,21 @@ const useStyles = createStyles((theme) => ({
 
 const SingleProduct = () => {
   const { classes } = useStyles();
-  const { products } = useSelector((state) => state.products);
+  const { product, products, isLoading } = useSelector(
+    (state) => state.products
+  );
+  const dispatch = useDispatch();
   const { id } = useParams();
 
-  const product = products.find((item) => item._id === id);
+  useEffect(() => {
+    dispatch(fetchProduct(id));
+  }, [id]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  const { name, _id, inventory, price, description, category, image } = product;
 
   return (
     <section className={classes.wrapper}>
@@ -152,30 +166,30 @@ const SingleProduct = () => {
           }}
         >
           <Carousel.Slide key={product.image}> */}
-        <Image src={product.image} height={400} />
+        <Image src={image} height={400} />
         {/* </Carousel.Slide>
         </Carousel> */}
         <section className={classes.content}>
-          <h2>{product.name}</h2>
-          <h5>{formatPrice(product.price)}</h5>
-          <p className={classes.description}>{product.description}</p>
+          <h2>{name}</h2>
+          <h5>{formatPrice(price)}</h5>
+          <p className={classes.description}>{description}</p>
 
           <p className={classes.info}>
             <span>Available : </span>
-            {product.inventory > 0 ? 'In Stock' : 'Out of Stock'}
+            {inventory > 0 ? 'In Stock' : 'Out of Stock'}
           </p>
           <p className={classes.info}>
             <span>SKU : </span>
-            {product._id}
+            {_id}
           </p>
           <p className={classes.info}>
             <span>Category : </span>
-            {product.category}
+            {category}
           </p>
 
           <Divider />
 
-          {product.inventory > 0 && <AddToCart product={product} />}
+          {inventory > 0 && <AddToCart product={product} />}
         </section>
       </div>
 

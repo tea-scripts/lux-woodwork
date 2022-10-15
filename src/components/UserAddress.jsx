@@ -11,34 +11,34 @@ import {
   ActionIcon,
   Badge,
   createStyles,
-} from "@mantine/core";
-import { useDispatch, useSelector } from "react-redux";
-import { IconEdit, IconTrash } from "@tabler/icons";
-import { useEffect, useState } from "react";
+} from '@mantine/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { IconEdit, IconTrash } from '@tabler/icons';
+import { useEffect, useState } from 'react';
 import {
   createAddress,
   deleteAddress,
   fetchAllUserAddresses,
-} from "../features/address/addressSlice";
-import addressData from "../utils/addresses";
+} from '../features/address/addressSlice';
+import addressData from '../utils/addresses';
 
 const useStyles = createStyles((theme) => ({
   addressItem: {
-    display: "flex",
-    flexDirection: "column",
-    padding: "1rem",
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '1rem',
 
-    "@media (min-width: 1080px)": {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      width: "100%",
+    '@media (min-width: 1080px)': {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      width: '100%',
     },
   },
 
   btn: {
-    marginTop: "1rem",
+    marginTop: '1rem',
 
-    "@media (min-width: 1080px)": {
+    '@media (min-width: 1080px)': {
       marginTop: 0,
     },
   },
@@ -53,22 +53,20 @@ const UserAddress = () => {
   const [opened, setOpened] = useState(false);
   const [userAddress, setUserAddress] = useState({
     userId: user?._id,
-    name: `${user?.first_name || ""} ${user?.last_name || ""}`,
-    phone: user?.phone || "",
-    city: address?.city || "",
-    street: address?.street || "",
-    zip: address?.zip || "",
-    province: address?.province || "",
-    region: address?.region || "",
-    barangay: address?.barangay || "",
+    name: `${user?.first_name || ''} ${user?.last_name || ''}`,
+    phone: user?.phone || '',
+    city: address?.city || '',
+    street: address?.street || '',
+    zip: address?.zip || '',
+    province: address?.province || '',
+    region: address?.region || '',
+    barangay: address?.barangay || '',
   });
 
   const [regionsList, setRegionsList] = useState([]);
   const [provincesList, setProvincesList] = useState([]);
   const [cityList, setCityList] = useState([]);
   const [barangayList, setBarangayList] = useState([]);
-
-  console.log(userAddress);
 
   useEffect(() => {
     const regions = addressData.map(({ region_name }) => region_name);
@@ -136,14 +134,14 @@ const UserAddress = () => {
     if (isLoading === false) {
       setUserAddress({
         userId: user?._id,
-        name: `${user?.first_name || ""} ${user?.last_name || ""}`,
-        phone: user?.phone || "",
-        city: "",
-        street: "",
-        zip: "",
-        province: "",
-        region: "",
-        barangay: "",
+        name: `${user?.first_name || ''} ${user?.last_name || ''}`,
+        phone: user?.phone || '',
+        city: '',
+        street: '',
+        zip: '',
+        province: '',
+        region: '',
+        barangay: '',
       });
       setOpened(false);
     }
@@ -161,13 +159,13 @@ const UserAddress = () => {
     <>
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "2rem",
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '2rem',
         }}
       >
-        <Text sx={{ color: "#C0C0C0", fontSize: "1.1rem" }} mb={10}>
+        <Text sx={{ color: '#C0C0C0', fontSize: '1.1rem' }} mb={10}>
           My Addresses
         </Text>
         <Modal
@@ -215,7 +213,7 @@ const UserAddress = () => {
 
               <Grid.Col xs={12} sm={6}>
                 <NativeSelect
-                  data={provincesList ? ["", ...provincesList] : []}
+                  data={provincesList ? ['', ...provincesList] : []}
                   onChange={handleAddressChange}
                   placeholder="Select Province"
                   label="Province"
@@ -228,7 +226,7 @@ const UserAddress = () => {
 
               <Grid.Col xs={12} sm={6}>
                 <NativeSelect
-                  data={cityList ? ["", ...cityList] : []}
+                  data={cityList ? ['', ...cityList] : []}
                   onChange={handleAddressChange}
                   placeholder="Select City"
                   name="city"
@@ -241,7 +239,7 @@ const UserAddress = () => {
 
               <Grid.Col xs={12} sm={6}>
                 <NativeSelect
-                  data={barangayList ? ["", ...barangayList] : []}
+                  data={barangayList ? ['', ...barangayList] : []}
                   onChange={handleAddressChange}
                   placeholder="Select Barangay"
                   name="barangay"
@@ -306,11 +304,11 @@ const UserAddress = () => {
                   <Group>
                     {userAddress.name} | (63+){userAddress.phone}
                   </Group>
-                  <Text sx={{ maxWidth: 400, color: "var(--gray)" }}>
-                    {street}, {barangay}, {city},{" "}
+                  <Text sx={{ maxWidth: 400, color: 'var(--gray)' }}>
+                    {street}, {barangay}, {city},{' '}
                   </Text>
                 </div>
-                <div style={{ display: "flex" }}>
+                <div style={{ display: 'flex' }}>
                   <Group mb={10} position="right"></Group>
                   <Group className={classes.btn}>
                     <ActionIcon color="orange">
