@@ -6,7 +6,6 @@ import {
   Text,
   ThemeIcon,
 } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
 import {
   IconUser,
   IconShoppingCart,
@@ -127,7 +126,7 @@ const UserSidebar = ({ location }) => {
       <Button
         className={classes.btn}
         onClick={() => setOpened((prevState) => !prevState)}
-        sx={{ marginBottom: "1rem" }}
+        sx={{ marginBottom: "2rem" }}
       >
         Open
       </Button>

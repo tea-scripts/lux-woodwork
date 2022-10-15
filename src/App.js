@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   Footer,
   Navbar,
@@ -8,7 +8,6 @@ import {
   SidebarCart,
   UserAddress,
   UserProfile,
-  UserPurchases,
   UserReviews,
   UserTracking,
   UserWishlist,
@@ -27,9 +26,9 @@ import {
   AdminViewReviews,
   AdminProfile,
   AdminSupport,
-} from './components';
-import { calculateTotals } from './features/cart/cartSlice';
-import { fetchUsers } from './features/users/userSlice';
+} from "./components";
+import { calculateTotals } from "./features/cart/cartSlice";
+import { fetchUsers } from "./features/users/userSlice";
 
 import {
   Landing,
@@ -45,14 +44,14 @@ import {
   PasswordReset,
   PrivateRoute,
   Admin,
-} from './pages';
-import { Flip, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import User from './pages/User';
-import SharedLayout from './pages/SharedLayout';
-import { fetchAllProducts } from './features/products/productsSlice';
-import { fetchAllUserAddresses } from './features/address/addressSlice';
-import { fetchAllOrders } from './features/orders/orderSlice';
+} from "./pages";
+import { Flip, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import User from "./pages/User";
+import SharedLayout from "./pages/SharedLayout";
+import { fetchAllProducts } from "./features/products/productsSlice";
+import { fetchAllUserAddresses } from "./features/address/addressSlice";
+import { fetchAllOrders } from "./features/orders/orderSlice";
 
 function App() {
   const { cartItems } = useSelector((state) => state.cart);
@@ -109,7 +108,6 @@ function App() {
             >
               <Route index element={<UserProfile />} />
               <Route path="address" element={<UserAddress />} />
-              <Route path="purchases" element={<UserPurchases />} />
               <Route path="orders" element={<UserTracking />} />
               <Route path="wishlist" element={<UserWishlist />} />
               <Route path="reviews" element={<UserReviews />} />
