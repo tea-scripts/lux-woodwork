@@ -95,7 +95,7 @@ const CartContent = () => {
           },
         })}
       >
-        {user.isVerified && <SelectAddress />}
+        {user && user.isVerified && <SelectAddress />}
         <CartTotals />
       </Group>
     </section>

@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { loadStripe } from "@stripe/stripe-js";
+import React, { useState, useEffect } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
 import {
   CardElement,
   useStripe,
   Elements,
   useElements,
-} from "@stripe/react-stripe-js";
-import customFetch from "../utils/axios";
-import { useDispatch, useSelector } from "react-redux";
-import { clearCart } from "../features/cart/cartSlice";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
-import { formatPrice } from "../utils/helpers";
-import { Card, Container, Notification, Title } from "@mantine/core";
-import { IconAlertCircle, IconCheck } from "@tabler/icons";
-import { fetchOrder, updateOrder } from "../features/orders/orderSlice";
-import { toast } from "react-toastify";
+} from '@stripe/react-stripe-js';
+import customFetch from '../utils/axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearCart } from '../features/cart/cartSlice';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import { formatPrice } from '../utils/helpers';
+import { Card, Container, Notification, Title } from '@mantine/core';
+import { IconAlertCircle, IconCheck } from '@tabler/icons';
+import { fetchOrder, updateOrder } from '../features/orders/orderSlice';
+import { toast } from 'react-toastify';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
@@ -38,35 +38,35 @@ const CheckoutForm = () => {
   const dispatch = useDispatch();
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState(null);
-  const [processing, setProcessing] = useState("");
+  const [processing, setProcessing] = useState('');
   const [disabled, setDisabled] = useState(true);
   const [orderId, setOrderId] = useState(null);
 
-  const [clientSecret, setClientSecret] = useState("");
+  const [clientSecret, setClientSecret] = useState('');
   const stripe = useStripe();
   const elements = useElements();
 
   const cardStyle = {
     style: {
       base: {
-        color: "#32325d",
-        fontFamily: "Arial, sans-serif",
-        fontSmoothing: "antialiased",
-        fontSize: "16px",
-        "::placeholder": {
-          color: "#32325d",
+        color: '#32325d',
+        fontFamily: 'Arial, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+          color: '#32325d',
         },
       },
       invalid: {
-        color: "#fa755a",
-        iconColor: "#fa755a",
+        color: '#fa755a',
+        iconColor: '#fa755a',
       },
     },
   };
 
   const createPaymentIntent = async () => {
     try {
-      const { data } = await customFetch.post("/orders", {
+      const { data } = await customFetch.post('/orders', {
         cartItems,
         tax,
         shippingFee,
@@ -75,14 +75,14 @@ const CheckoutForm = () => {
       setClientSecret(data.order.clientSecret);
       console.log(data.order.clientSecret);
       setOrderId(data.order._id);
-      toast.success("Order placed successfully!");
+      toast.success('Order placed successfully!');
     } catch (error) {
       console.log(error.response);
     }
   };
 
   useEffect(() => {
-    if (id && location.pathname.startsWith("/update-order")) {
+    if (id && location.pathname.startsWith('/update-order')) {
       dispatch(fetchOrder(id));
     } else {
       createPaymentIntent();
@@ -92,7 +92,7 @@ const CheckoutForm = () => {
 
   const handleChange = async (event) => {
     setDisabled(event.empty);
-    setError(event.error ? event.error.message : "");
+    setError(event.error ? event.error.message : '');
   };
 
   const handleSubmit = async (ev) => {
@@ -114,7 +114,7 @@ const CheckoutForm = () => {
             city: defaultAddress.city,
             state: defaultAddress.state,
             postal_code: defaultAddress.zip,
-            country: "PH",
+            country: 'PH',
           },
         },
       }
@@ -136,8 +136,9 @@ const CheckoutForm = () => {
               : payload.paymentIntent.id,
           })
         );
+        dispatch(clearCart());
 
-        navigate("/");
+        navigate('/');
       }, 3000);
     }
   };
@@ -145,10 +146,10 @@ const CheckoutForm = () => {
   return (
     <div
       style={{
-        display: "grid",
-        justifyContent: "center",
-        alignItems: "center",
-        margin: "0 auto",
+        display: 'grid',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: '0 auto',
       }}
     >
       <Notification
@@ -157,11 +158,11 @@ const CheckoutForm = () => {
         disallowClose
         title="Notice"
         sx={{
-          marginBottom: "1rem",
-          maxWidth: "50vw",
+          marginBottom: '1rem',
+          maxWidth: '50vw',
 
-          "@media (max-width: 600px)": {
-            maxWidth: "890vw",
+          '@media (max-width: 600px)': {
+            maxWidth: '890vw',
           },
         }}
       >
@@ -172,24 +173,24 @@ const CheckoutForm = () => {
           icon={<IconCheck size={18} />}
           type="success"
           title="Notification"
-          color={succeeded ? "green" : "red"}
+          color={succeeded ? 'green' : 'red'}
           disallowClose
         >
           Payment successful. Redirecting to home page...
         </Notification>
       ) : (
         <Card
-          shadow={"md"}
+          shadow={'md'}
           paddind="3rem"
           sx={{
-            maxWidth: "50vw",
+            maxWidth: '50vw',
 
-            "@media (max-width: 600px)": {
-              maxWidth: "890vw",
+            '@media (max-width: 600px)': {
+              maxWidth: '890vw',
             },
           }}
         >
-          <h4>Hello, {user && user.first_name + " " + user.last_name}</h4>
+          <h4>Hello, {user && user.first_name + ' ' + user.last_name}</h4>
           <p>Your total is {formatPrice(shippingFee + total_amount)}</p>
           <p>Test Card Number : 4242 4242 4242 4242</p>
           <p>3D Secure Auth Test Card : 4000 0000 0000 3220</p>
@@ -207,7 +208,7 @@ const CheckoutForm = () => {
             {processing ? (
               <div className="spinner" id="spinner"></div>
             ) : (
-              "Pay Now"
+              'Pay Now'
             )}
           </span>
         </button>
@@ -227,7 +228,7 @@ const StripeCheckout = () => {
     <Container
       size={1200}
       my={64}
-      sx={{ minHeight: "calc(100vh - (60px + 140px))" }}
+      sx={{ minHeight: 'calc(100vh - (60px + 140px))' }}
     >
       <Title weight={500} align="center" order={1} mb={20}>
         Checkout Page
@@ -342,7 +343,7 @@ const Wrapper = styled.section`
   .spinner:before,
   .spinner:after {
     position: absolute;
-    content: "";
+    content: '';
   }
   .spinner:before {
     width: 10.4px;

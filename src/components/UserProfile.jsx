@@ -1,9 +1,8 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Button, Divider, Grid, Group, Text, TextInput } from "@mantine/core";
-import { toast } from "react-toastify";
-import { updateUser } from "../features/users/userSlice";
-import { useEffect } from "react";
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button, Divider, Grid, Group, Text, TextInput } from '@mantine/core';
+import { toast } from 'react-toastify';
+import { updateUser } from '../features/users/userSlice';
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -11,11 +10,11 @@ const UserProfile = () => {
   const { user, isLoading } = useSelector((state) => state.users);
   const [userDetails, setUserDetails] = useState({
     userId: user?._id,
-    username: user?.username || "",
-    first_name: user?.first_name || "",
-    last_name: user?.last_name || "",
-    email: user?.email || "",
-    phone: user?.phone || "",
+    username: user?.username || '',
+    first_name: user?.first_name || '',
+    last_name: user?.last_name || '',
+    email: user?.email || '',
+    phone: user?.phone || '',
   });
 
   const handleChange = (e) => {
@@ -26,7 +25,7 @@ const UserProfile = () => {
     e.preventDefault();
     const { username, first_name, last_name, email, phone } = userDetails;
     if (!username || !first_name || !last_name || !email || !phone) {
-      toast("please fill in all fields");
+      toast('please fill in all fields');
       return;
     }
 
@@ -39,8 +38,8 @@ const UserProfile = () => {
       <form onSubmit={handleUpdateProfile}>
         <Text
           sx={{
-            color: "var(--prussian-blue-500)",
-            fontSize: "1.1rem",
+            color: 'var(--prussian-blue-500)',
+            fontSize: '1.1rem',
             fontWeight: 500,
           }}
         >
@@ -82,22 +81,22 @@ const UserProfile = () => {
             />
           </Grid.Col>
         </Grid>
-        <Group position="right" sx={{ marginTop: "1.5rem" }}>
+        <Group position="right" sx={{ marginTop: '1.5rem' }}>
           <Button
             type="button"
             onClick={() => setEditDetails((prevState) => !prevState)}
-            variant={editDetails ? "subtle" : "filled"}
+            variant={editDetails ? 'subtle' : 'filled'}
             loading={isLoading}
           >
-            {editDetails ? "Cancel" : "Update Profile"}
+            {editDetails ? 'Cancel' : 'Update Profile'}
           </Button>
           {editDetails && <Button type="submit">Update</Button>}
         </Group>
 
         <Text
           sx={{
-            color: "var(--prussian-blue-500)",
-            fontSize: "1.1rem",
+            color: 'var(--prussian-blue-500)',
+            fontSize: '1.1rem',
             fontWeight: 500,
           }}
           mt={32}

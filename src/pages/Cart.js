@@ -1,9 +1,11 @@
 import { Button, Container, SimpleGrid } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { createStyles } from '@mantine/core';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import emptyCartImage from '../assets/empty-cart.svg';
 import CartContent from '../components/CartContent';
+import { useEffect } from 'react';
+import { fetchAllUserAddresses } from '../features/address/addressSlice';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -63,6 +65,12 @@ const useStyles = createStyles((theme) => ({
 const Cart = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const { classes } = useStyles();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAllUserAddresses());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (cartItems.length === 0) {
     return (

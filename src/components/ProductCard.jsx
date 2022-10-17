@@ -122,8 +122,8 @@ const ProductCard = ({
                   radius="50%"
                   size="lg"
                   className={classes.productBtn}
-                  component={Link}
-                  to="/cart"
+                  // component={Link}
+                  // to="/cart"
                   onClick={() =>
                     dispatch(
                       addToCart({ id: product._id, quantity: 1, ...product })

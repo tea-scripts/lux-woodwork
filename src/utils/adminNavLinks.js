@@ -4,42 +4,40 @@ import {
   IconShoppingCart,
   IconClipboardText,
   IconUserCircle,
-  IconHelp,
   IconHome,
-} from "@tabler/icons";
+} from '@tabler/icons';
 
 const AdminNavLinks = [
   {
-    label: "Products",
+    label: 'Products',
     icon: IconNotebook,
     initiallyOpened: true,
     links: [
-      { label: "Add Products", link: "/admin/products-add" },
-      { label: "View Products", link: "/admin/products-view" },
+      { label: 'Add Products', link: '/admin/products-add' },
+      { label: 'View Products', link: '/admin/products-view' },
     ],
   },
   {
-    label: "Users",
+    label: 'Users',
     icon: IconUsers,
     links: [
-      { label: "Add Users", link: "/admin/users-add" },
-      { label: "View Users", link: "/admin/users-view" },
+      { label: 'Add Users', link: '/admin/users-add' },
+      { label: 'View Users', link: '/admin/users-view' },
     ],
   },
   {
-    label: "Orders",
+    label: 'Orders',
     icon: IconShoppingCart,
-    links: [{ label: "View Orders", link: "/admin/orders/view" }],
+    links: [{ label: 'View Orders', link: '/admin/orders/view' }],
   },
   {
-    label: "Reviews",
+    label: 'Reviews',
     icon: IconClipboardText,
-    links: [{ label: "View Reviews", link: "/admin/reviews/view" }],
+    links: [{ label: 'View Reviews', link: '/admin/reviews/view' }],
   },
-  { label: "Profile", icon: IconUserCircle, link: "/admin/profile" },
+  { label: 'Profile', icon: IconUserCircle, link: '/admin/profile' },
 
-  { label: "Support", icon: IconHelp, link: "/admin/support" },
-  { label: "Store", icon: IconHome, link: "/" },
+  { label: 'Store', icon: IconHome, link: '/' },
 ];
 
 export default AdminNavLinks;

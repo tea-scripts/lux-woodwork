@@ -76,13 +76,13 @@ const CartTotals = () => {
           </article>
         </Card>
 
-        {user.isVerified ? (
+        {user && user.isVerified ? (
           <Button
             component={Link}
             to="/checkout"
             className={classes.checkOutBtn}
           >
-            proceed to checkout
+            place order
           </Button>
         ) : (
           <Button onClick={() => dispatch(toggleSignInModal())}>Sign In</Button>
