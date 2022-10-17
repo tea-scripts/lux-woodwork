@@ -39,6 +39,7 @@ import StripeCheckout from "./StripeCheckout";
 import AddAddressModal from "./AddAddressModal";
 import SingleAddress from "./SingleAddress";
 import EditAddressModal from "./EditAddressModal";
+import StarRating from "./StarRating";
 
 export {
   Navbar,
@@ -82,4 +83,5 @@ export {
   AddAddressModal,
   SingleAddress,
   EditAddressModal,
+  StarRating,
 };

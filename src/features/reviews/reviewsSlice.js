@@ -1,50 +1,63 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import {
   createReviewThunk,
   deleteReviewThunk,
   fetchReviewsThunk,
+  fetchUserReviewsThunk,
   updateReviewThunk,
-} from './reviewsThunk';
+} from "./reviewsThunk";
 
 const initialState = {
   reviews: [],
+  userReviews: [],
   error: null,
   isLoading: false,
   rating: 0,
-  comment: '',
+  comment: "",
+  pages: 1,
 };
 
 export const fetchReviews = createAsyncThunk(
-  'reviews/fetchReviews',
+  "reviews/fetchReviews",
   async (_, thunkAPI) => {
     return fetchReviewsThunk(`/reviews`, thunkAPI);
   }
 );
 
+export const fetchUserReviews = createAsyncThunk(
+  "reviews/fetchUserReviews",
+  async (_, thunkAPI) => {
+    return fetchUserReviewsThunk(
+      `/reviews/user/${thunkAPI.getState().users.user._id}`,
+      thunkAPI
+    );
+  }
+);
+
 export const createReview = createAsyncThunk(
-  'reviews/createReview',
+  "reviews/createReview",
   async (review, thunkAPI) => {
     return createReviewThunk(`/reviews`, review, thunkAPI);
   }
 );
 
 export const updateReview = createAsyncThunk(
-  'reviews/updateReview',
+  "reviews/updateReview",
   async (review, thunkAPI) => {
     return updateReviewThunk(`/reviews/${review.reviewId}`, review, thunkAPI);
   }
 );
 
 export const deleteReview = createAsyncThunk(
-  'reviews/deleteReview',
+  "reviews/deleteReview",
   async (reviewId, thunkAPI) => {
     return deleteReviewThunk(`/reviews/${reviewId}`, thunkAPI);
   }
 );
 
 const reviewsSlice = createSlice({
-  name: 'reviews',
+  name: "reviews",
   initialState,
   reducers: {
     handleChange: (state, action) => {
@@ -78,6 +91,7 @@ const reviewsSlice = createSlice({
     [createReview.fulfilled]: (state, action) => {
       state.reviews.push(action.payload.review);
       state.isLoading = false;
+      toast.success("Review created successfully!");
     },
     [createReview.rejected]: (state, action) => {
       state.isLoading = false;
@@ -88,7 +102,7 @@ const reviewsSlice = createSlice({
     },
     [updateReview.fulfilled]: (state) => {
       state.isLoading = false;
-      toast.success('Review updated successfully');
+      toast.success("Review updated successfully");
     },
     [updateReview.rejected]: (state, action) => {
       state.isLoading = false;
@@ -99,9 +113,21 @@ const reviewsSlice = createSlice({
     },
     [deleteReview.fulfilled]: (state) => {
       state.isLoading = false;
-      toast.success('Review deleted successfully');
+      toast.success("Review deleted successfully");
     },
     [deleteReview.rejected]: (state, action) => {
+      state.isLoading = false;
+      toast.error(action.payload.msg);
+    },
+    [fetchUserReviews.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [fetchUserReviews.fulfilled]: (state, action) => {
+      state.userReviews = action.payload.userReviews;
+      state.pages = action.payload.pages;
+      state.isLoading = false;
+    },
+    [fetchUserReviews.rejected]: (state, action) => {
       state.isLoading = false;
       toast.error(action.payload.msg);
     },

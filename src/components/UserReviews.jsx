@@ -7,8 +7,11 @@ import {
   Text,
 } from "@mantine/core";
 import image1 from "../assets/images/product-1.jpg";
-import image2 from "../assets/images/product-7.jpg";
-import image3 from "../assets/images/product-3.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchUserReviews } from "../features/reviews/reviewsSlice";
+import Loading from "./Loading";
+import { Link } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   reviewContainer: {
@@ -20,6 +23,11 @@ const useStyles = createStyles((theme) => ({
       justifyContent: "space-between",
       width: "100%",
     },
+  },
+
+  reviewItem: {
+    padding: "1rem",
+    borderColor: "var(--prussian-blue-500)",
   },
 
   imgContainer: {
@@ -37,82 +45,62 @@ const useStyles = createStyles((theme) => ({
 
 const UserReviews = () => {
   const { classes } = useStyles();
+  const dispatch = useDispatch();
+  const { userReviews, isLoading } = useSelector((state) => state.reviews);
+
+  useEffect(() => {
+    dispatch(fetchUserReviews());
+  }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  console.log(userReviews);
+
+  const reviewList = userReviews.map((review) => {
+    return (
+      <Paper
+        className={classes.reviewItem}
+        key={review._id}
+        shadow="sm"
+        p="lg"
+        mb={20}
+        withBorder
+      >
+        <div className={classes.reviewContainer}>
+          <div className={classes.imgContainer}>
+            <Image src={review.product.image} />
+            <Text my={20} align="center">
+              {review.product.name}
+            </Text>
+            <Button
+              fullWidth
+              component={Link}
+              to={`/products/${review.product._id}`}
+            >
+              View Product
+            </Button>
+          </div>
+          <div style={{ flex: 2 }}>
+            <Text weight={500} mb={10}>
+              Rating: {review.rating}
+            </Text>
+            <Text mb={10}>
+              <span style={{ fontWeight: 500 }}>Review:</span> {review.comment}
+            </Text>
+          </div>
+        </div>
+      </Paper>
+    );
+  });
 
   return (
     <>
       <Text sx={{ color: "#C0C0C0", fontSize: "1.1rem" }} mb={32}>
         My Reviews
       </Text>
-      <Paper shadow="sm" p="lg" mb={20} withBorder>
-        <div className={classes.reviewContainer}>
-          <div className={classes.imgContainer}>
-            <Image src={image1} />
-            <Text my={20} align="center">
-              Lorem, ipsum dolor.
-            </Text>
-            <Button fullWidth>View Product</Button>
-          </div>
-          <div style={{ flex: 2 }}>
-            <Text weight={500} mb={10}>
-              Review:
-            </Text>
-            <Text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Perspiciatis quas quibusdam repudiandae architecto delectus magni
-              odio maxime quidem! Error, obcaecati. Quis, exercitationem
-              accusantium. Sapiente quidem odio ducimus dolorum fuga quia nobis
-              dolore vero est porro laudantium, asperiores ex sequi suscipit
-              iure optio nesciunt harum minima atque labore molestias possimus
-              dolores consequuntur.
-            </Text>
-          </div>
-        </div>
-      </Paper>
-
-      <Paper shadow="sm" p="lg" mb={20} withBorder>
-        <div className={classes.reviewContainer}>
-          <div className={classes.imgContainer}>
-            <Image src={image2} />
-            <Text my={20} align="center">
-              Lorem, ipsum dolor.
-            </Text>
-            <Button fullWidth>View Product</Button>
-          </div>
-          <div style={{ flex: 2 }}>
-            <Text weight={500} mb={10}>
-              Review:
-            </Text>
-            <Text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Perspiciatis quas quibusdam repudiandae architecto delectus magni
-              odio maxime quidem! Error, obcaecati. Quis, exercitationem
-              accusantium.
-            </Text>
-          </div>
-        </div>
-      </Paper>
-
-      <Paper shadow="sm" p="lg" mb={20} withBorder>
-        <div className={classes.reviewContainer}>
-          <div className={classes.imgContainer}>
-            <Image src={image3} />
-            <Text my={20} align="center">
-              Lorem, ipsum dolor.
-            </Text>
-            <Button fullWidth>View Product</Button>
-          </div>
-          <div style={{ flex: 2 }}>
-            <Text weight={500} mb={10}>
-              Review:
-            </Text>
-            <Text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Perspiciatis quas quibusdam repudiandae architecto delectus magni
-              odio maxime quidem!
-            </Text>
-          </div>
-        </div>
-      </Paper>
+      {reviewList}
     </>
   );
 };

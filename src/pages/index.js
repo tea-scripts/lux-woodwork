@@ -13,6 +13,7 @@ import PasswordReset from "./PasswordReset";
 import Admin from "./Admin";
 import User from "./User";
 import SingleOrder from "./SingleOrder";
+import ReviewProduct from "./ReviewProduct";
 
 export {
   Landing,
@@ -30,4 +31,5 @@ export {
   Admin,
   User,
   SingleOrder,
+  ReviewProduct,
 };

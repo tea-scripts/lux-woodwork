@@ -1,7 +1,16 @@
-import customFetch from '../../utils/axios';
-import { clearValues } from './reviewsSlice';
+import customFetch from "../../utils/axios";
+import { clearValues } from "./reviewsSlice";
 
 export const fetchReviewsThunk = async (url, thunkAPI) => {
+  try {
+    const response = await customFetch.get(url);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+};
+
+export const fetchUserReviewsThunk = async (url, thunkAPI) => {
   try {
     const response = await customFetch.get(url);
     return response.data;

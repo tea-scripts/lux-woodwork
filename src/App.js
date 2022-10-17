@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   Footer,
   Navbar,
@@ -27,9 +27,9 @@ import {
   AdminProfile,
   AdminSupport,
   StripeCheckout,
-} from './components';
-import { calculateTotals } from './features/cart/cartSlice';
-import { fetchUsers } from './features/users/userSlice';
+} from "./components";
+import { calculateTotals } from "./features/cart/cartSlice";
+import { fetchUsers } from "./features/users/userSlice";
 
 import {
   Landing,
@@ -46,14 +46,15 @@ import {
   PrivateRoute,
   Admin,
   SingleOrder,
-} from './pages';
-import { Flip, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import User from './pages/User';
-import SharedLayout from './pages/SharedLayout';
-import { fetchAllProducts } from './features/products/productsSlice';
-import { fetchAllUserAddresses } from './features/address/addressSlice';
-import { fetchAllOrders } from './features/orders/orderSlice';
+  ReviewProduct,
+} from "./pages";
+import { Flip, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import User from "./pages/User";
+import SharedLayout from "./pages/SharedLayout";
+import { fetchAllProducts } from "./features/products/productsSlice";
+import { fetchAllUserAddresses } from "./features/address/addressSlice";
+import { fetchAllOrders } from "./features/orders/orderSlice";
 
 function App() {
   const { cartItems } = useSelector((state) => state.cart);
@@ -101,6 +102,10 @@ function App() {
             <Route path="cart" element={<Cart />} />
             <Route path="/user/verify-email" element={<EmailVerification />} />
             <Route path="/user/reset-password" element={<PasswordReset />} />
+            <Route
+              path="/review-product/:userId/:productId"
+              element={<ReviewProduct />}
+            />
             <Route
               path="user"
               element={
