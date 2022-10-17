@@ -12,6 +12,7 @@ import EmailVerification from "./EmailVerification";
 import PasswordReset from "./PasswordReset";
 import Admin from "./Admin";
 import User from "./User";
+import SingleOrder from "./SingleOrder";
 
 export {
   Landing,
@@ -28,4 +29,5 @@ export {
   PasswordReset,
   Admin,
   User,
+  SingleOrder,
 };

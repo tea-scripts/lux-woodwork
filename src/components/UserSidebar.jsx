@@ -83,7 +83,6 @@ const useStyles = createStyles((theme) => ({
 const mockdata = [
   { label: "Profile", icon: <IconUser />, link: "/user" },
   { label: "Addresses", icon: <IconAddressBook />, link: "/user/address" },
-  { label: "Purchases", icon: <IconShoppingCart />, link: "/user/purchases" },
   { label: "Orders", icon: <IconTruck />, link: "/user/orders" },
   { label: "Reviews", icon: <IconNotes />, link: "/user/reviews" },
   { label: "Wishlist", icon: <IconHeart />, link: "/user/wishlist" },

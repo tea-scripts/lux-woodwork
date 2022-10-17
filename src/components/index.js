@@ -18,7 +18,7 @@ import UserSidebar from "./UserSidebar";
 import UserAddress from "./UserAddress";
 import UserProfile from "./UserProfile";
 import UserReviews from "./UserReviews";
-import UserTracking from "./UserTracking";
+import UserOrders from "./UserOrders";
 import UserWishlist from "./UserWishlist";
 import ScrollToTop from "./ScrollToTop";
 import Registration from "./Registration";
@@ -59,7 +59,7 @@ export {
   UserSidebar,
   UserProfile,
   UserAddress,
-  UserTracking,
+  UserOrders,
   UserWishlist,
   UserReviews,
   ScrollToTop,
