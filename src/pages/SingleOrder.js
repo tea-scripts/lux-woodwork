@@ -16,7 +16,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
-import { fetchOrder, updateOrder } from "../features/orders/orderSlice";
+import { fetchOrder, cancelOrder } from "../features/orders/orderSlice";
 import { DateTime } from "luxon";
 import { formatPrice } from "../utils/helpers";
 
@@ -47,13 +47,13 @@ const SingleOrder = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-  const { order, isLoading } = useSelector((state) => state.orders);
+  const { order, isLoading, orders } = useSelector((state) => state.orders);
   const date = DateTime.fromISO(order.createdAt);
   const readableDate = date.toLocaleString(DateTime.DATETIME_MED);
   const expiryDate = DateTime.fromISO(order.expiryDate);
   const expiryDateReadable = expiryDate.toLocaleString(DateTime.DATETIME_MED);
   const paidDate = DateTime.fromISO(order.updatedAt);
-  const paidDateReadable = paidDate.toLocaleString(DateTime.DATETIME_MED);
+  const updatedDateReadable = paidDate.toLocaleString(DateTime.DATETIME_MED);
 
   useEffect(() => {
     dispatch(fetchOrder(id));
@@ -77,10 +77,20 @@ const SingleOrder = () => {
         Status:{" "}
         <Badge
           radius="xs"
-          color={order.status === "paid" ? "green" : "red"}
+          color={
+            order.status === "paid"
+              ? "green"
+              : order.status === "pending"
+              ? "yellow"
+              : "red"
+          }
           variant="filled"
         >
-          {order.status === "paid" ? "Paid" : "Pending"}
+          {order.status === "paid"
+            ? "Paid"
+            : order.status === "pending"
+            ? "Pending"
+            : "Cancelled"}
         </Badge>
       </Text>
 
@@ -91,23 +101,16 @@ const SingleOrder = () => {
         {readableDate}
       </Text>
 
-      {order.status === "pending" && (
-        <Text>
-          <span weight={500} style={{ color: "var(--gray)" }}>
-            Pay before:
-          </span>{" "}
-          {expiryDateReadable}
-        </Text>
-      )}
-
-      {order.status === "paid" && (
-        <Text>
-          <span weight={500} style={{ color: "var(--gray)" }}>
-            Order Paid:
-          </span>{" "}
-          {paidDateReadable}
-        </Text>
-      )}
+      <Text>
+        <span weight={500} style={{ color: "var(--gray)" }}>
+          {order.status === "paid"
+            ? "Order Paid: "
+            : order.status === "pending"
+            ? "Pay before: "
+            : "Order Cancelled: "}
+        </span>
+        {order.status === "pending" ? expiryDateReadable : updatedDateReadable}
+      </Text>
 
       <Divider my={20} />
 
@@ -219,7 +222,15 @@ const SingleOrder = () => {
 
       {order.status === "pending" && (
         <Group position="right" mt={20}>
-          <Button variant="subtle">Cancel Order</Button>
+          <Button
+            variant="subtle"
+            onClick={() => {
+              dispatch(cancelOrder(order._id));
+              navigate("/user/orders");
+            }}
+          >
+            Cancel Order
+          </Button>
           <Button onClick={() => navigate(`/update-order/${order._id}`)}>
             Proceed to checkout
           </Button>

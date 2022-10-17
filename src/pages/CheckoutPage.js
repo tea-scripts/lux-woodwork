@@ -57,7 +57,6 @@ const CheckoutPage = () => {
 
   return (
     <section className={classes.wrapper}>
-      <h1>Checkout Page</h1>
       {cartItems.length === 0 ? (
         <Container size={1200} className={classes.empty}>
           <SimpleGrid spacing={20}>

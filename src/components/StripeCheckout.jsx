@@ -12,7 +12,7 @@ import { clearCart } from "../features/cart/cartSlice";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { formatPrice } from "../utils/helpers";
-import { Card, Container, Notification } from "@mantine/core";
+import { Card, Container, Notification, Title } from "@mantine/core";
 import { IconAlertCircle, IconCheck } from "@tabler/icons";
 import { fetchOrder, updateOrder } from "../features/orders/orderSlice";
 import { toast } from "react-toastify";
@@ -46,8 +46,6 @@ const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
 
-  console.log(defaultAddress);
-
   const cardStyle = {
     style: {
       base: {
@@ -74,7 +72,6 @@ const CheckoutForm = () => {
         shippingFee,
         defaultAddress,
       });
-      console.log("data", data);
       setClientSecret(data.order.clientSecret);
       console.log(data.order.clientSecret);
       setOrderId(data.order._id);
@@ -85,7 +82,7 @@ const CheckoutForm = () => {
   };
 
   useEffect(() => {
-    if (id && location.pathname.includes("update-order")) {
+    if (id && location.pathname.startsWith("/update-order")) {
       dispatch(fetchOrder(id));
     } else {
       createPaymentIntent();
@@ -144,8 +141,6 @@ const CheckoutForm = () => {
       }, 3000);
     }
   };
-
-  console.log(order);
 
   return (
     <div
@@ -229,7 +224,15 @@ const CheckoutForm = () => {
 
 const StripeCheckout = () => {
   return (
-    <Container size={1200}>
+    <Container
+      size={1200}
+      my={64}
+      sx={{ minHeight: "calc(100vh - (60px + 140px))" }}
+    >
+      <Title weight={500} align="center" order={1} mb={20}>
+        Checkout Page
+      </Title>
+
       <Wrapper>
         <Elements stripe={stripePromise}>
           <CheckoutForm />

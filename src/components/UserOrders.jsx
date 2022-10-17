@@ -68,6 +68,23 @@ const UserOrders = () => {
       >
         <Container className={classes.header}>
           <Text className={classes.orderIdText}>Order ID: {order._id}</Text>
+          <Badge
+            radius="xs"
+            color={
+              order.status === "paid"
+                ? "green"
+                : order.status === "pending"
+                ? "yellow"
+                : "red"
+            }
+            variant="filled"
+          >
+            {order.status === "paid"
+              ? "Paid"
+              : order.status === "pending"
+              ? "Pending"
+              : "Cancelled"}
+          </Badge>
         </Container>
         <Divider my={10} />
         {order.orderItems.map((item) => {
