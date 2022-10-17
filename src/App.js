@@ -9,7 +9,7 @@ import {
   UserAddress,
   UserProfile,
   UserReviews,
-  UserTracking,
+  UserOrders,
   UserWishlist,
   ScrollToTop,
   Registration,
@@ -26,6 +26,7 @@ import {
   AdminViewReviews,
   AdminProfile,
   AdminSupport,
+  StripeCheckout,
 } from "./components";
 import { calculateTotals } from "./features/cart/cartSlice";
 import { fetchUsers } from "./features/users/userSlice";
@@ -44,6 +45,7 @@ import {
   PasswordReset,
   PrivateRoute,
   Admin,
+  SingleOrder,
 } from "./pages";
 import { Flip, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -108,7 +110,8 @@ function App() {
             >
               <Route index element={<UserProfile />} />
               <Route path="address" element={<UserAddress />} />
-              <Route path="orders" element={<UserTracking />} />
+              <Route path="orders" element={<UserOrders />} />
+              <Route path="orders/:id" element={<SingleOrder />} />
               <Route path="wishlist" element={<UserWishlist />} />
               <Route path="reviews" element={<UserReviews />} />
               <Route path="update-password" element={<UpdatePassword />} />
@@ -122,7 +125,16 @@ function App() {
                 </PrivateRoute>
               }
             />
-            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route
+              path="/update-order/:id"
+              element={
+                <PrivateRoute>
+                  <StripeCheckout />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/checkout/:id" element={<CheckoutPage />} />
+            {/* <Route path="/stripecheckout/:id" element={<StripeCheckout />} /> */}
             <Route path="*" element={<Error />} />
           </Route>
           <Route

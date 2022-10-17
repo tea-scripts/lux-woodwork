@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
+import React, { useState, useEffect } from "react";
+import { loadStripe } from "@stripe/stripe-js";
 import {
   CardElement,
   useStripe,
   Elements,
   useElements,
-} from '@stripe/react-stripe-js';
-import customFetch from '../utils/axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { formatPrice } from '../utils/helpers';
-import { Card, Container, Notification } from '@mantine/core';
-import { IconAlertCircle, IconCheck } from '@tabler/icons';
-import { updateOrder } from '../features/orders/orderSlice';
-import { toast } from 'react-toastify';
+} from "@stripe/react-stripe-js";
+import customFetch from "../utils/axios";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCart } from "../features/cart/cartSlice";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import styled from "styled-components";
+import { formatPrice } from "../utils/helpers";
+import { Card, Container, Notification } from "@mantine/core";
+import { IconAlertCircle, IconCheck } from "@tabler/icons";
+import { fetchOrder, updateOrder } from "../features/orders/orderSlice";
+import { toast } from "react-toastify";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
@@ -28,87 +29,99 @@ const CheckoutForm = () => {
     total_amount,
   } = useSelector((state) => state.cart);
 
+  const location = useLocation();
+
+  const { id } = useParams();
+  const { order } = useSelector((state) => state.orders);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState(null);
-  const [processing, setProcessing] = useState('');
+  const [processing, setProcessing] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [orderId, setOrderId] = useState(null);
 
-  const [clientSecret, setClientSecret] = useState('');
+  const [clientSecret, setClientSecret] = useState("");
   const stripe = useStripe();
   const elements = useElements();
+
+  console.log(defaultAddress);
 
   const cardStyle = {
     style: {
       base: {
-        color: '#32325d',
-        fontFamily: 'Arial, sans-serif',
-        fontSmoothing: 'antialiased',
-        fontSize: '16px',
-        '::placeholder': {
-          color: '#32325d',
+        color: "#32325d",
+        fontFamily: "Arial, sans-serif",
+        fontSmoothing: "antialiased",
+        fontSize: "16px",
+        "::placeholder": {
+          color: "#32325d",
         },
       },
       invalid: {
-        color: '#fa755a',
-        iconColor: '#fa755a',
+        color: "#fa755a",
+        iconColor: "#fa755a",
       },
     },
   };
 
   const createPaymentIntent = async () => {
     try {
-      const { data } = await customFetch.post('/orders', {
+      const { data } = await customFetch.post("/orders", {
         cartItems,
         tax,
         shippingFee,
         defaultAddress,
       });
+      console.log("data", data);
       setClientSecret(data.order.clientSecret);
       console.log(data.order.clientSecret);
       setOrderId(data.order._id);
-      toast.success('Order placed successfully!');
+      toast.success("Order placed successfully!");
     } catch (error) {
       console.log(error.response);
     }
   };
 
   useEffect(() => {
-    createPaymentIntent();
+    if (id && location.pathname.includes("update-order")) {
+      dispatch(fetchOrder(id));
+    } else {
+      createPaymentIntent();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleChange = async (event) => {
     setDisabled(event.empty);
-    setError(event.error ? event.error.message : '');
+    setError(event.error ? event.error.message : "");
   };
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
     setProcessing(true);
 
-    const payload = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
-      },
-
-      receipt_email: user.email,
-      shipping: {
-        name: user.first_name,
-        address: {
-          line1: defaultAddress.street,
-          city: defaultAddress.city,
-          state: defaultAddress.state,
-          postal_code: defaultAddress.zip,
-          country: 'PH',
+    const payload = await stripe.confirmCardPayment(
+      order && id ? order.clientSecret : clientSecret,
+      {
+        payment_method: {
+          card: elements.getElement(CardElement),
         },
-      },
-    });
 
-    console.log(payload);
-    console.log(payload.paymentIntent);
+        receipt_email: user.email,
+        shipping: {
+          name: user.first_name,
+          address: {
+            line1: defaultAddress.street,
+            city: defaultAddress.city,
+            state: defaultAddress.state,
+            postal_code: defaultAddress.zip,
+            country: "PH",
+          },
+        },
+      }
+    );
 
     if (payload.error) {
       setError(`Payment failed ${payload.error.message}`);
@@ -119,21 +132,28 @@ const CheckoutForm = () => {
       setSucceeded(true);
       setTimeout(() => {
         dispatch(
-          updateOrder({ orderId, paymentIntentId: payload.paymentIntent.id })
+          updateOrder({
+            orderId: order && id ? order._id : orderId,
+            paymentIntentId: order
+              ? order.paymentIntentId
+              : payload.paymentIntent.id,
+          })
         );
 
-        navigate('/');
+        navigate("/");
       }, 3000);
     }
   };
 
+  console.log(order);
+
   return (
     <div
       style={{
-        display: 'grid',
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: '0 auto',
+        display: "grid",
+        justifyContent: "center",
+        alignItems: "center",
+        margin: "0 auto",
       }}
     >
       <Notification
@@ -142,11 +162,11 @@ const CheckoutForm = () => {
         disallowClose
         title="Notice"
         sx={{
-          marginBottom: '1rem',
-          maxWidth: '50vw',
+          marginBottom: "1rem",
+          maxWidth: "50vw",
 
-          '@media (max-width: 600px)': {
-            maxWidth: '890vw',
+          "@media (max-width: 600px)": {
+            maxWidth: "890vw",
           },
         }}
       >
@@ -157,24 +177,24 @@ const CheckoutForm = () => {
           icon={<IconCheck size={18} />}
           type="success"
           title="Notification"
-          color={succeeded ? 'green' : 'red'}
+          color={succeeded ? "green" : "red"}
           disallowClose
         >
           Payment successful. Redirecting to home page...
         </Notification>
       ) : (
         <Card
-          shadow={'md'}
+          shadow={"md"}
           paddind="3rem"
           sx={{
-            maxWidth: '50vw',
+            maxWidth: "50vw",
 
-            '@media (max-width: 600px)': {
-              maxWidth: '890vw',
+            "@media (max-width: 600px)": {
+              maxWidth: "890vw",
             },
           }}
         >
-          <h4>Hello, {user && user.first_name + ' ' + user.last_name}</h4>
+          <h4>Hello, {user && user.first_name + " " + user.last_name}</h4>
           <p>Your total is {formatPrice(shippingFee + total_amount)}</p>
           <p>Test Card Number : 4242 4242 4242 4242</p>
           <p>3D Secure Auth Test Card : 4000 0000 0000 3220</p>
@@ -192,7 +212,7 @@ const CheckoutForm = () => {
             {processing ? (
               <div className="spinner" id="spinner"></div>
             ) : (
-              'Pay Now'
+              "Pay Now"
             )}
           </span>
         </button>
@@ -319,7 +339,7 @@ const Wrapper = styled.section`
   .spinner:before,
   .spinner:after {
     position: absolute;
-    content: '';
+    content: "";
   }
   .spinner:before {
     width: 10.4px;
