@@ -5,11 +5,15 @@ import {
   ActionIcon,
   Badge,
   createStyles,
+  Button,
 } from "@mantine/core";
 import { IconEdit, IconTrash } from "@tabler/icons";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteAddress } from "../features/address/addressSlice";
+import {
+  deleteAddress,
+  selectDefaultAddress,
+} from "../features/address/addressSlice";
 import EditAddressModal from "./EditAddressModal";
 
 const useStyles = createStyles((theme) => ({
@@ -17,6 +21,7 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     padding: "1rem",
+    borderColor: "var(--prussian-blue-500)",
 
     "@media (min-width: 1080px)": {
       flexDirection: "row",
@@ -52,7 +57,12 @@ const SingleAddress = ({ address }) => {
   } = address;
 
   return (
-    <Paper className={classes.addressItem} key={addressId} withBorder>
+    <Paper
+      className={classes.addressItem}
+      key={addressId}
+      shadow="xs"
+      withBorder
+    >
       <EditAddressModal
         opened={opened}
         setOpened={setOpened}
@@ -82,6 +92,14 @@ const SingleAddress = ({ address }) => {
           >
             <IconTrash size={18} />
           </ActionIcon>
+          {!address.defaultAddress && (
+            <Button
+              variant="subtle"
+              onClick={() => dispatch(selectDefaultAddress(addressId))}
+            >
+              Select as default
+            </Button>
+          )}
         </Group>
       </div>
     </Paper>

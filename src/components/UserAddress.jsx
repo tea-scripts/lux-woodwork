@@ -1,10 +1,10 @@
-import { Button, Group, Stack, Text, Divider } from '@mantine/core';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-import { fetchAllUserAddresses } from '../features/address/addressSlice';
-import Loading from './Loading';
-import AddAddressModal from './AddAddressModal';
-import SingleAddress from './SingleAddress';
+import { Button, Group, Stack, Text, Divider } from "@mantine/core";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { fetchAllUserAddresses } from "../features/address/addressSlice";
+import Loading from "./Loading";
+import AddAddressModal from "./AddAddressModal";
+import SingleAddress from "./SingleAddress";
 
 const UserAddress = () => {
   const dispatch = useDispatch();
@@ -23,15 +23,15 @@ const UserAddress = () => {
     <>
       <div
         style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
         <Text
           sx={{
-            color: 'var(--prussian-blue-500)',
-            fontSize: '1.1rem',
+            color: "var(--prussian-blue-500)",
+            fontSize: "1.1rem",
             fontWeight: 500,
           }}
         >

@@ -28,8 +28,6 @@ const EditAddressModal = ({ opened, setOpened, address }) => {
     zip: address.zip,
   });
 
-  console.log(updateAddress);
-
   const [regionsList, setRegionsList] = useState([]);
   const [provincesList, setProvincesList] = useState([]);
   const [cityList, setCityList] = useState([]);

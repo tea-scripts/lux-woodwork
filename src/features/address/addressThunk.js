@@ -1,5 +1,5 @@
-import { fetchAllUserAddresses } from './addressSlice';
-import customFetch from '../../utils/axios';
+import { fetchAllUserAddresses } from "./addressSlice";
+import customFetch from "../../utils/axios";
 
 export const fetchAllAddressesThunk = async (url, thunkAPI) => {
   try {
@@ -32,6 +32,16 @@ export const createAddressThunk = async (url, address, thunkAPI) => {
 export const updateAddressThunk = async (url, address, thunkAPI) => {
   try {
     const response = await customFetch.patch(url, address);
+    thunkAPI.dispatch(fetchAllUserAddresses());
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data.msg);
+  }
+};
+
+export const selectDefaultAddressThunk = async (url, thunkAPI) => {
+  try {
+    const response = await customFetch.patch(url);
     thunkAPI.dispatch(fetchAllUserAddresses());
     return response.data;
   } catch (error) {

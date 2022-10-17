@@ -1,12 +1,12 @@
-import { useSelector } from 'react-redux';
-import { Badge, Card, createStyles, Text } from '@mantine/core';
-import Loading from '../components/Loading';
-import { Link } from 'react-router-dom';
+import { useSelector } from "react-redux";
+import { Badge, Button, Card, createStyles, Group, Text } from "@mantine/core";
+import Loading from "../components/Loading";
+import { Link } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
     maxWidth: 400,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     marginTop: theme.spacing.xl * 2,
   },
 }));
@@ -26,19 +26,16 @@ const SelectAddress = () => {
           <Badge mb={15} color="dark">
             Default Address
           </Badge>
-          <Text>{defaultAddress?.street}</Text>
-          <Text>{defaultAddress?.city}</Text>
-          <Text>{defaultAddress?.postal_code}</Text>
-          <Text>{defaultAddress?.country}</Text>
-
-          <Link color="blue" to="/user/address">
-            <Badge
-              color="blue"
-              style={{ fontSize: '0.7rem', cursor: 'pointer' }}
-            >
+          <Text>
+            {defaultAddress?.street}, {defaultAddress?.barangay},{" "}
+            {defaultAddress?.city}, {defaultAddress?.province},{" "}
+            {defaultAddress?.region}, {defaultAddress?.zip}
+          </Text>
+          <Group position="right">
+            <Button variant="subtle" component={Link} to="/user/address">
               Change Address
-            </Badge>
-          </Link>
+            </Button>
+          </Group>
         </Card>
       </div>
     </div>
