@@ -10,6 +10,7 @@ import {
   Container,
   Grid,
   Badge,
+  Pagination,
 } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -56,7 +57,8 @@ const useStyles = createStyles((theme) => ({
 const UserOrders = () => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
-  const { userOrders, isLoading } = useSelector((state) => state.orders);
+  const { userOrders, isLoading, pages } = useSelector((state) => state.orders);
+  const [activePage, setPage] = useState(1);
 
   const displayOrders = userOrders.map((order) => {
     return (
@@ -142,8 +144,12 @@ const UserOrders = () => {
   });
 
   useEffect(() => {
-    dispatch(fetchUserOrders());
-  }, []);
+    dispatch(fetchUserOrders(activePage));
+  }, [activePage]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -167,10 +173,13 @@ const UserOrders = () => {
 
       <Divider mt={16} mb={32} />
 
-      <Stack spacing={32}>
-        {isLoading && <Loading />}
-        {!isLoading && displayOrders}
-      </Stack>
+      <Stack spacing={32}>{displayOrders}</Stack>
+
+      {pages > 1 && (
+        <Group position="right" mt={32}>
+          <Pagination page={activePage} onChange={setPage} total={pages} />
+        </Group>
+      )}
     </>
   );
 };
