@@ -4,6 +4,7 @@ import {
   createProductThunk,
   deleteProductThunk,
   fetchAllProductsThunk,
+  fetchSingleProductReviewsThunk,
   fetchProductThunk,
   updateProductThunk,
   uploadProductImageThunk,
@@ -26,6 +27,15 @@ const initialState = {
   displayProduct: false,
   isEditingProduct: false,
   product_name: '',
+  page: 1,
+  totalPages: 0,
+  totalProducts: 0,
+  totalReviewPages: 0,
+  reviewPage: 1,
+  totalReviews: 0,
+  searchField: '',
+  filteredProducts: [],
+  productReviews: [],
 };
 
 export const createProduct = createAsyncThunk(
@@ -45,7 +55,10 @@ export const uploadProductImage = createAsyncThunk(
 export const fetchAllProducts = createAsyncThunk(
   'products/fetchAllProducts',
   async (_, thunkAPI) => {
-    return fetchAllProductsThunk('/products', thunkAPI);
+    return fetchAllProductsThunk(
+      `/products?page${thunkAPI.getState().products.page}`,
+      thunkAPI
+    );
   }
 );
 
@@ -71,6 +84,18 @@ export const deleteProduct = createAsyncThunk(
   'products/deleteProduct',
   async (id, thunkAPI) => {
     return deleteProductThunk(`/products/${id}`, thunkAPI);
+  }
+);
+
+export const fetchSingleProductReviews = createAsyncThunk(
+  'products/fetchSingleProductReviews',
+  async (productId, thunkAPI) => {
+    return fetchSingleProductReviewsThunk(
+      `/products/${productId}/reviews?page=${
+        thunkAPI.getState().products.reviewPage
+      }`,
+      thunkAPI
+    );
   }
 );
 
@@ -105,13 +130,19 @@ const productsSlice = createSlice({
       state.displayProduct = payload.displayProduct;
       state.product_name = payload.product_name;
     },
+    changePage: (state, { payload }) => {
+      state.page = payload;
+    },
   },
   extraReducers: {
     [fetchAllProducts.pending]: (state) => {
       state.isLoading = true;
     },
     [fetchAllProducts.fulfilled]: (state, action) => {
-      state.products = action.payload.products;
+      const { products, totalPages, totalProducts } = action.payload;
+      state.products = products;
+      state.totalPages = totalPages;
+      state.totalProducts = totalProducts;
       state.isLoading = false;
     },
     [fetchAllProducts.rejected]: (state, action) => {
@@ -174,6 +205,20 @@ const productsSlice = createSlice({
       state.isLoading = false;
       toast.error(action.payload.msg);
     },
+    [fetchSingleProductReviews.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [fetchSingleProductReviews.fulfilled]: (state, action) => {
+      const { reviews, totalPages, totalReviews } = action.payload;
+      state.productReviews = reviews;
+      state.totalReviewPages = totalPages;
+      state.totalReviews = totalReviews;
+      state.isLoading = false;
+    },
+    [fetchSingleProductReviews.rejected]: (state, action) => {
+      state.isLoading = false;
+      toast.error(action.payload.msg);
+    },
   },
 });
 
@@ -183,6 +228,7 @@ export const {
   toggleProductView,
   setProductValues,
   toggleProductEdit,
+  changePage,
 } = productsSlice.actions;
 
 export default productsSlice.reducer;

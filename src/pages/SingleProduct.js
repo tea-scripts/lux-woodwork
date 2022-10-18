@@ -9,14 +9,20 @@ import {
 import { Link, useParams } from 'react-router-dom';
 import { createStyles } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
-import { formatPrice, reviews } from '../utils/helpers';
+import { formatPrice } from '../utils/helpers';
 import AddToCart from '../components/AddToCart';
 import SingleReview from '../components/SingleReview';
 import { Product } from '../components';
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../components/Loading';
 import { useEffect } from 'react';
-import { fetchProduct } from '../features/products/productsSlice';
+import {
+  changePage,
+  fetchProduct,
+  fetchSingleProductReviews,
+} from '../features/products/productsSlice';
+import Stars from '../components/Stars';
+import PaginationButtons from '../components/PaginationButtons';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -134,21 +140,37 @@ const useStyles = createStyles((theme) => ({
 
 const SingleProduct = () => {
   const { classes } = useStyles();
-  const { product, products, isLoading } = useSelector(
-    (state) => state.products
-  );
+  const {
+    product,
+    products,
+    isLoading,
+    productReviews,
+    reviewPage,
+    totalReviewPages,
+  } = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const { id } = useParams();
 
   useEffect(() => {
     dispatch(fetchProduct(id));
+    dispatch(fetchSingleProductReviews(id));
   }, [id]);
 
   if (isLoading) {
     return <Loading />;
   }
 
-  const { name, _id, inventory, price, description, category, image } = product;
+  const {
+    name,
+    _id,
+    inventory,
+    price,
+    description,
+    category,
+    image,
+    averageRating,
+    numOfReviews,
+  } = product;
 
   return (
     <section className={classes.wrapper}>
@@ -171,6 +193,7 @@ const SingleProduct = () => {
         </Carousel> */}
         <section className={classes.content}>
           <h2>{name}</h2>
+          <Stars stars={averageRating} reviewsCount={numOfReviews} />
           <h5>{formatPrice(price)}</h5>
           <p className={classes.description}>{description}</p>
 
@@ -194,11 +217,16 @@ const SingleProduct = () => {
       </div>
 
       <div className={classes.productReviews}>
-        <h4>Product Reviews</h4>
-        {reviews.map((review, index) => (
+        <h4>Product Reviews </h4>
+        {productReviews.map((review, index) => (
           <SingleReview {...review} key={index} />
         ))}
-        <Pagination total={10} disabled={true} position="center" />
+        <PaginationButtons
+          changePage={changePage}
+          page={reviewPage}
+          isLoading={isLoading}
+          totalPages={totalReviewPages}
+        />
       </div>
 
       <Container size={1200} className={classes.relatedProducts}>

@@ -37,6 +37,9 @@ const initialState = {
   addresses: [],
   address: {},
   wishlist: getWishlistFromLocalStorage(),
+  totalUsers: 0,
+  page: 1,
+  totalPages: 0,
 };
 
 export const fetchUsers = createAsyncThunk(
@@ -132,6 +135,9 @@ const userSlice = createSlice({
     toggleSingleUserModal: (state) => {
       state.singleUserModal = !state.singleUserModal;
     },
+    changePage: (state, { payload }) => {
+      state.page = payload;
+    },
   },
   extraReducers: {
     [fetchUsers.pending]: (state) => {
@@ -139,7 +145,10 @@ const userSlice = createSlice({
     },
     [fetchUsers.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.users = action.payload.users;
+      const { users, totalPages, totalUsers } = action.payload;
+      state.users = users;
+      state.totalPages = totalPages;
+      state.totalUsers = totalUsers;
     },
     [fetchUsers.rejected]: (state) => {
       state.isLoading = false;
@@ -243,6 +252,7 @@ export const {
   addToWishlist,
   removeFromWishlist,
   toggleSingleUserModal,
+  changePage,
 } = userSlice.actions;
 
 export default userSlice.reducer;

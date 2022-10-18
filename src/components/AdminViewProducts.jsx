@@ -16,6 +16,7 @@ import {
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  changePage,
   deleteProduct,
   fetchAllProducts,
   handleChange,
@@ -27,6 +28,7 @@ import { formatPrice } from '../utils/helpers';
 import Loading from './Loading';
 import ViewProductModal from './ViewProductModal';
 import EditProductModal from './EditProductModal';
+import PaginationButtons from './PaginationButtons';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -50,9 +52,8 @@ const useStyles = createStyles((theme) => ({
 const AdminViewProducts = () => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
-  const { products, isLoading, product_name } = useSelector(
-    (store) => store.products
-  );
+  const { products, isLoading, totalPages, totalProducts, page, searchField } =
+    useSelector((store) => store.products);
 
   const handleInput = (e) => {
     const name = e.target.name;
@@ -62,53 +63,57 @@ const AdminViewProducts = () => {
 
   const rows =
     products &&
-    products.map((product, index) => {
-      const { _id, name, inventory, price, category } = product;
-      return (
-        <tr key={_id}>
-          <td>{index + 1}</td>
-          <td style={{ textTransform: 'capitalize' }}>{name}</td>
-          <td>{inventory}</td>
-          <td>{formatPrice(price)}</td>
-          <td style={{ textTransform: 'capitalize' }}>{category}</td>
-          <td>
-            <Group spacing={5}>
-              <ActionIcon
-                color="green"
-                onClick={() => {
-                  dispatch(toggleProductView());
-                  dispatch(setProductValues(product));
-                }}
-              >
-                <IconSquareCheck size={15} />
-              </ActionIcon>
+    products
+      .filter((product) =>
+        product.name.toLowerCase().includes(searchField.toLowerCase())
+      )
+      .map((product, index) => {
+        const { _id, name, inventory, price, category } = product;
+        return (
+          <tr key={_id}>
+            <td>{index + 1}</td>
+            <td style={{ textTransform: 'capitalize' }}>{name}</td>
+            <td>{inventory}</td>
+            <td>{formatPrice(price)}</td>
+            <td style={{ textTransform: 'capitalize' }}>{category}</td>
+            <td>
+              <Group spacing={5}>
+                <ActionIcon
+                  color="green"
+                  onClick={() => {
+                    dispatch(toggleProductView());
+                    dispatch(setProductValues(product));
+                  }}
+                >
+                  <IconSquareCheck size={15} />
+                </ActionIcon>
 
-              <ActionIcon
-                color="yellow"
-                onClick={() => {
-                  dispatch(setProductValues(product));
-                  dispatch(toggleProductEdit());
-                }}
-              >
-                <IconEdit size={15} />
-              </ActionIcon>
+                <ActionIcon
+                  color="yellow"
+                  onClick={() => {
+                    dispatch(setProductValues(product));
+                    dispatch(toggleProductEdit());
+                  }}
+                >
+                  <IconEdit size={15} />
+                </ActionIcon>
 
-              <ActionIcon
-                color="red"
-                onClick={() => dispatch(deleteProduct(_id))}
-              >
-                <IconTrashX size={15} />
-              </ActionIcon>
-            </Group>
-          </td>
-        </tr>
-      );
-    });
+                <ActionIcon
+                  color="red"
+                  onClick={() => dispatch(deleteProduct(_id))}
+                >
+                  <IconTrashX size={15} />
+                </ActionIcon>
+              </Group>
+            </td>
+          </tr>
+        );
+      });
 
   useEffect(() => {
     dispatch(fetchAllProducts());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [products.length]);
+  }, [page]);
 
   if (isLoading) {
     return <Loading />;
@@ -127,12 +132,12 @@ const AdminViewProducts = () => {
             <Input
               rightSection={<IconSearch size={16} />}
               placeholder="Search by product name"
-              name="product_name"
-              value={product_name}
+              name="searchField"
+              value={searchField}
               onChange={handleInput}
             />
           </Group>
-          <Table highlightOnHover>
+          <Table highlightOnHover captionSide="bottom">
             <thead>
               <tr>
                 <th>#</th>
@@ -144,9 +149,20 @@ const AdminViewProducts = () => {
               </tr>
             </thead>
             <tbody>{rows}</tbody>
+            <caption>
+              {totalProducts} products found. Showing {products.length}{' '}
+            </caption>
           </Table>
         </Container>
       </Container>
+      {totalPages > 1 && (
+        <PaginationButtons
+          changePage={changePage}
+          totalPages={totalPages}
+          page={page}
+          isLoading={isLoading}
+        />
+      )}
     </Container>
   );
 };

@@ -4,14 +4,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DateTime } from 'luxon';
 import { IconSquareCheck, IconTrashX } from '@tabler/icons';
 import {
+  changePage,
   deleteOrder,
+  fetchAllOrders,
   setOrderValues,
   toggleOrderView,
 } from '../features/orders/orderSlice';
 import ViewOrderModal from './ViewOrderModal';
+import PaginationButtons from './PaginationButtons';
+import { useEffect } from 'react';
+import Loading from './Loading';
 
 const AdminOrders = () => {
-  const { orders } = useSelector((state) => state.orders);
+  const { orders, totalPages, page, isLoading, totalOrders } = useSelector(
+    (state) => state.orders
+  );
   const dispatch = useDispatch();
 
   const rows = orders.map((order) => {
@@ -55,6 +62,11 @@ const AdminOrders = () => {
     );
   });
 
+  useEffect(() => {
+    dispatch(fetchAllOrders());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
+
   return (
     <Paper sx={{ width: '100%', padding: '1rem' }}>
       <Group>
@@ -63,28 +75,45 @@ const AdminOrders = () => {
 
       <ViewOrderModal />
 
-      <Table highlightOnHover striped>
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>Customer</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Status</th>
-            <th>Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.length === 0 ? (
+      {isLoading ? (
+        <div style={{ textAlign: 'center' }}>
+          <Loading />
+        </div>
+      ) : (
+        <Table highlightOnHover striped captionSide="bottom">
+          <thead>
             <tr>
-              <td colSpan={7}>No orders found</td>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Actions</th>
             </tr>
-          ) : (
-            rows
-          )}
-        </tbody>
-      </Table>
+          </thead>
+          <caption>
+            {totalOrders} orders found. Showing page {page} of {totalPages}
+          </caption>
+          <tbody>
+            {rows.length === 0 ? (
+              <tr>
+                <td colSpan={7}>No orders found</td>
+              </tr>
+            ) : (
+              rows
+            )}
+          </tbody>
+        </Table>
+      )}
+      {totalPages > 1 && (
+        <PaginationButtons
+          changePage={changePage}
+          totalPages={totalPages}
+          page={page}
+          isLoading={isLoading}
+        />
+      )}
     </Paper>
   );
 };

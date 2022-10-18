@@ -2,8 +2,9 @@ import { Container, Text, Group, createStyles, Table } from '@mantine/core';
 import { IconDiscountCheck, IconRefreshAlert } from '@tabler/icons';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUsers } from '../features/users/userSlice';
+import { changePage, fetchUsers } from '../features/users/userSlice';
 import Loading from './Loading';
+import PaginationButtons from './PaginationButtons';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -26,7 +27,9 @@ const useStyles = createStyles((theme) => ({
 
 const AdminViewUsers = () => {
   const { classes } = useStyles();
-  const { users, isLoading } = useSelector((state) => state.users);
+  const { users, isLoading, totalUsers, totalPages, page } = useSelector(
+    (state) => state.users
+  );
   const dispatch = useDispatch();
 
   const rows = users.map((user, index) => {
@@ -81,7 +84,7 @@ const AdminViewUsers = () => {
       </Container>
       <Container className={classes.inner} fluid>
         <Container sx={{ padding: 0 }} fluid>
-          <Table highlightOnHover>
+          <Table highlightOnHover captionSide="bottom">
             <thead>
               <tr>
                 <th>#</th>
@@ -91,10 +94,21 @@ const AdminViewUsers = () => {
                 <th>Verification</th>
               </tr>
             </thead>
+            <caption>
+              {totalUsers} users found. Showing page {page} of {totalPages}
+            </caption>
             <tbody>{rows}</tbody>
           </Table>
         </Container>
       </Container>
+      {totalPages > 1 && (
+        <PaginationButtons
+          changePage={changePage}
+          totalPages={totalPages}
+          page={page}
+          isLoading={isLoading}
+        />
+      )}
     </Container>
   );
 };
