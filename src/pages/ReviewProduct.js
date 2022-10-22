@@ -10,11 +10,11 @@ import {
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { StarRating } from "../components";
 import Loading from "../components/Loading";
 import { fetchProduct } from "../features/products/productsSlice";
-import { createReview } from "../features/reviews/reviewsSlice";
+import { createReview, updateReview } from "../features/reviews/reviewsSlice";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -37,9 +37,11 @@ const ReviewProduct = () => {
   const navigate = useNavigate();
   const { userId, productId } = useParams();
   const { product, isLoading } = useSelector((state) => state.products);
-
+  const { userReviews } = useSelector((state) => state.reviews);
+  const [searchParams] = useSearchParams();
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(0);
+  const [reviewId, setReviewId] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -51,9 +53,30 @@ const ReviewProduct = () => {
       product: productId,
     };
 
-    dispatch(createReview(review));
-    navigate("/user");
+    if (searchParams.get("update")) {
+      const modifiedReview = {
+        ...review,
+        reviewId,
+      };
+      console.log("modifiedReview", modifiedReview);
+      dispatch(updateReview(modifiedReview));
+    } else {
+      dispatch(createReview(review));
+    }
+
+    navigate("/user/reviews");
   };
+
+  useEffect(() => {
+    if (searchParams.get("update")) {
+      const review = userReviews.find(
+        (review) => review.product.id === productId
+      );
+      setReviewId(review._id);
+      setRating(review.rating);
+      setComment(review.comment);
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(fetchProduct(productId));

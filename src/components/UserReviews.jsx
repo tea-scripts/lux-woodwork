@@ -1,17 +1,12 @@
-import {
-  Button,
-  Container,
-  createStyles,
-  Image,
-  Paper,
-  Text,
-} from "@mantine/core";
-import image1 from "../assets/images/product-1.jpg";
+import { Button, createStyles, Image, Paper, Text } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { fetchUserReviews } from "../features/reviews/reviewsSlice";
+import {
+  deleteReview,
+  fetchUserReviews,
+} from "../features/reviews/reviewsSlice";
 import Loading from "./Loading";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   reviewContainer: {
@@ -46,19 +41,17 @@ const useStyles = createStyles((theme) => ({
 const UserReviews = () => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.users);
   const { userReviews, isLoading } = useSelector((state) => state.reviews);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchUserReviews());
-  }, []);
+    if (isLoading === false) {
+      dispatch(fetchUserReviews());
+    }
+  }, [isLoading]);
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  console.log(userReviews);
-
-  const reviewList = userReviews.map((review) => {
+  const reviewList = userReviews?.map((review) => {
     return (
       <Paper
         className={classes.reviewItem}
@@ -70,19 +63,37 @@ const UserReviews = () => {
       >
         <div className={classes.reviewContainer}>
           <div className={classes.imgContainer}>
-            <Image src={review.product.image} />
-            <Text my={20} align="center">
-              {review.product.name}
-            </Text>
-            <Button
-              fullWidth
+            <Image
               component={Link}
               to={`/products/${review.product._id}`}
+              src={review.product.image}
+            />
+            <Button
+              mt={8}
+              color="yellow"
+              onClick={() => {
+                navigate({
+                  pathname: `/review-product/${user._id}/${review.product._id}`,
+                  search: `update=true`,
+                });
+              }}
+              fullWidth
             >
-              View Product
+              Update Review
+            </Button>
+            <Button
+              mt={8}
+              color="red"
+              fullWidth
+              onClick={() => dispatch(deleteReview(review._id))}
+            >
+              Remove Review
             </Button>
           </div>
           <div style={{ flex: 2 }}>
+            <Text weight={500} mb={10}>
+              {review.product.name}
+            </Text>
             <Text weight={500} mb={10}>
               Rating: {review.rating}
             </Text>

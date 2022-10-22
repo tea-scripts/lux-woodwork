@@ -63,8 +63,6 @@ const SingleOrder = () => {
     return <Loading />;
   }
 
-  console.log(order);
-
   return (
     <Container>
       <Button component={Link} to="/user/orders" mb={32}>
@@ -115,10 +113,18 @@ const SingleOrder = () => {
       <Divider my={20} />
 
       {order.orderItems?.map((item) => {
-        console.log("item", item);
         return (
           <Grid key={item._id} p="sm">
-            <Grid.Col xs={12} sm={6}>
+            <Grid.Col
+              xs={12}
+              sm={5}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Paper
                 className={classes.imageContainer}
                 component={Link}
@@ -127,16 +133,13 @@ const SingleOrder = () => {
                 <Image radius="md" src={item.image} alt="order item" />
               </Paper>
               {order.status === "paid" && (
-                <div style={{ marginLeft: "5.5rem" }}>
-                  <Text
-                    component={Link}
-                    to={`/review-product/${order.user}/${item.product}`}
-                    color="blue"
-                    sx={{ "&:hover": { textDecoration: "underline" } }}
-                  >
-                    Review Product
-                  </Text>
-                </div>
+                <Button
+                  mt={8}
+                  component={Link}
+                  to={`/review-product/${order.user}/${item.product}`}
+                >
+                  Review Product
+                </Button>
               )}
             </Grid.Col>
             <Grid.Col xs={12} sm={6}>
