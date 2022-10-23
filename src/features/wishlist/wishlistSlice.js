@@ -10,13 +10,14 @@ const initialState = {
   wishlist: [],
   error: null,
   isLoading: false,
+  pages: 1,
 };
 
 export const fetchUserWishlist = createAsyncThunk(
   "wishlist/fetchWishlist",
-  async (_, thunkAPI) => {
+  async (page, thunkAPI) => {
     return fetchUserWishlistThunk(
-      `/wishlist/${thunkAPI.getState().users.user._id}`,
+      `/wishlist/${thunkAPI.getState().users.user._id}?page=${page}`,
       thunkAPI
     );
   }
@@ -32,7 +33,6 @@ export const addWishlistItem = createAsyncThunk(
 export const deleteWishlistItem = createAsyncThunk(
   "wishlist/deleteWishlistItem",
   async (wishlistItemId, thunkAPI) => {
-    // console.log(wishlistItemId);
     return deleteWishlistItemThunk(`/wishlist/${wishlistItemId}`, thunkAPI);
   }
 );
@@ -48,6 +48,7 @@ const wishlistSlice = createSlice({
     [fetchUserWishlist.fulfilled]: (state, action) => {
       state.wishlist = action.payload;
       state.isLoading = false;
+      state.pages = action.payload.pages;
     },
     [fetchUserWishlist.rejected]: (state, action) => {
       state.isLoading = false;
@@ -57,7 +58,8 @@ const wishlistSlice = createSlice({
       state.isLoading = true;
     },
     [addWishlistItem.fulfilled]: (state, action) => {
-      console.log(action.payload);
+      state.wishlist = action.payload;
+      state.pages = action.payload.pages;
       toast.success("Item added to wishlist");
     },
     [addWishlistItem.rejected]: (state, action) => {

@@ -1,4 +1,4 @@
-import { Button, Group, Stack, Text, Divider } from "@mantine/core";
+import { Button, Group, Stack, Text, Divider, Pagination } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchAllUserAddresses } from "../features/address/addressSlice";
@@ -8,16 +8,18 @@ import SingleAddress from "./SingleAddress";
 
 const UserAddress = () => {
   const dispatch = useDispatch();
-  const { user, isLoading } = useSelector((state) => state.users);
-  const { userAddresses } = useSelector((state) => state.address);
+  const { userAddresses, isLoading, pages } = useSelector(
+    (state) => state.address
+  );
   const [opened, setOpened] = useState(false);
+  const [activePage, setPage] = useState(1);
 
   useEffect(() => {
     if (isLoading === false) {
-      dispatch(fetchAllUserAddresses());
+      dispatch(fetchAllUserAddresses(activePage));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, [activePage]);
 
   return (
     <>
@@ -60,6 +62,12 @@ const UserAddress = () => {
             return <SingleAddress key={address._id} address={address} />;
           })}
       </Stack>
+
+      {pages > 1 && (
+        <Group position="right" mt={32}>
+          <Pagination page={activePage} onChange={setPage} total={pages} />
+        </Group>
+      )}
     </>
   );
 };

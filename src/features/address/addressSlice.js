@@ -13,6 +13,7 @@ const initialState = {
   userAddresses: [],
   addresses: [],
   defaultAddress: {},
+  pages: 1,
 };
 
 export const fetchAllAddresses = createAsyncThunk(
@@ -31,9 +32,9 @@ export const createAddress = createAsyncThunk(
 
 export const fetchAllUserAddresses = createAsyncThunk(
   "users/fetchAllUserAddresses",
-  async (_, thunkAPI) => {
+  async (page, thunkAPI) => {
     return fetchAllAddressesThunk(
-      `/address/user/${thunkAPI.getState().users.user._id}`,
+      `/address/user/${thunkAPI.getState().users.user._id}?page=${page}`,
       thunkAPI
     );
   }
@@ -104,6 +105,7 @@ const addressSlice = createSlice({
         (address) => address.defaultAddress
       );
       state.userAddresses = action.payload.userAddresses;
+      state.pages = action.payload.pages;
     },
     [fetchAllUserAddresses.rejected]: (state, action) => {
       state.isLoading = false;

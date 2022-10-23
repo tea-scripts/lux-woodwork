@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import {
   cancelOrderThunk,
   deleteOrderThunk,
@@ -7,7 +7,7 @@ import {
   fetchOrderThunk,
   fetchUserOrdersThunk,
   updateOrderThunk,
-} from './ordersThunk';
+} from "./ordersThunk";
 
 const initialState = {
   orders: [],
@@ -21,9 +21,9 @@ const initialState = {
   shipping: 0,
   total: 0,
   subtotal: 0,
-  createdAt: '',
-  orderId: '',
-  status: '',
+  createdAt: "",
+  orderId: "",
+  status: "",
   pages: 1,
   page: 1,
   totalPages: 0,
@@ -31,7 +31,7 @@ const initialState = {
 };
 
 export const fetchAllOrders = createAsyncThunk(
-  'orders/fetchAllOrders',
+  "orders/fetchAllOrders",
   async (_, thunkAPI) => {
     return fetchAllOrdersThunk(
       `/orders?page=${thunkAPI.getState().orders.page}`,
@@ -41,14 +41,14 @@ export const fetchAllOrders = createAsyncThunk(
 );
 
 export const fetchOrder = createAsyncThunk(
-  'orders/fetchOrder',
+  "orders/fetchOrder",
   async (orderId, thunkAPI) => {
     return fetchOrderThunk(`/orders/${orderId}`, thunkAPI);
   }
 );
 
 export const updateOrder = createAsyncThunk(
-  'orders/updateOrder',
+  "orders/updateOrder",
   async ({ orderId, paymentIntentId }, thunkAPI) => {
     return updateOrderThunk(
       `/orders/${orderId}`,
@@ -59,31 +59,33 @@ export const updateOrder = createAsyncThunk(
 );
 
 export const fetchUserOrders = createAsyncThunk(
-  'orders/fetchUserOrders',
+  "orders/fetchUserOrders",
   async (page, thunkAPI) => {
     return fetchUserOrdersThunk(
-      `/orders/show-my-orders?page=${page}`,
+      `/orders/show-my-orders/${
+        thunkAPI.getState().users.user._id
+      }?page=${page}`,
       thunkAPI
     );
   }
 );
 
 export const deleteOrder = createAsyncThunk(
-  'orders/deleteOrder',
+  "orders/deleteOrder",
   async (orderId, thunkAPI) => {
     return deleteOrderThunk(`/orders/${orderId}`, thunkAPI);
   }
 );
 
 export const cancelOrder = createAsyncThunk(
-  'orders/cancelOrder',
+  "orders/cancelOrder",
   async (orderId, thunkAPI) => {
     return cancelOrderThunk(`/orders/cancel/${orderId}`, thunkAPI);
   }
 );
 
 const orderSlice = createSlice({
-  name: 'orders',
+  name: "orders",
   initialState,
   reducers: {
     setOrderValues: (state, { payload }) => {
@@ -123,7 +125,7 @@ const orderSlice = createSlice({
       state.isLoading = true;
     },
     [fetchUserOrders.fulfilled]: (state, action) => {
-      console.log('action payload', action.payload);
+      console.log("action payload", action.payload);
       state.userOrders = action.payload.orders;
       state.pages = action.payload.pages;
       state.isLoading = false;
@@ -148,7 +150,7 @@ const orderSlice = createSlice({
     },
     [deleteOrder.fulfilled]: (state) => {
       state.isLoading = false;
-      toast.success('Order deleted successfully');
+      toast.success("Order deleted successfully");
     },
     [deleteOrder.rejected]: (state, action) => {
       state.isLoading = false;
@@ -169,7 +171,7 @@ const orderSlice = createSlice({
     },
     [cancelOrder.fulfilled]: (state) => {
       state.isLoading = false;
-      toast.success('Order cancelled successfully');
+      toast.success("Order cancelled successfully");
     },
     [cancelOrder.rejected]: (state, action) => {
       state.isLoading = false;

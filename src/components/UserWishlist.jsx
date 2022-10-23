@@ -3,10 +3,11 @@ import {
   createStyles,
   Group,
   Image,
+  Pagination,
   SimpleGrid,
   Text,
 } from "@mantine/core";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
@@ -27,7 +28,8 @@ const useStyles = createStyles((theme) => ({
 const UserWishlist = () => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
-  const { wishlist, isLoading } = useSelector((state) => state.wishlist);
+  const { wishlist, isLoading, pages } = useSelector((state) => state.wishlist);
+  const [activePage, setPage] = useState(1);
 
   const displayWishlist = wishlist.userWishlist?.map((item, index) => (
     <ProductCard
@@ -39,8 +41,8 @@ const UserWishlist = () => {
   ));
 
   useEffect(() => {
-    dispatch(fetchUserWishlist());
-  }, []);
+    dispatch(fetchUserWishlist(activePage));
+  }, [activePage]);
 
   if (isLoading) {
     return <Loading />;
@@ -51,6 +53,11 @@ const UserWishlist = () => {
       <Text sx={{ color: "#C0C0C0", fontSize: "1.1rem" }} mb={32}>
         My Wishlist
       </Text>
+      <Group mb={32} position="center">
+        <Button component={Link} to="/products">
+          Add Products
+        </Button>
+      </Group>
       <SimpleGrid
         breakpoints={[
           { minWidth: "xs", cols: 1 },
@@ -79,12 +86,12 @@ const UserWishlist = () => {
             </Text>
           </>
         )}
-        <Group mt={32} position="center">
-          <Button size="md" component={Link} to="/products">
-            Add Products
-          </Button>
-        </Group>
       </div>
+      {pages > 1 && (
+        <Group position="right" mt={32}>
+          <Pagination page={activePage} onChange={setPage} total={pages} />
+        </Group>
+      )}
     </>
   );
 };

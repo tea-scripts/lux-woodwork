@@ -1,6 +1,14 @@
-import { Button, createStyles, Image, Paper, Text } from "@mantine/core";
+import {
+  Button,
+  createStyles,
+  Group,
+  Image,
+  Pagination,
+  Paper,
+  Text,
+} from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   deleteReview,
   fetchUserReviews,
@@ -42,14 +50,19 @@ const UserReviews = () => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.users);
-  const { userReviews, isLoading } = useSelector((state) => state.reviews);
+  const { userReviews, isLoading, pages } = useSelector(
+    (state) => state.reviews
+  );
+  const [activePage, setPage] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLoading === false) {
-      dispatch(fetchUserReviews());
-    }
-  }, [isLoading]);
+    dispatch(fetchUserReviews(activePage));
+  }, [activePage]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const reviewList = userReviews?.map((review) => {
     return (
@@ -112,6 +125,11 @@ const UserReviews = () => {
         My Reviews
       </Text>
       {reviewList}
+      {pages > 1 && (
+        <Group position="right" mt={32}>
+          <Pagination page={activePage} onChange={setPage} total={pages} />
+        </Group>
+      )}
     </>
   );
 };
