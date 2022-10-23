@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import {
   Card,
   Text,
@@ -8,62 +8,64 @@ import {
   Transition,
   Badge,
   Image,
-} from '@mantine/core';
-import { Link } from 'react-router-dom';
+} from "@mantine/core";
+import { Link } from "react-router-dom";
 import {
   IconHeart,
   IconSearch,
   IconShoppingCartPlus,
   IconTrash,
-} from '@tabler/icons';
-import { useHover } from '@mantine/hooks';
-import { useDispatch } from 'react-redux';
-import { addToCart } from '../features/cart/cartSlice';
-import { formatPrice } from '../utils/helpers';
-import AddToCart from './AddToCart';
-import { addToWishlist, removeFromWishlist } from '../features/users/userSlice';
-import { toast } from 'react-toastify';
+} from "@tabler/icons";
+import { useHover } from "@mantine/hooks";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../features/cart/cartSlice";
+import { formatPrice } from "../utils/helpers";
+import AddToCart from "./AddToCart";
+import { addToWishlist, removeFromWishlist } from "../features/users/userSlice";
+import { toast } from "react-toastify";
+import { addWishlistItem } from "../features/wishlist/wishlistSlice";
+import { deleteWishlistItem } from "../features/wishlist/wishlistSlice";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
   },
 
   horizontalWrapper: {
-    display: 'flex',
+    display: "flex",
   },
 
   imageContainer: {
-    position: 'relative',
+    position: "relative",
   },
 
   btnContainer: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translateY(-50%) translateX(-50%)',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translateY(-50%) translateX(-50%)",
     zIndex: 11,
   },
 
   overlay: {
-    height: '100%',
-    width: '100%',
-    backgroundColor: 'rgba(0,0,0,.6)',
-    position: 'absolute',
+    height: "100%",
+    width: "100%",
+    backgroundColor: "rgba(0,0,0,.6)",
+    position: "absolute",
     zIndex: 10,
   },
 
   productBtn: {
-    '&:hover': {
-      transform: 'scale(1.2)',
+    "&:hover": {
+      transform: "scale(1.2)",
     },
   },
 
   detailsContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
   },
 }));
 
@@ -77,6 +79,7 @@ const ProductCard = ({
   height = 200,
   horizontal = false,
   location = null,
+  wishlistId = null,
 }) => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
@@ -132,7 +135,7 @@ const ProductCard = ({
                 >
                   <IconShoppingCartPlus size={18} />
                 </ActionIcon>
-                {location === '/user/wishlist' ? (
+                {location === "/user/wishlist" ? (
                   <ActionIcon
                     type="button"
                     color="blue"
@@ -140,9 +143,7 @@ const ProductCard = ({
                     radius="50%"
                     size="lg"
                     className={classes.productBtn}
-                    onClick={() =>
-                      dispatch(removeFromWishlist({ id: product._id }))
-                    }
+                    onClick={() => dispatch(deleteWishlistItem(wishlistId))}
                   >
                     <IconTrash size={18} />
                   </ActionIcon>
@@ -155,8 +156,7 @@ const ProductCard = ({
                     size="lg"
                     className={classes.productBtn}
                     onClick={() => {
-                      dispatch(addToWishlist({ id: product._id }));
-                      toast.success(`Added to your wishlist`);
+                      dispatch(addWishlistItem({ id: product._id }));
                     }}
                   >
                     <IconHeart size={18} />
@@ -172,7 +172,7 @@ const ProductCard = ({
             src={product.image}
             alt={product.name}
             height={horizontal ? 200 : height}
-            width={horizontal ? 300 : '100%'}
+            width={horizontal ? 300 : "100%"}
             fit="cover"
           />
         </InnerImageContainer>
@@ -180,8 +180,8 @@ const ProductCard = ({
 
       {/* Details */}
       <div
-        className={horizontal ? classes.detailsContainer : ''}
-        style={{ padding: '.5rem 1rem' }}
+        className={horizontal ? classes.detailsContainer : ""}
+        style={{ padding: ".5rem 1rem" }}
       >
         <Group>
           {product.featured && horizontal && (
@@ -194,7 +194,7 @@ const ProductCard = ({
           <Text
             weight={500}
             transform="capitalize"
-            color={'var(--prussian-blue-500)'}
+            color={"var(--prussian-blue-500)"}
           >
             {product.name}
           </Text>
