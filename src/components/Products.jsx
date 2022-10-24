@@ -1,35 +1,37 @@
-import { Container } from '@mantine/core';
-import { useEffect, useState } from 'react';
-import { useViewportSize } from '@mantine/hooks';
-import { useSelector } from 'react-redux';
-import ProductsList from './ProductsList';
-import { categories } from '../utils/productsList';
-import { ProductsListSort, ProductsListFilter } from './';
+import { Container } from "@mantine/core";
+import { useEffect, useState } from "react";
+import { useViewportSize } from "@mantine/hooks";
+import { useSelector } from "react-redux";
+import ProductsList from "./ProductsList";
+import { categories } from "../utils/productsList";
+import { ProductsListSort, ProductsListFilter } from "./";
 
 const Products = () => {
   const minPrice = 0;
-  const maxPrice = 100000;
+  const maxPrice = 1000000;
   const { products } = useSelector((state) => state.products);
-  const [filteredProducts, setFilteredProducts] = useState(products);
-  const [searchText, setSearchText] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [searchText, setSearchText] = useState("");
   const [category, setCategory] = useState(categories[0]);
   const [isFreeShipping, setIsFreeShipping] = useState(false);
   const [priceRange, setPriceRange] = useState([minPrice, maxPrice]);
-  const [sort, setSort] = useState('Price: Low to High');
+  const [sort, setSort] = useState("Price: Low to High");
   const [gridView, setGridView] = useState(true);
   const { width } = useViewportSize();
 
   const resetFilters = () => {
-    setSearchText('');
+    setSearchText("");
     setCategory(categories[0]);
     setPriceRange([minPrice, maxPrice]);
     setIsFreeShipping(false);
-    setSort('Price: Low to High');
+    setSort("Price: Low to High");
   };
 
   useEffect(() => {
-    let filtered = products.filter((product) =>
-      product.name.toLowerCase().includes(searchText.toLowerCase())
+    let filtered = products.filter(
+      (product) =>
+        product.displayProduct &&
+        product.name.toLowerCase().includes(searchText.toLowerCase())
     );
 
     filtered = filtered.filter((item) =>
@@ -42,18 +44,18 @@ const Products = () => {
     );
 
     filtered = filtered.filter((item) =>
-      category === 'all' ? item : item.category === category
+      category === "all" ? item : item.category === category
     );
 
     switch (sort) {
-      case 'Price: High to Low':
+      case "Price: High to Low":
         filtered = [...filtered].sort((a, b) => b.price - a.price);
         break;
-      case 'Alphabetically: A to Z':
+      case "Alphabetically: A to Z":
         filtered = [...filtered].sort((a, b) => (a.name > b.name ? 1 : -1));
         break;
 
-      case 'Alphabetically: Z to A':
+      case "Alphabetically: Z to A":
         filtered = [...filtered].sort((a, b) => (a.name > b.name ? -1 : 1));
         break;
       default:
@@ -81,6 +83,8 @@ const Products = () => {
         priceRange={priceRange}
         setPriceRange={setPriceRange}
         resetFilters={resetFilters}
+        minPrice={minPrice}
+        maxPrice={maxPrice}
       />
 
       <Container
@@ -90,7 +94,7 @@ const Products = () => {
           paddingRight: 0,
           marginLeft: 0,
           marginRight: 0,
-          width: '100%',
+          width: "100%",
         }}
       >
         <ProductsListSort

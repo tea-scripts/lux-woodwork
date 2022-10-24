@@ -169,8 +169,10 @@ const ProductCard = ({
 
         <InnerImageContainer height={height}>
           <Image
-            src={product.image}
-            alt={product.name}
+            src={
+              product?.images?.length > 0 ? product?.images[0] : product?.image
+            }
+            alt={product?.name}
             height={horizontal ? 200 : height}
             width={horizontal ? 300 : "100%"}
             fit="cover"
