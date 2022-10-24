@@ -9,20 +9,20 @@ import {
   Avatar,
   Menu,
   Divider,
-} from '@mantine/core';
-import { HiShoppingBag, HiUserCircle } from 'react-icons/hi';
-import logo from '../assets/logo.svg';
-import logoBlack from '../assets/logo-black.svg';
-import styled from 'styled-components';
-import { toggleSidebar } from '../features/navigation/navSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { openCart } from '../features/cart/cartSlice';
-import { Link, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import navLinks from '../utils/navLinks';
-import { BiLogOut } from 'react-icons/bi';
-import { toggleSignInModal, logoutUser } from '../features/users/userSlice';
+} from "@mantine/core";
+import { HiShoppingBag, HiUserCircle } from "react-icons/hi";
+import logo from "../assets/logo.svg";
+import logoBlack from "../assets/logo-black.svg";
+import styled from "styled-components";
+import { toggleSidebar } from "../features/navigation/navSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { openCart } from "../features/cart/cartSlice";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { useState } from "react";
+import navLinks from "../utils/navLinks";
+import { BiLogOut } from "react-icons/bi";
+import { toggleSignInModal, logoutUser } from "../features/users/userSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ const Navbar = () => {
 
   const location = useLocation();
   useEffect(() => {
-    if (window.location.pathname !== '/') {
+    if (window.location.pathname !== "/") {
       setIsHome(false);
     } else {
       setIsHome(true);
@@ -60,9 +60,9 @@ const Navbar = () => {
           <Group position="center" px="md" className="btn-container">
             <Button
               p={0}
-              sx={{ backgroundColor: 'transparent' }}
+              sx={{ backgroundColor: "transparent" }}
               className="cart-btn"
-              color={isHome ? 'white' : 'black'}
+              color={isHome ? "white" : "black"}
               onClick={() => dispatch(openCart())}
             >
               <HiShoppingBag />
@@ -71,8 +71,8 @@ const Navbar = () => {
               <Button
                 variant="filled"
                 sx={{
-                  backgroundColor: isHome ? '#f5f5f5' : '#228be6',
-                  color: isHome ? '#000' : '#fff',
+                  backgroundColor: isHome ? "#f5f5f5" : "#228be6",
+                  color: isHome ? "#000" : "#fff",
                 }}
                 px=".3rem"
                 onClick={() => dispatch(toggleSignInModal())}
@@ -90,15 +90,15 @@ const Navbar = () => {
               >
                 <Menu.Target>
                   <Avatar
-                    src="https://avatars.githubusercontent.com/u/1430603?v=4"
+                    src={user.avatar || null}
                     radius="md"
-                    alt={'isAuthenticated && user.given_name'}
+                    alt={"isAuthenticated && user.given_name"}
                   />
                 </Menu.Target>
 
                 <Menu.Dropdown position="right" shadow="md" radius="md">
-                  <Menu.Item sx={{ textTransform: 'capitalize' }}>
-                    Welcome, {(user.username && user.username) || 'Guest'}
+                  <Menu.Item sx={{ textTransform: "capitalize" }}>
+                    Welcome, {(user.username && user.username) || "Guest"}
                   </Menu.Item>
                   <Divider my="sm" variant="dotted" />
                   <Menu.Item
@@ -130,7 +130,7 @@ const Navbar = () => {
           <Burger
             className="nav-toggle"
             opened={isSidebarOpen}
-            color={isHome ? 'white' : 'black'}
+            color={isHome ? "white" : "black"}
             onClick={() => dispatch(toggleSidebar())}
           />
         </Header>
@@ -144,9 +144,9 @@ const NavWrapper = styled.nav`
   position: relative;
   width: 100%;
   margin: 0 auto;
-  color: ${(props) => (props.prop ? '#fff' : '#000')};
-  background: ${(props) => (props.prop ? 'transparent' : '#fff')};
-  box-shadow: ${(props) => (props.prop ? 'none' : '0 2px 4px #0000001a')};
+  color: ${(props) => (props.prop ? "#fff" : "#000")};
+  background: ${(props) => (props.prop ? "transparent" : "#fff")};
+  box-shadow: ${(props) => (props.prop ? "none" : "0 2px 4px #0000001a")};
 
   .nav-header {
     background: transparent;
@@ -179,7 +179,7 @@ const NavWrapper = styled.nav`
       li {
         a {
           text-decoration: none;
-          color: ${(props) => (props.prop ? '#fff' : '#000')};
+          color: ${(props) => (props.prop ? "#fff" : "#000")};
           font-size: 1rem;
           font-weight: 500;
           text-transform: capitalize;
@@ -210,7 +210,7 @@ const NavWrapper = styled.nav`
 
       .cart-btn {
         font-size: 1.5rem;
-        color: ${(props) => (props.prop ? '#fff' : '#228be6')};
+        color: ${(props) => (props.prop ? "#fff" : "#228be6")};
 
         &:hover {
           background: transparent;
