@@ -9,10 +9,7 @@ import {
 } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import {
-  deleteReview,
-  fetchUserReviews,
-} from "../features/reviews/reviewsSlice";
+import { fetchUserReviews } from "../features/reviews/reviewsSlice";
 import Loading from "./Loading";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -93,14 +90,6 @@ const UserReviews = () => {
               fullWidth
             >
               Update Review
-            </Button>
-            <Button
-              mt={8}
-              color="red"
-              fullWidth
-              onClick={() => dispatch(deleteReview(review._id))}
-            >
-              Remove Review
             </Button>
           </div>
           <div style={{ flex: 2 }}>
