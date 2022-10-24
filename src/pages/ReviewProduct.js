@@ -36,11 +36,11 @@ const ReviewProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId, productId } = useParams();
-  const { product, isLoading } = useSelector((state) => state.products);
-  const { userReviews } = useSelector((state) => state.reviews);
+  const { userReviews, isLoading } = useSelector((state) => state.reviews);
   const [searchParams] = useSearchParams();
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(0);
+  const [image, setImage] = useState("");
   const [reviewId, setReviewId] = useState("");
 
   const handleSubmit = (e) => {
@@ -75,6 +75,7 @@ const ReviewProduct = () => {
       setReviewId(review._id);
       setRating(review.rating);
       setComment(review.comment);
+      setImage(review.product.images[0]);
     }
   }, []);
 
@@ -102,7 +103,7 @@ const ReviewProduct = () => {
           marginBottom: "1rem",
         }}
       >
-        <Image radius="md" src={product.image} alt="Random unsplash image" />
+        <Image radius="md" src={image} alt="product image" />
       </div>
 
       <form onSubmit={handleSubmit}>

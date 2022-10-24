@@ -76,7 +76,7 @@ const UserReviews = () => {
             <Image
               component={Link}
               to={`/products/${review.product._id}`}
-              src={review.product.image}
+              src={review.product?.images[0]}
             />
             <Button
               mt={8}
