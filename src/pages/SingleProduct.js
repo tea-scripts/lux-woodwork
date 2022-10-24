@@ -1,11 +1,4 @@
-import {
-  Button,
-  Container,
-  Divider,
-  Grid,
-  Image,
-  Pagination,
-} from '@mantine/core';
+import { Button, Container, Divider, Grid, Image } from '@mantine/core';
 import { Link, useParams } from 'react-router-dom';
 import { createStyles } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
@@ -154,11 +147,12 @@ const SingleProduct = () => {
   useEffect(() => {
     dispatch(fetchProduct(id));
     dispatch(fetchSingleProductReviews(id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  // if (isLoading) {
+  //   return <Loading />;
+  // }
 
   const {
     name,
@@ -167,77 +161,89 @@ const SingleProduct = () => {
     price,
     description,
     category,
-    image,
+    images,
     averageRating,
     numOfReviews,
   } = product;
+
+  const slides =
+    images &&
+    images.map((image) => (
+      <Carousel.Slide key={image}>
+        <Image src={image} height={400} />
+      </Carousel.Slide>
+    ));
 
   return (
     <section className={classes.wrapper}>
       <Button component={Link} to="/products">
         Back to Products
       </Button>
-      <div className={classes.product}>
-        {/* <Carousel
-          withIndicators
-          loop
-          classNames={{
-            root: classes.carousel,
-            controls: classes.carouselControls,
-            indicator: classes.carouselIndicator,
-          }}
-        >
-          <Carousel.Slide key={product.image}> */}
-        <Image src={image} height={400} />
-        {/* </Carousel.Slide>
-        </Carousel> */}
-        <section className={classes.content}>
-          <h2>{name}</h2>
-          <Stars stars={averageRating} reviewsCount={numOfReviews} />
-          <h5>{formatPrice(price)}</h5>
-          <p className={classes.description}>{description}</p>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <div className={classes.product}>
+            <Carousel
+              withIndicators
+              loop
+              classNames={{
+                root: classes.carousel,
+                controls: classes.carouselControls,
+                indicator: classes.carouselIndicator,
+              }}
+            >
+              {slides}
+            </Carousel>
+            <section className={classes.content}>
+              <h2>{name}</h2>
+              <Stars stars={averageRating} reviewsCount={numOfReviews} />
+              <h5>{formatPrice(price)}</h5>
+              <p className={classes.description}>{description}</p>
 
-          <p className={classes.info}>
-            <span>Available : </span>
-            {inventory > 0 ? 'In Stock' : 'Out of Stock'}
-          </p>
-          <p className={classes.info}>
-            <span>SKU : </span>
-            {_id}
-          </p>
-          <p className={classes.info}>
-            <span>Category : </span>
-            {category}
-          </p>
+              <p className={classes.info}>
+                <span>Available : </span>
+                {inventory > 0 ? 'In Stock' : 'Out of Stock'}
+              </p>
+              <p className={classes.info}>
+                <span>SKU : </span>
+                {_id}
+              </p>
+              <p className={classes.info}>
+                <span>Category : </span>
+                {category}
+              </p>
 
-          <Divider />
+              <Divider />
 
-          {inventory > 0 && <AddToCart product={product} />}
-        </section>
-      </div>
+              {inventory > 0 && <AddToCart product={product} />}
+            </section>
+          </div>
 
-      <div className={classes.productReviews}>
-        <h4>Product Reviews </h4>
-        {productReviews.map((review, index) => (
-          <SingleReview {...review} key={index} />
-        ))}
-        <PaginationButtons
-          changePage={changePage}
-          page={reviewPage}
-          isLoading={isLoading}
-          totalPages={totalReviewPages}
-        />
-      </div>
+          <div className={classes.productReviews}>
+            <h4>Product Reviews </h4>
+            {productReviews.map((review, index) => (
+              <SingleReview {...review} key={index} />
+            ))}
+            <PaginationButtons
+              changePage={changePage}
+              page={reviewPage}
+              isLoading={isLoading}
+              totalPages={totalReviewPages}
+            />
+          </div>
 
-      <Container size={1200} className={classes.relatedProducts}>
-        <h5>Related Products</h5>
-        <Grid className={classes.products}>
-          {products
-            .filter((item) => item._id !== product._id)
-            .map((item) => <Product {...item} key={item._id} />)
-            .slice(0, 3)}
-        </Grid>
-      </Container>
+          <Container size={1200} className={classes.relatedProducts}>
+            <h5>Related Products</h5>
+            <Grid className={classes.products}>
+              {products
+                .filter((item) => item._id !== product._id)
+                .map((item) => <Product {...item} key={item._id} />)
+                .slice(0, 3)}
+            </Grid>
+          </Container>
+        </>
+      )}
     </section>
   );
 };

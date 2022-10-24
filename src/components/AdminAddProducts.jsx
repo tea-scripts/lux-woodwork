@@ -13,6 +13,7 @@ import {
   SimpleGrid,
 } from '@mantine/core';
 import { IconUpload } from '@tabler/icons';
+import { useEffect } from 'react';
 import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -39,6 +40,24 @@ const useStyles = createStyles((theme) => ({
     paddingTop: 5,
     marginBottom: '2rem',
   },
+
+  images: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '2rem',
+    width: '85px',
+    height: '75px',
+    gap: '.5rem',
+
+    img: {
+      width: '100%',
+      height: '100%',
+      display: 'block',
+      borderRadius: '5px',
+      objectFit: 'cover',
+    },
+  },
 }));
 
 const AdminAddProducts = () => {
@@ -51,13 +70,12 @@ const AdminAddProducts = () => {
     freeShipping,
     description,
     isLoading,
-    image,
+    images,
     displayProduct,
   } = useSelector((store) => store.products);
   const dispatch = useDispatch();
   const { classes } = useStyles();
   const hiddenFileInput = useRef(null);
-  const [prevFile, setPrevFile] = useState(null);
 
   const handleInputChange = (e) => {
     let name = e.target.name;
@@ -77,12 +95,14 @@ const AdminAddProducts = () => {
   };
 
   const handleFileChange = (e) => {
-    const image = e.target.files[0];
-    setPrevFile(URL.createObjectURL(e.target.files[0]));
+    const images = e.target.files;
     const formData = new FormData();
-    formData.append('image', image);
 
-    if (image) {
+    for (let image of images) {
+      formData.append('image', image);
+    }
+
+    if (images) {
       dispatch(uploadProductImage(formData));
     }
   };
@@ -94,19 +114,8 @@ const AdminAddProducts = () => {
       toast.warning('Please provide all credentials');
       return;
     }
-    console.log(
-      name,
-      price,
-      inventory,
-      category,
-      description,
-      featured,
-      freeShipping,
-      displayProduct,
-      image
-    );
     dispatch(
-      createProduct({ name, price, inventory, category, description, image })
+      createProduct({ name, price, inventory, category, description, images })
     );
   };
 
@@ -115,17 +124,15 @@ const AdminAddProducts = () => {
   };
 
   const imagePreview = (
-    <div
-      style={{
-        width: 250,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        marginTop: '2rem',
-        marginBottom: '2rem',
-      }}
-    >
-      {prevFile && <Image radius="md" src={prevFile} />}
-    </div>
+    <SimpleGrid columns={3} spacing="md">
+      <Text>{images && images.length} images selected.</Text>
+      <div className={classes.images}>
+        {images &&
+          images.map((image, index) => (
+            <img key={index} alt={'prouduct-pic'} radius="md" src={image} />
+          ))}
+      </div>
+    </SimpleGrid>
   );
 
   return (
@@ -207,7 +214,7 @@ const AdminAddProducts = () => {
                 label="Free Shipping"
                 size="md"
                 name="freeShipping"
-                value={featured}
+                value={freeShipping}
                 onChange={handleInputChange}
               />
 
@@ -215,7 +222,7 @@ const AdminAddProducts = () => {
                 label="Display Product"
                 size="md"
                 name="displayProduct"
-                value={featured}
+                value={displayProduct}
                 onChange={handleInputChange}
               />
             </SimpleGrid>
@@ -243,11 +250,12 @@ const AdminAddProducts = () => {
                 size="sm"
                 fullWidth
               >
-                Upload a file
+                Select Image(s)
               </Button>
               <input
                 type="file"
                 name="image"
+                multiple
                 style={{
                   display: 'none',
                 }}

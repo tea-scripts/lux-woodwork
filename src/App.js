@@ -27,6 +27,9 @@ import {
   AdminProfile,
   AdminSupport,
   StripeCheckout,
+  AdminArchivedOrders,
+  AdminArchivedProducts,
+  AdminArchivedReviews,
 } from './components';
 import { calculateTotals } from './features/cart/cartSlice';
 import { fetchUsers } from './features/users/userSlice';
@@ -161,6 +164,12 @@ function App() {
             <Route path="products-add" element={<AdminAddProducts />} />
             <Route path="products-view" element={<AdminViewProducts />} />
             <Route path="reviews/view" element={<AdminViewReviews />} />
+            <Route
+              path="archives/products"
+              element={<AdminArchivedProducts />}
+            />
+            <Route path="archives/orders" element={<AdminArchivedOrders />} />
+            <Route path="archives/reviews" element={<AdminArchivedReviews />} />
             <Route path="profile" element={<AdminProfile />} />
             <Route path="support" element={<AdminSupport />} />
           </Route>

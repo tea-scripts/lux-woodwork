@@ -17,9 +17,8 @@ import {
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  archiveProduct,
+  unarchiveProduct,
   changePage,
-  deleteProduct,
   fetchAllProducts,
   handleChange,
   setProductValues,
@@ -54,7 +53,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const AdminViewProducts = () => {
+const AdminArchivedProducts = () => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
   const [itemId, setItemId] = useState(null);
@@ -62,7 +61,6 @@ const AdminViewProducts = () => {
     products,
     isLoading,
     totalPages,
-    totalProducts,
     page,
     searchField,
     actionConfirmModal,
@@ -80,7 +78,7 @@ const AdminViewProducts = () => {
       .filter(
         (product) =>
           product.name.toLowerCase().includes(searchField.toLowerCase()) &&
-          product.isArchived === false &&
+          product.isArchived === true &&
           product.isDeleted === false
       )
       .map((product, index) => {
@@ -147,14 +145,14 @@ const AdminViewProducts = () => {
   return (
     <Container className={classes.container} fluid>
       <Container className={classes.inner} fluid>
-        <Text className={classes.title}>View Products List</Text>
+        <Text className={classes.title}>Archived Products</Text>
       </Container>
       <Container className={classes.inner} fluid>
         <Container sx={{ padding: 0 }} fluid>
           <ViewProductModal />
           <EditProductModal />
           <ActionConfirmationModal
-            onOk={archiveProduct}
+            onOk={unarchiveProduct}
             onCancel={togggleActionConfirmModal}
             visible={actionConfirmModal}
             _id={itemId}
@@ -180,13 +178,10 @@ const AdminViewProducts = () => {
                   <th>Price</th>
                   <th>Category</th>
                   <th>Actions</th>
-                  <th>Archive</th>
+                  <th>Unarchive</th>
                 </tr>
               </thead>
               <tbody>{rows}</tbody>
-              <caption>
-                {totalProducts} products found. Showing {totalProducts}{' '}
-              </caption>
             </Table>
           )}
         </Container>
@@ -203,4 +198,4 @@ const AdminViewProducts = () => {
   );
 };
 
-export default AdminViewProducts;
+export default AdminArchivedProducts;

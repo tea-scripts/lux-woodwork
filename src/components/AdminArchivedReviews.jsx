@@ -11,12 +11,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loading from './Loading';
 import { IconArchive, IconTrashX } from '@tabler/icons';
 import {
-  archiveReview,
   deleteReview,
-  togggleActionConfirmModal,
+  unarchiveReview,
 } from '../features/reviews/reviewsSlice';
-import { useState } from 'react';
+import { Admin } from '../pages';
 import ActionConfirmationModal from './ActionConfirmationModal';
+import { togggleActionConfirmModal } from '../features/orders/orderSlice';
+import { useState } from 'react';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -37,7 +38,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const AdminViewReviews = () => {
+const AdminArchivedReviews = () => {
   const { classes } = useStyles();
   const [itemId, setItemId] = useState(null);
   const { reviews, isLoading, actionConfirmModal } = useSelector(
@@ -45,30 +46,34 @@ const AdminViewReviews = () => {
   );
   const dispatch = useDispatch();
 
-  const rows = reviews
-    .filter(
-      (review) => review.isArchived === false && review.isDeleted === false
-    )
-    .map((review, index) => {
-      const { first_name, last_name, product, rating, comment, _id } = review;
-      return (
-        <tr key={_id}>
-          <td>{index + 1}</td>
-          <td>
-            {first_name} {last_name}
-          </td>
-          <td>{product.name}</td>
-          <td>{rating}</td>
-          <td style={{ maxWidth: '400px' }}>{comment}</td>
-          <td>
-            <Group spacing={5}>
-              <ActionIcon
-                color="red"
-                onClick={() => dispatch(deleteReview(_id))}
-              >
-                <IconTrashX size={15} />
-              </ActionIcon>
-
+  const rows =
+    reviews &&
+    reviews
+      .filter(
+        (review) => review.isArchived === true && review.isDeleted === false
+      )
+      .map((review, index) => {
+        const { first_name, last_name, product, rating, comment, _id } = review;
+        return (
+          <tr key={_id}>
+            <td>{index + 1}</td>
+            <td>
+              {first_name} {last_name}
+            </td>
+            <td>{product.name}</td>
+            <td>{rating}</td>
+            <td style={{ maxWidth: '400px' }}>{comment}</td>
+            <td>
+              <Group spacing={5}>
+                <ActionIcon
+                  color="red"
+                  onClick={() => dispatch(deleteReview(_id))}
+                >
+                  <IconTrashX size={15} />
+                </ActionIcon>
+              </Group>
+            </td>
+            <td>
               <ActionIcon
                 onClick={() => {
                   dispatch(togggleActionConfirmModal());
@@ -77,11 +82,10 @@ const AdminViewReviews = () => {
               >
                 <IconArchive size={15} />
               </ActionIcon>
-            </Group>
-          </td>
-        </tr>
-      );
-    });
+            </td>
+          </tr>
+        );
+      });
 
   if (isLoading) {
     return <Loading />;
@@ -90,10 +94,10 @@ const AdminViewReviews = () => {
   return (
     <Container className={classes.container} fluid>
       <Container className={classes.inner} fluid>
-        <Text className={classes.title}>Reviews</Text>
+        <Text className={classes.title}>Archived Reviews</Text>
       </Container>
       <ActionConfirmationModal
-        onOk={archiveReview}
+        onOk={unarchiveReview}
         onCancel={togggleActionConfirmModal}
         visible={actionConfirmModal}
         _id={itemId}
@@ -109,6 +113,7 @@ const AdminViewReviews = () => {
                 <th>Rating</th>
                 <th>Comment</th>
                 <th>Actions</th>
+                <th>Unarchive</th>
               </tr>
             </thead>
             <tbody>{rows}</tbody>
@@ -119,4 +124,4 @@ const AdminViewReviews = () => {
   );
 };
 
-export default AdminViewReviews;
+export default AdminArchivedReviews;

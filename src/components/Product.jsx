@@ -30,7 +30,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const Product = ({ _id, name, image, price }) => {
+const Product = ({ _id, name, images, price }) => {
   const { classes } = useStyles();
   const navigateToProduct = () => {
     window.location.href = `/products/${_id}`;
@@ -40,7 +40,7 @@ const Product = ({ _id, name, image, price }) => {
     <Box onClick={navigateToProduct} className={classes.product}>
       <Card shadow="sm" p="lg" radius="md" withBorder className={classes.card}>
         <Card.Section>
-          <Image src={image} height={280} alt="Norway" />
+          <Image src={images[0]} height={280} alt="Norway" />
         </Card.Section>
 
         <Group position="apart" mt="md" mb="xs">

@@ -3,10 +3,11 @@ import {
   Checkbox,
   Grid,
   Group,
-  Image,
+  createStyles,
   Modal,
   Select,
   SimpleGrid,
+  Text,
   Textarea,
   TextInput,
 } from '@mantine/core';
@@ -22,7 +23,28 @@ import { toast } from 'react-toastify';
 import { IconUpload } from '@tabler/icons';
 import { useRef, useState } from 'react';
 
+const useStyles = createStyles((theme) => ({
+  images: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '2rem',
+    width: '85px',
+    height: '75px',
+    gap: '.5rem',
+
+    img: {
+      width: '100%',
+      height: '100%',
+      display: 'block',
+      borderRadius: '5px',
+      objectFit: 'cover',
+    },
+  },
+}));
+
 const EditProductModal = () => {
+  const { classes } = useStyles();
   const {
     isEditingProduct,
     name,
@@ -34,12 +56,11 @@ const EditProductModal = () => {
     description,
     isLoading,
     displayProduct,
-    image,
+    images,
     productId,
   } = useSelector((store) => store.products);
   const dispatch = useDispatch();
   const hiddenFileInput = useRef(null);
-  const [prevFile, setPrevFile] = useState(null);
 
   const handleInputChange = (e) => {
     let name = e.target.name;
@@ -59,12 +80,14 @@ const EditProductModal = () => {
   };
 
   const handleFileChange = (e) => {
-    const image = e.target.files[0];
-    setPrevFile(URL.createObjectURL(e.target.files[0]));
+    const images = e.target.files;
     const formData = new FormData();
-    formData.append('image', image);
 
-    if (image) {
+    for (let image of images) {
+      formData.append('image', image);
+    }
+
+    if (images) {
       dispatch(uploadProductImage(formData));
     }
   };
@@ -84,7 +107,7 @@ const EditProductModal = () => {
         inventory,
         category,
         description,
-        image,
+        images,
         featured,
         freeShipping,
         displayProduct,
@@ -98,16 +121,15 @@ const EditProductModal = () => {
   };
 
   const imagePreview = (
-    <div
-      style={{
-        width: 240,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        marginTop: '2rem',
-      }}
-    >
-      {prevFile && <Image radius="md" src={prevFile} />}
-    </div>
+    <SimpleGrid columns={3} spacing="md">
+      <Text>{images && images.length} images selected.</Text>
+      <div className={classes.images}>
+        {images &&
+          images.map((image, index) => (
+            <img key={index} alt={'prouduct-pic'} radius="md" src={image} />
+          ))}
+      </div>
+    </SimpleGrid>
   );
 
   return (
@@ -195,7 +217,7 @@ const EditProductModal = () => {
               label="Free Shipping"
               size="md"
               name="freeShipping"
-              value={featured}
+              value={freeShipping}
               checked={freeShipping}
               onChange={handleInputChange}
             />
@@ -204,7 +226,7 @@ const EditProductModal = () => {
               label="Display Product"
               size="md"
               name="displayProduct"
-              value={featured}
+              value={displayProduct}
               checked={displayProduct}
               onChange={handleInputChange}
             />
@@ -238,6 +260,7 @@ const EditProductModal = () => {
             <input
               type="file"
               name="image"
+              multiple
               style={{
                 display: 'none',
               }}

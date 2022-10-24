@@ -1,5 +1,5 @@
-import customFetch from "../../utils/axios";
-import { clearValues, fetchUserReviews } from "./reviewsSlice";
+import customFetch from '../../utils/axios';
+import { clearValues, fetchUserReviews } from './reviewsSlice';
 
 export const fetchReviewsThunk = async (url, thunkAPI) => {
   try {
@@ -44,6 +44,26 @@ export const updateReviewThunk = async (url, review, thunkAPI) => {
 export const deleteReviewThunk = async (url, thunkAPI) => {
   try {
     const response = await customFetch.delete(url);
+    thunkAPI.dispatch(fetchUserReviews());
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+};
+
+export const archiveReviewThunk = async (url, thunkAPI) => {
+  try {
+    const response = await customFetch.patch(url);
+    thunkAPI.dispatch(fetchUserReviews());
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+};
+
+export const unarchiveReviewThunk = async (url, thunkAPI) => {
+  try {
+    const response = await customFetch.patch(url);
     thunkAPI.dispatch(fetchUserReviews());
     return response.data;
   } catch (error) {

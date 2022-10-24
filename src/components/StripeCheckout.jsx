@@ -138,8 +138,8 @@ const CheckoutForm = () => {
         );
         dispatch(clearCart());
 
-        navigate('/');
-      }, 3000);
+        navigate(`/user/orders/${order && id ? order._id : orderId}`);
+      }, 5000);
     }
   };
 
@@ -176,7 +176,7 @@ const CheckoutForm = () => {
           color={succeeded ? 'green' : 'red'}
           disallowClose
         >
-          Payment successful. Redirecting to home page...
+          Payment successful. Redirecting to order page...
         </Notification>
       ) : (
         <Card

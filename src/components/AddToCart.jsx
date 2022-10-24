@@ -27,8 +27,7 @@ const AddToCart = ({ product }) => {
   return (
     <div className={classes.buttonContainer}>
       <Button
-        component={Link}
-        to="/cart"
+        type="button"
         onClick={() => dispatch(addToCart({ _id, quantity, ...product }))}
       >
         Add to cart

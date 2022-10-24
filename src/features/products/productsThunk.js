@@ -52,7 +52,7 @@ export const updateProductThunk = async (url, product, thunkAPI) => {
 
 export const deleteProductThunk = async (url, thunkAPI) => {
   try {
-    const response = await customFetch.delete(url);
+    const response = await customFetch.patch(url);
     thunkAPI.dispatch(fetchAllProducts());
     return response.data;
   } catch (error) {
@@ -63,6 +63,26 @@ export const deleteProductThunk = async (url, thunkAPI) => {
 export const fetchSingleProductReviewsThunk = async (url, thunkAPI) => {
   try {
     const response = await customFetch.get(url);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+};
+
+export const archiveProductThunk = async (url, thunkAPI) => {
+  try {
+    const response = await customFetch.patch(url);
+    thunkAPI.dispatch(fetchAllProducts());
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+};
+
+export const unarchiveProductThunk = async (url, thunkAPI) => {
+  try {
+    const response = await customFetch.patch(url);
+    thunkAPI.dispatch(fetchAllProducts());
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data);

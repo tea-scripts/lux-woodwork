@@ -1,12 +1,14 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 import {
+  archiveReviewThunk,
   createReviewThunk,
   deleteReviewThunk,
   fetchReviewsThunk,
   fetchUserReviewsThunk,
+  unarchiveReviewThunk,
   updateReviewThunk,
-} from "./reviewsThunk";
+} from './reviewsThunk';
 
 const initialState = {
   reviews: [],
@@ -14,23 +16,24 @@ const initialState = {
   error: null,
   isLoading: false,
   rating: 0,
-  comment: "",
-  product: "",
+  comment: '',
+  product: '',
   pages: 1,
   totalPages: 0,
   totalReviews: 0,
   page: 1,
+  actionConfirmModal: false,
 };
 
 export const fetchReviews = createAsyncThunk(
-  "reviews/fetchReviews",
+  'reviews/fetchReviews',
   async (_, thunkAPI) => {
     return fetchReviewsThunk(`/reviews`, thunkAPI);
   }
 );
 
 export const fetchUserReviews = createAsyncThunk(
-  "reviews/fetchUserReviews",
+  'reviews/fetchUserReviews',
   async (page, thunkAPI) => {
     return fetchUserReviewsThunk(
       `/reviews/user/${thunkAPI.getState().users.user._id}?page=${page}`,
@@ -40,28 +43,42 @@ export const fetchUserReviews = createAsyncThunk(
 );
 
 export const createReview = createAsyncThunk(
-  "reviews/createReview",
+  'reviews/createReview',
   async (review, thunkAPI) => {
     return createReviewThunk(`/reviews`, review, thunkAPI);
   }
 );
 
 export const updateReview = createAsyncThunk(
-  "reviews/updateReview",
+  'reviews/updateReview',
   async (review, thunkAPI) => {
     return updateReviewThunk(`/reviews/${review.reviewId}`, review, thunkAPI);
   }
 );
 
 export const deleteReview = createAsyncThunk(
-  "reviews/deleteReview",
+  'reviews/deleteReview',
   async (reviewId, thunkAPI) => {
     return deleteReviewThunk(`/reviews/${reviewId}`, thunkAPI);
   }
 );
 
+export const archiveReview = createAsyncThunk(
+  'reviews/archiveReview',
+  async (id, thunkAPI) => {
+    return archiveReviewThunk(`/reviews/archive/${id}`, thunkAPI);
+  }
+);
+
+export const unarchiveReview = createAsyncThunk(
+  'reviews/unarchiveReview',
+  async (id, thunkAPI) => {
+    return unarchiveReviewThunk(`/reviews/unarchive/${id}`, thunkAPI);
+  }
+);
+
 const reviewsSlice = createSlice({
-  name: "reviews",
+  name: 'reviews',
   initialState,
   reducers: {
     handleChange: (state, action) => {
@@ -80,6 +97,9 @@ const reviewsSlice = createSlice({
     changePage: (state, { payload }) => {
       state.page = payload;
     },
+    togggleActionConfirmModal: (state) => {
+      state.actionConfirmModal = !state.actionConfirmModal;
+    },
   },
   extraReducers: {
     [fetchReviews.pending]: (state) => {
@@ -88,8 +108,14 @@ const reviewsSlice = createSlice({
     [fetchReviews.fulfilled]: (state, action) => {
       const { reviews, totalPages, totalReviews } = action.payload;
       state.reviews = reviews;
-      state.totalPages = totalPages;
-      state.totalReviews = totalReviews;
+      state.totalPages = Math.ceil(
+        reviews.filter(
+          (review) => review.isArchived === false && review.isDeleted === false
+        ).length / 10
+      );
+      state.totalReviews = reviews.filter(
+        (review) => review.isArchived === false && review.isDeleted === false
+      ).length;
       state.isLoading = false;
     },
     [fetchReviews.rejected]: (state, action) => {
@@ -102,7 +128,7 @@ const reviewsSlice = createSlice({
     [createReview.fulfilled]: (state, action) => {
       state.reviews.push(action.payload.review);
       state.isLoading = false;
-      toast.success("Review created successfully!");
+      toast.success('Review created successfully!');
     },
     [createReview.rejected]: (state, action) => {
       state.isLoading = false;
@@ -113,7 +139,7 @@ const reviewsSlice = createSlice({
     },
     [updateReview.fulfilled]: (state) => {
       state.isLoading = false;
-      toast.success("Review updated successfully");
+      toast.success('Review updated successfully');
     },
     [updateReview.rejected]: (state, action) => {
       state.isLoading = false;
@@ -124,7 +150,7 @@ const reviewsSlice = createSlice({
     },
     [deleteReview.fulfilled]: (state) => {
       state.isLoading = false;
-      toast.success("Review deleted successfully");
+      toast.success('Review deleted successfully');
     },
     [deleteReview.rejected]: (state, action) => {
       state.isLoading = false;
@@ -142,10 +168,36 @@ const reviewsSlice = createSlice({
       state.isLoading = false;
       toast.error(action.payload.msg);
     },
+    [archiveReview.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [archiveReview.fulfilled]: (state) => {
+      state.isLoading = false;
+      toast.success('Review archived successfully');
+    },
+    [archiveReview.rejected]: (state, action) => {
+      state.isLoading = false;
+      toast.error(action.payload.msg);
+    },
+    [unarchiveReview.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [unarchiveReview.fulfilled]: (state) => {
+      state.isLoading = false;
+      toast.success('Review unarchived successfully');
+    },
+    [unarchiveReview.rejected]: (state, action) => {
+      state.isLoading = false;
+      toast.error(action.payload.msg);
+    },
   },
 });
 
-export const { handleChange, clearValues, setReviewValues } =
-  reviewsSlice.actions;
+export const {
+  handleChange,
+  clearValues,
+  setReviewValues,
+  togggleActionConfirmModal,
+} = reviewsSlice.actions;
 
 export default reviewsSlice.reducer;

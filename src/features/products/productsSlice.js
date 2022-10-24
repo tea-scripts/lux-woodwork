@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 import {
   createProductThunk,
   deleteProductThunk,
@@ -8,53 +8,55 @@ import {
   fetchProductThunk,
   updateProductThunk,
   uploadProductImageThunk,
-} from "./productsThunk";
+  archiveProductThunk,
+  unarchiveProductThunk,
+} from './productsThunk';
 
 const initialState = {
   products: [],
   product: {},
   isLoading: false,
-  productId: "",
-  name: "",
+  productId: '',
+  name: '',
   price: 0,
   inventory: 0,
-  category: "",
+  category: '',
   featured: false,
   freeShipping: false,
-  description: "",
-  image: "",
+  description: '',
   images: [],
   isViewing: false,
   displayProduct: false,
   isEditingProduct: false,
-  product_name: "",
+  product_name: '',
   page: 1,
   totalPages: 0,
   totalProducts: 0,
   totalReviewPages: 0,
   reviewPage: 1,
   totalReviews: 0,
-  searchField: "",
+  searchField: '',
   filteredProducts: [],
   productReviews: [],
+  actionConfirmModal: false,
 };
 
 export const createProduct = createAsyncThunk(
-  "products/createProduct",
+  'products/createProduct',
   async (product, thunkAPI) => {
-    return createProductThunk("/products", product, thunkAPI);
+    return createProductThunk('/products', product, thunkAPI);
   }
 );
 
 export const uploadProductImage = createAsyncThunk(
-  "products/uploadProductImage",
+  'products/uploadProductImage',
   async (formData, thunkAPI) => {
-    return uploadProductImageThunk("/products/uploadImage", formData, thunkAPI);
+    return uploadProductImageThunk('/uploadImage', formData, thunkAPI);
   }
 );
 
 export const fetchAllProducts = createAsyncThunk(
-  "products/fetchAllProducts",
+  'products/fetchAllProducts',
   async (_, thunkAPI) => {
     return fetchAllProductsThunk(
       `/products?page${thunkAPI.getState().products.page}`,
@@ -64,14 +66,14 @@ export const fetchAllProducts = createAsyncThunk(
 );
 
 export const fetchProduct = createAsyncThunk(
-  "products/fetchProduct",
+  'products/fetchProduct',
   async (productId, thunkAPI) => {
     return fetchProductThunk(`/products/${productId}`, thunkAPI);
   }
 );
 
 export const updateProduct = createAsyncThunk(
-  "products/updateProduct",
+  'products/updateProduct',
   async (product, thunkAPI) => {
     return updateProductThunk(
       `/products/${product.productId}`,
@@ -82,14 +84,14 @@ export const updateProduct = createAsyncThunk(
 );
 
 export const deleteProduct = createAsyncThunk(
-  "products/deleteProduct",
+  'products/deleteProduct',
   async (id, thunkAPI) => {
     return deleteProductThunk(`/products/${id}`, thunkAPI);
   }
 );
 
 export const fetchSingleProductReviews = createAsyncThunk(
-  "products/fetchSingleProductReviews",
+  'products/fetchSingleProductReviews',
   async (productId, thunkAPI) => {
     return fetchSingleProductReviewsThunk(
       `/products/${productId}/reviews?page=${
@@ -100,8 +102,22 @@ export const fetchSingleProductReviews = createAsyncThunk(
   }
 );
 
+export const archiveProduct = createAsyncThunk(
+  'products/archiveProduct',
+  async (id, thunkAPI) => {
+    return archiveProductThunk(`/products/archive/${id}`, thunkAPI);
+  }
+);
+
+export const unarchiveProduct = createAsyncThunk(
+  'products/unarchiveProduct',
+  async (id, thunkAPI) => {
+    return unarchiveProductThunk(`/products/unarchive/${id}`, thunkAPI);
+  }
+);
+
 const productsSlice = createSlice({
-  name: "products",
+  name: 'products',
   initialState,
   reducers: {
     handleChange: (state, action) => {
@@ -127,13 +143,15 @@ const productsSlice = createSlice({
       state.featured = payload.featured;
       state.freeShipping = payload.freeShipping;
       state.description = payload.description;
-      state.image = payload.image;
       state.images = payload.images;
       state.displayProduct = payload.displayProduct;
       state.product_name = payload.product_name;
     },
     changePage: (state, { payload }) => {
       state.page = payload;
+    },
+    togggleActionConfirmModal: (state) => {
+      state.actionConfirmModal = !state.actionConfirmModal;
     },
   },
   extraReducers: {
@@ -143,8 +161,15 @@ const productsSlice = createSlice({
     [fetchAllProducts.fulfilled]: (state, action) => {
       const { products, totalPages, totalProducts } = action.payload;
       state.products = products;
-      state.totalPages = totalPages;
-      state.totalProducts = totalProducts;
+      state.totalPages = Math.ceil(
+        products.filter(
+          (product) =>
+            product.isArchived === false && product.isDeleted === false
+        ).length / 10
+      );
+      state.totalProducts = products.filter(
+        (product) => product.isArchived === false && product.isDeleted === false
+      ).length;
       state.isLoading = false;
     },
     [fetchAllProducts.rejected]: (state, action) => {
@@ -166,9 +191,11 @@ const productsSlice = createSlice({
       state.isLoading = true;
     },
     [uploadProductImage.fulfilled]: (state, action) => {
-      state.image = action.payload.image.src;
+      const images = action.payload.images;
+      const urls = images.map((image) => image.url);
+      state.images = urls;
       state.isLoading = false;
-      toast.success("Image uploaded successfully");
+      toast.success('Image uploaded successfully');
     },
     [uploadProductImage.rejected]: (state, action) => {
       state.isLoading = false;
@@ -179,7 +206,7 @@ const productsSlice = createSlice({
     },
     [createProduct.fulfilled]: (state) => {
       state.isLoading = false;
-      toast.success("Product created successfully");
+      toast.success('Product created successfully');
     },
     [createProduct.rejected]: (state, action) => {
       state.isLoading = false;
@@ -190,7 +217,7 @@ const productsSlice = createSlice({
     },
     [updateProduct.fulfilled]: (state) => {
       state.isLoading = false;
-      toast.success("Product updated successfully");
+      toast.success('Product updated successfully');
     },
     [updateProduct.rejected]: (state, action) => {
       state.isLoading = false;
@@ -201,10 +228,12 @@ const productsSlice = createSlice({
     },
     [deleteProduct.fulfilled]: (state) => {
       state.isLoading = false;
-      toast.success("Product deleted successfully");
+      state.actionConfirmModal = false;
+      toast.success('Product deleted successfully');
     },
     [deleteProduct.rejected]: (state, action) => {
       state.isLoading = false;
+      state.actionConfirmModal = false;
       toast.error(action.payload.msg);
     },
     [fetchSingleProductReviews.pending]: (state) => {
@@ -221,6 +250,30 @@ const productsSlice = createSlice({
       state.isLoading = false;
       toast.error(action.payload.msg);
     },
+    [archiveProduct.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [archiveProduct.fulfilled]: (state) => {
+      state.isLoading = false;
+      toast.success('Product archived successfully');
+    },
+    [archiveProduct.rejected]: (state, action) => {
+      state.isLoading = false;
+      toast.error(action.payload.msg);
+    },
+    [unarchiveProduct.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [unarchiveProduct.fulfilled]: (state) => {
+      state.isLoading = false;
+      state.actionConfirmModal = false;
+      toast.success('Product unarchived successfully');
+    },
+    [unarchiveProduct.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.actionConfirmModal = false;
+      toast.error(action.payload.msg);
+    },
   },
 });
 
@@ -231,6 +284,7 @@ export const {
   setProductValues,
   toggleProductEdit,
   changePage,
+  togggleActionConfirmModal,
 } = productsSlice.actions;
 
 export default productsSlice.reducer;

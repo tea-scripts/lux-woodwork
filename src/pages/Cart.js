@@ -6,6 +6,7 @@ import emptyCartImage from '../assets/empty-cart.svg';
 import CartContent from '../components/CartContent';
 import { useEffect } from 'react';
 import { fetchAllUserAddresses } from '../features/address/addressSlice';
+import { toast } from 'react-toastify';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -64,6 +65,8 @@ const useStyles = createStyles((theme) => ({
 
 const Cart = () => {
   const { cartItems } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.users);
+  const { defaultAddress } = useSelector((state) => state.address);
   const { classes } = useStyles();
   const dispatch = useDispatch();
 
@@ -84,6 +87,10 @@ const Cart = () => {
         </SimpleGrid>
       </Container>
     );
+  }
+
+  if (!defaultAddress && user) {
+    toast.warning('Please add an address to continue');
   }
 
   return (

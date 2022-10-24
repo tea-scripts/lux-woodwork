@@ -5,6 +5,7 @@ import {
   IconClipboardText,
   IconUserCircle,
   IconHome,
+  IconFileZip,
 } from '@tabler/icons';
 
 const AdminNavLinks = [
@@ -34,6 +35,15 @@ const AdminNavLinks = [
     label: 'Reviews',
     icon: IconClipboardText,
     links: [{ label: 'View Reviews', link: '/admin/reviews/view' }],
+  },
+  {
+    label: 'Archives',
+    icon: IconFileZip,
+    links: [
+      { label: 'Products', link: '/admin/archives/products' },
+      { label: 'Reviews', link: '/admin/archives/reviews' },
+      { label: 'Orders', link: '/admin/archives/orders' },
+    ],
   },
   { label: 'Profile', icon: IconUserCircle, link: '/admin/profile' },
 
