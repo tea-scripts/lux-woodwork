@@ -45,6 +45,14 @@ const AdminNavLinks = [
       { label: 'Orders', link: '/admin/archives/orders' },
     ],
   },
+  {
+    label: 'Shipment & Tracking',
+    icon: IconHome,
+    links: [
+      { label: 'Shipment', link: '/admin/shipment' },
+      { label: 'Inventory', link: '/admin/inventory' },
+    ],
+  },
   { label: 'Profile', icon: IconUserCircle, link: '/admin/profile' },
 
   { label: 'Store', icon: IconHome, link: '/' },

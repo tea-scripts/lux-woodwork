@@ -4,9 +4,11 @@ import {
   archiveOrderThunk,
   cancelOrderThunk,
   deleteOrderThunk,
+  deliverOrderThunk,
   fetchAllOrdersThunk,
   fetchOrderThunk,
   fetchUserOrdersThunk,
+  shipOrderThunk,
   unarchiveOrderThunk,
   updateOrderThunk,
 } from './ordersThunk';
@@ -28,9 +30,15 @@ const initialState = {
   status: '',
   pages: 1,
   page: 1,
+  expiryDate: '',
   totalPages: 0,
   totalOrders: 0,
   actionConfirmModal: false,
+  shippingAddress: {},
+  isShipped: false,
+  isDelivered: false,
+  shippedOrders: [],
+  totalShippedOrders: 0,
 };
 
 export const fetchAllOrders = createAsyncThunk(
@@ -101,6 +109,20 @@ export const unarchiveOrder = createAsyncThunk(
   }
 );
 
+export const shipOrder = createAsyncThunk(
+  'orders/shipOrder',
+  async (orderId, thunkAPI) => {
+    return shipOrderThunk(`/orders/ship/${orderId}`, thunkAPI);
+  }
+);
+
+export const deliverOrder = createAsyncThunk(
+  'orders/deliverOrder',
+  async (orderId, thunkAPI) => {
+    return deliverOrderThunk(`/orders/deliver/${orderId}`, thunkAPI);
+  }
+);
+
 const orderSlice = createSlice({
   name: 'orders',
   initialState,
@@ -115,6 +137,10 @@ const orderSlice = createSlice({
       state.status = payload.status;
       state.createdAt = payload.createdAt;
       state.orderId = payload._id;
+      state.expiryDate = payload.expiryDate;
+      state.shippingAddress = payload.shippingAddress;
+      state.isShipped = payload.isShipped;
+      state.isDelivered = payload.isDelivered;
     },
     toggleOrderView: (state) => {
       state.isViewing = !state.isViewing;
@@ -140,6 +166,10 @@ const orderSlice = createSlice({
       );
       state.totalOrders = orders.filter(
         (order) => order.isArchived === false && order.isDeleted === false
+      ).length;
+      state.shippedOrders = orders.filter((order) => order.isShipped === true);
+      state.totalShippedOrders = orders.filter(
+        (order) => order.isShipped === true
       ).length;
       state.isLoading = false;
     },
@@ -222,6 +252,30 @@ const orderSlice = createSlice({
       toast.success('Order unarchived successfully');
     },
     [unarchiveOrder.rejected]: (state, action) => {
+      state.isLoading = false;
+      toast.error(action.payload.msg);
+    },
+    [shipOrder.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [shipOrder.fulfilled]: (state) => {
+      state.isLoading = false;
+      state.isViewing = false;
+      toast.success('Order shipped successfully');
+    },
+    [shipOrder.rejected]: (state, action) => {
+      state.isLoading = false;
+      toast.error(action.payload.msg);
+    },
+    [deliverOrder.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [deliverOrder.fulfilled]: (state) => {
+      state.isLoading = false;
+      state.isViewing = false;
+      toast.success('Order delivered successfully');
+    },
+    [deliverOrder.rejected]: (state, action) => {
       state.isLoading = false;
       toast.error(action.payload.msg);
     },

@@ -38,11 +38,14 @@ import AdminProfile from './AdminProfile';
 import AdminArchivedOrders from './AdminArchivedOrders';
 import AdminArchivedProducts from './AdminArchivedProducts';
 import AdminArchivedReviews from './AdminArchivedReviews';
+import AdminInventory from './AdminInventory';
 import StripeCheckout from './StripeCheckout';
 import AddAddressModal from './AddAddressModal';
 import SingleAddress from './SingleAddress';
 import EditAddressModal from './EditAddressModal';
 import StarRating from './StarRating';
+import ActionConfirmationModal from './ActionConfirmationModal';
+import AdminShipment from './AdminShipment';
 
 export {
   Navbar,
@@ -90,4 +93,7 @@ export {
   AdminArchivedOrders,
   AdminArchivedProducts,
   AdminArchivedReviews,
+  AdminInventory,
+  ActionConfirmationModal,
+  AdminShipment,
 };

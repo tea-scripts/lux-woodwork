@@ -79,3 +79,23 @@ export const unarchiveOrderThunk = async (url, thunkAPI) => {
     return thunkAPI.rejectWithValue(error.response.data);
   }
 };
+
+export const shipOrderThunk = async (url, thunkAPI) => {
+  try {
+    const response = await customFetch.patch(url);
+    thunkAPI.dispatch(fetchAllOrders());
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+};
+
+export const deliverOrderThunk = async (url, thunkAPI) => {
+  try {
+    const response = await customFetch.patch(url);
+    thunkAPI.dispatch(fetchAllOrders());
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+};

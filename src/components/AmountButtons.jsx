@@ -1,6 +1,6 @@
 import { createStyles } from '@mantine/core';
 import { FaPlus, FaMinus } from 'react-icons/fa';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeItem } from '../features/cart/cartSlice';
 
 const useStyles = createStyles((theme) => ({
@@ -49,6 +49,9 @@ const useStyles = createStyles((theme) => ({
 const AmountButtons = ({ id, increase, decrease, quantity }) => {
   const dispatch = useDispatch();
   const { classes } = useStyles();
+  const { cartItems } = useSelector((state) => state.cart);
+
+  const item = cartItems.find((item) => item.id === id);
 
   return (
     <div className={classes.amountButons}>
@@ -72,6 +75,7 @@ const AmountButtons = ({ id, increase, decrease, quantity }) => {
         className={classes.toggleBtn}
         type="button"
         onClick={() => dispatch(increase({ id }))}
+        disabled={item.inventory === item.quantity}
       >
         <FaPlus />
       </button>

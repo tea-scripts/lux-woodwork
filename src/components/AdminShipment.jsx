@@ -19,20 +19,20 @@ import Loading from './Loading';
 import { useState } from 'react';
 import ActionConfirmationModal from './ActionConfirmationModal';
 
-const AdminOrders = () => {
+const AdminShipment = () => {
   const dispatch = useDispatch();
   const [itemId, setItemId] = useState(null);
   const {
-    orders,
+    shippedOrders,
     totalPages,
     page,
     isLoading,
-    totalOrders,
+    totalShippedOrders,
     actionConfirmModal,
   } = useSelector((state) => state.orders);
 
-  const rows = orders
-    .filter((order) => order.isArchived === false && order.isDeleted === false)
+  const rows = shippedOrders
+    .filter((order) => order.isShipped)
     .map((order) => {
       const { _id, user, status, createdAt } = order;
       return (
@@ -96,7 +96,9 @@ const AdminOrders = () => {
   return (
     <Paper sx={{ width: '100%', padding: '1rem' }}>
       <Group>
-        <Text sx={{ fontSize: '2rem', fontWeight: 500 }}>All Orders</Text>
+        <Text sx={{ fontSize: '1.3rem' }}>
+          Shipped Orders {`(${totalShippedOrders})`}
+        </Text>
       </Group>
 
       <ViewOrderModal />
@@ -124,9 +126,7 @@ const AdminOrders = () => {
               <th>Actions</th>
             </tr>
           </thead>
-          <caption>
-            {totalOrders} orders found. Showing page {page} of {totalPages}
-          </caption>
+          <caption>{totalShippedOrders} orders found.</caption>
           <tbody>
             {rows.length === 0 ? (
               <tr>
@@ -150,4 +150,4 @@ const AdminOrders = () => {
   );
 };
 
-export default AdminOrders;
+export default AdminShipment;

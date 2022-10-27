@@ -30,6 +30,8 @@ import {
   AdminArchivedOrders,
   AdminArchivedProducts,
   AdminArchivedReviews,
+  AdminInventory,
+  AdminShipment,
 } from './components';
 import { calculateTotals } from './features/cart/cartSlice';
 import { fetchUsers } from './features/users/userSlice';
@@ -170,6 +172,8 @@ function App() {
             />
             <Route path="archives/orders" element={<AdminArchivedOrders />} />
             <Route path="archives/reviews" element={<AdminArchivedReviews />} />
+            <Route path="inventory" element={<AdminInventory />} />
+            <Route path="shipment" element={<AdminShipment />} />
             <Route path="profile" element={<AdminProfile />} />
             <Route path="support" element={<AdminSupport />} />
           </Route>
