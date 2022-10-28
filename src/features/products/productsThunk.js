@@ -52,7 +52,7 @@ export const updateProductThunk = async (url, product, thunkAPI) => {
 
 export const deleteProductThunk = async (url, thunkAPI) => {
   try {
-    const response = await customFetch.patch(url);
+    const response = await customFetch.delete(url);
     thunkAPI.dispatch(fetchAllProducts());
     return response.data;
   } catch (error) {

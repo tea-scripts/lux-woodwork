@@ -24,6 +24,7 @@ import {
   handleChange,
   setProductValues,
   togggleActionConfirmModal,
+  toggleDeleteProduct,
   toggleProductEdit,
   toggleProductView,
 } from '../features/products/productsSlice';
@@ -66,6 +67,7 @@ const AdminViewProducts = () => {
     page,
     searchField,
     actionConfirmModal,
+    deleteConfirmation,
   } = useSelector((store) => store.products);
 
   const handleInput = (e) => {
@@ -118,6 +120,7 @@ const AdminViewProducts = () => {
                   color="red"
                   onClick={() => {
                     dispatch(togggleActionConfirmModal());
+                    dispatch(toggleDeleteProduct());
                     setItemId(_id);
                   }}
                 >
@@ -154,7 +157,7 @@ const AdminViewProducts = () => {
           <ViewProductModal />
           <EditProductModal />
           <ActionConfirmationModal
-            onOk={archiveProduct}
+            onOk={deleteConfirmation ? deleteProduct : archiveProduct}
             onCancel={togggleActionConfirmModal}
             visible={actionConfirmModal}
             _id={itemId}

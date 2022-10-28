@@ -21,7 +21,7 @@ import {
 } from '../features/products/productsSlice';
 import { toast } from 'react-toastify';
 import { IconUpload } from '@tabler/icons';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 const useStyles = createStyles((theme) => ({
   images: {

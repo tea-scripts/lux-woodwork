@@ -29,12 +29,12 @@ const AdminNavLinks = [
   {
     label: 'Orders',
     icon: IconShoppingCart,
-    links: [{ label: 'View Orders', link: '/admin/orders/view' }],
+    link: '/admin/orders/view',
   },
   {
     label: 'Reviews',
     icon: IconClipboardText,
-    links: [{ label: 'View Reviews', link: '/admin/reviews/view' }],
+    link: '/admin/reviews/view',
   },
   {
     label: 'Archives',

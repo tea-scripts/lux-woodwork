@@ -6,8 +6,13 @@ import {
   ActionIcon,
 } from '@mantine/core';
 import { IconEdit } from '@tabler/icons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setProductValues,
+  toggleInventoryModal,
+} from '../features/products/productsSlice';
 import { formatPrice } from '../utils/helpers';
+import AddInventoryModal from './AddInventoryModal';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -31,6 +36,7 @@ const useStyles = createStyles((theme) => ({
 const AdminInventory = () => {
   const { classes } = useStyles();
   const { products } = useSelector((store) => store.products);
+  const dispatch = useDispatch();
 
   const rows = products
     .filter(
@@ -48,7 +54,8 @@ const AdminInventory = () => {
             <ActionIcon
               color="yellow"
               onClick={() => {
-                console.log('edit');
+                dispatch(setProductValues(product));
+                dispatch(toggleInventoryModal());
               }}
             >
               <IconEdit size={15} />
@@ -63,6 +70,7 @@ const AdminInventory = () => {
       <Container className={classes.inner} fluid>
         <Text className={classes.title}>Inventory</Text>
       </Container>
+      <AddInventoryModal />
       <Container className={classes.inner} fluid>
         <Container sx={{ padding: 0 }} fluid>
           <Table highlightOnHover captionSide="bottom">

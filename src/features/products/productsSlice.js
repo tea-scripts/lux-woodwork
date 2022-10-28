@@ -39,6 +39,8 @@ const initialState = {
   filteredProducts: [],
   productReviews: [],
   actionConfirmModal: false,
+  inventoryModal: false,
+  deleteConfirmation: false,
 };
 
 export const createProduct = createAsyncThunk(
@@ -131,6 +133,12 @@ const productsSlice = createSlice({
     toggleProductView: (state) => {
       state.isViewing = !state.isViewing;
     },
+    toggleInventoryModal: (state) => {
+      state.inventoryModal = !state.inventoryModal;
+    },
+    toggleDeleteProduct: (state) => {
+      state.deleteConfirmation = !state.deleteConfirmation;
+    },
     toggleProductEdit: (state) => {
       state.isEditingProduct = !state.isEditingProduct;
     },
@@ -195,6 +203,7 @@ const productsSlice = createSlice({
       const urls = images.map((image) => image.url);
       state.images = urls;
       state.isLoading = false;
+      state.inventoryModal = false;
       toast.success('Image uploaded successfully');
     },
     [uploadProductImage.rejected]: (state, action) => {
@@ -229,11 +238,13 @@ const productsSlice = createSlice({
     [deleteProduct.fulfilled]: (state) => {
       state.isLoading = false;
       state.actionConfirmModal = false;
+      state.deleteConfirmation = false;
       toast.success('Product deleted successfully');
     },
     [deleteProduct.rejected]: (state, action) => {
       state.isLoading = false;
       state.actionConfirmModal = false;
+      state.deleteConfirmation = false;
       toast.error(action.payload.msg);
     },
     [fetchSingleProductReviews.pending]: (state) => {
@@ -285,6 +296,8 @@ export const {
   toggleProductEdit,
   changePage,
   togggleActionConfirmModal,
+  toggleInventoryModal,
+  toggleDeleteProduct,
 } = productsSlice.actions;
 
 export default productsSlice.reducer;
