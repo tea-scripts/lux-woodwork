@@ -2,24 +2,16 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {
-  Footer,
-  Navbar,
-  Sidebar,
-  SidebarCart,
   UserAddress,
   UserProfile,
   UserReviews,
   UserOrders,
   UserWishlist,
   ScrollToTop,
-  Registration,
-  EmailVerificationModal,
-  ForgotPasswordModal,
   UpdatePassword,
   AdminDashboard,
   AdminAddUsers,
   AdminViewUsers,
-  AdminAddOrders,
   AdminViewOrders,
   AdminAddProducts,
   AdminViewProducts,
@@ -91,12 +83,6 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* <Navbar />
-      <Sidebar />
-      <Registration />
-      <EmailVerificationModal />
-      <ForgotPasswordModal />
-      <SidebarCart /> */}
       <ScrollToTop>
         <Routes>
           <Route path="/" element={<SharedLayout />}>
@@ -147,7 +133,6 @@ function App() {
               }
             />
             <Route path="/checkout/:id" element={<CheckoutPage />} />
-            {/* <Route path="/stripecheckout/:id" element={<StripeCheckout />} /> */}
             <Route path="*" element={<Error />} />
           </Route>
           <Route

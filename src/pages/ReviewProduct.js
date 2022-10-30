@@ -1,33 +1,33 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Button,
   createStyles,
   Group,
   Image,
-  Text,
   Textarea,
   Title,
-} from "@mantine/core";
-import React, { useState } from "react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { StarRating } from "../components";
-import Loading from "../components/Loading";
-import { fetchProduct } from "../features/products/productsSlice";
-import { createReview, updateReview } from "../features/reviews/reviewsSlice";
+} from '@mantine/core';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { StarRating } from '../components';
+import Loading from '../components/Loading';
+import { fetchProduct } from '../features/products/productsSlice';
+import { createReview, updateReview } from '../features/reviews/reviewsSlice';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    minHeight: "calc(100vh - (60px + 150px))",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "1rem",
-    width: "90vw",
-    margin: " 0 auto",
+    minHeight: 'calc(100vh - (60px + 150px))',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '1rem',
+    width: '90vw',
+    margin: ' 0 auto',
     maxWidth: 1200,
-    padding: "3rem 0",
+    padding: '3rem 0',
   },
 }));
 
@@ -38,10 +38,10 @@ const ReviewProduct = () => {
   const { userId, productId } = useParams();
   const { userReviews, isLoading } = useSelector((state) => state.reviews);
   const [searchParams] = useSearchParams();
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
-  const [image, setImage] = useState("");
-  const [reviewId, setReviewId] = useState("");
+  const [image, setImage] = useState('');
+  const [reviewId, setReviewId] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,22 +53,22 @@ const ReviewProduct = () => {
       product: productId,
     };
 
-    if (searchParams.get("update")) {
+    if (searchParams.get('update')) {
       const modifiedReview = {
         ...review,
         reviewId,
       };
-      console.log("modifiedReview", modifiedReview);
+      console.log('modifiedReview', modifiedReview);
       dispatch(updateReview(modifiedReview));
     } else {
       dispatch(createReview(review));
     }
 
-    navigate("/user/reviews");
+    navigate('/user/reviews');
   };
 
   useEffect(() => {
-    if (searchParams.get("update")) {
+    if (searchParams.get('update')) {
       const review = userReviews.find(
         (review) => review.product.id === productId
       );
@@ -97,10 +97,10 @@ const ReviewProduct = () => {
       <div
         style={{
           width: 450,
-          marginLeft: "auto",
-          marginRight: "auto",
-          marginTop: "1rem",
-          marginBottom: "1rem",
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          marginTop: '1rem',
+          marginBottom: '1rem',
         }}
       >
         <Image radius="md" src={image} alt="product image" />
@@ -114,7 +114,7 @@ const ReviewProduct = () => {
           label="Your Review"
           size="md"
           minRows={4}
-          sx={{ width: "450px" }}
+          sx={{ width: '450px' }}
           withAsterisk
         />
 

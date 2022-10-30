@@ -1,5 +1,5 @@
-import customFetch from "../../utils/axios";
-import { logoutUser } from "./userSlice";
+import customFetch from '../../utils/axios';
+import { logoutUser } from './userSlice';
 
 export const registerUserThunk = async (url, user, thunkAPI) => {
   try {
@@ -15,6 +15,10 @@ export const fetchUsersThunk = async (url, thunkAPI) => {
     const response = await customFetch.get(url);
     return response.data;
   } catch (error) {
+    if (error.response.status === 401) {
+      thunkAPI.dispatch(logoutUser());
+      return thunkAPI.rejectWithValue('Unauthorized! Logging Out..');
+    }
     return thunkAPI.rejectWithValue(error.response.data);
   }
 };
@@ -33,6 +37,10 @@ export const resetPasswordThunk = async (url, password, thunkAPI) => {
     const response = await customFetch.post(url, password);
     return response.data;
   } catch (error) {
+    if (error.response.status === 401) {
+      thunkAPI.dispatch(logoutUser());
+      return thunkAPI.rejectWithValue('Unauthorized! Logging Out..');
+    }
     return thunkAPI.rejectWithValue(error.response.data);
   }
 };
@@ -53,7 +61,7 @@ export const updateUserThunk = async (url, user, thunkAPI) => {
   } catch (error) {
     if (error.response.status === 401) {
       thunkAPI.dispatch(logoutUser());
-      return thunkAPI.rejectWithValue("Unauthorized! Logging Out..");
+      return thunkAPI.rejectWithValue('Unauthorized! Logging Out..');
     }
     return thunkAPI.rejectWithValue(error.response.data);
   }
@@ -80,6 +88,15 @@ export const fetchUserThunk = async (url, thunkAPI) => {
 export const uploadAvatarThunk = async (url, formData, thunkAPI) => {
   try {
     const response = await customFetch.post(url, formData, thunkAPI);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+};
+
+export const contactUsThunk = async (url, formData, thunkAPI) => {
+  try {
+    const response = await customFetch.post(url, formData);
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data);

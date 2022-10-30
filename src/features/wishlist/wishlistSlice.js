@@ -1,10 +1,10 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 import {
   addWishlistItemThunk,
   deleteWishlistItemThunk,
   fetchUserWishlistThunk,
-} from "./wishlistThunk";
+} from './wishlistThunk';
 
 const initialState = {
   wishlist: [],
@@ -14,7 +14,7 @@ const initialState = {
 };
 
 export const fetchUserWishlist = createAsyncThunk(
-  "wishlist/fetchWishlist",
+  'wishlist/fetchWishlist',
   async (page, thunkAPI) => {
     return fetchUserWishlistThunk(
       `/wishlist/${thunkAPI.getState().users.user._id}?page=${page}`,
@@ -24,21 +24,21 @@ export const fetchUserWishlist = createAsyncThunk(
 );
 
 export const addWishlistItem = createAsyncThunk(
-  "wishlist/addWishlistItem",
+  'wishlist/addWishlistItem',
   async (product, thunkAPI) => {
     return addWishlistItemThunk(`/wishlist`, product, thunkAPI);
   }
 );
 
 export const deleteWishlistItem = createAsyncThunk(
-  "wishlist/deleteWishlistItem",
+  'wishlist/deleteWishlistItem',
   async (wishlistItemId, thunkAPI) => {
     return deleteWishlistItemThunk(`/wishlist/${wishlistItemId}`, thunkAPI);
   }
 );
 
 const wishlistSlice = createSlice({
-  name: "wishlist",
+  name: 'wishlist',
   initialState,
   reducers: {},
   extraReducers: {
@@ -60,7 +60,7 @@ const wishlistSlice = createSlice({
     [addWishlistItem.fulfilled]: (state, action) => {
       state.wishlist = action.payload;
       state.pages = action.payload.pages;
-      toast.success("Item added to wishlist");
+      toast.success('Item added to wishlist');
     },
     [addWishlistItem.rejected]: (state, action) => {
       state.isLoading = false;
@@ -71,7 +71,7 @@ const wishlistSlice = createSlice({
     },
     [deleteWishlistItem.fulfilled]: (state, action) => {
       state.isLoading = false;
-      toast.success("Item removed from wishlist");
+      toast.success('Item removed from wishlist');
     },
     [deleteWishlistItem.rejected]: (state, action) => {
       state.isLoading = false;

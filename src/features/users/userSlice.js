@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 import {
   addTokenToLocalStorage,
   addUserToLocalStorage,
@@ -9,8 +9,9 @@ import {
   getWishlistFromLocalStorage,
   removeTokenFromLocalStorage,
   removeUserFromLocalStorage,
-} from "../../utils/localStorage";
+} from '../../utils/localStorage';
 import {
+  contactUsThunk,
   fetchUsersThunk,
   fetchUserThunk,
   forgotPasswordThunk,
@@ -20,7 +21,7 @@ import {
   updatePasswordThunk,
   updateUserThunk,
   uploadAvatarThunk,
-} from "./userThunk";
+} from './userThunk';
 
 const initialState = {
   isSigninIn: false,
@@ -29,10 +30,10 @@ const initialState = {
   token: getTokenFromLocalStorage(),
   singleUser: {},
   singleUserModal: false,
-  error: "",
+  error: '',
   isLoading: false,
   emailVerificationModal: false,
-  alertMessage: "",
+  alertMessage: '',
   forgotPasswordModal: false,
   userAddresses: [],
   addresses: [],
@@ -41,74 +42,82 @@ const initialState = {
   totalUsers: 0,
   page: 1,
   totalPages: 0,
-  avatar: "",
+  avatar: '',
+  successState: false,
 };
 
 export const fetchUsers = createAsyncThunk(
-  "users/fetchUsers",
+  'users/fetchUsers',
   async (_, thunkAPI) => {
-    return fetchUsersThunk("/users", thunkAPI);
+    return fetchUsersThunk('/users', thunkAPI);
   }
 );
 
 export const registerUser = createAsyncThunk(
-  "users/registerUser",
+  'users/registerUser',
   async (user, thunkAPI) => {
-    return registerUserThunk("/auth/register", user, thunkAPI);
+    return registerUserThunk('/auth/register', user, thunkAPI);
   }
 );
 
 export const fetchUser = createAsyncThunk(
-  "users/fetchUser",
+  'users/fetchUser',
   async (_id, thunkAPI) => {
     return fetchUserThunk(`users/${_id}`, thunkAPI);
   }
 );
 
 export const loginUser = createAsyncThunk(
-  "users/loginUser",
+  'users/loginUser',
   async (user, thunkAPI) => {
-    return loginUserThunk("/auth/login", user, thunkAPI);
+    return loginUserThunk('/auth/login', user, thunkAPI);
   }
 );
 
 export const forgotPassword = createAsyncThunk(
-  "users/forgotPassword",
+  'users/forgotPassword',
   async (email, thunkAPI) => {
-    return forgotPasswordThunk("/auth/forgot-password", email, thunkAPI);
+    return forgotPasswordThunk('/auth/forgot-password', email, thunkAPI);
   }
 );
 
 export const resetPassword = createAsyncThunk(
-  "users/resetPassword",
+  'users/resetPassword',
   async (password, thunkAPI) => {
-    return resetPasswordThunk("/auth/reset-password", password, thunkAPI);
+    return resetPasswordThunk('/auth/reset-password', password, thunkAPI);
   }
 );
 
 export const updateUser = createAsyncThunk(
-  "users/updateUser",
+  'users/updateUser',
   async (user, thunkAPI) => {
-    return updateUserThunk("/users/updateUser", user, thunkAPI);
+    return updateUserThunk('/users/updateUser', user, thunkAPI);
   }
 );
 
 export const updatePassword = createAsyncThunk(
-  "users/updatePassword",
+  'users/updatePassword',
   async (password, thunkAPI) => {
-    return updatePasswordThunk("/users/updateUserPassword", password, thunkAPI);
+    return updatePasswordThunk('/users/updateUserPassword', password, thunkAPI);
   }
 );
 
 export const uploadAvatar = createAsyncThunk(
-  "users/uploadAvatar",
+  'users/uploadAvatar',
   async (formData, thunkAPI) => {
-    return uploadAvatarThunk("/uploadImage", formData, thunkAPI);
+    return uploadAvatarThunk('/uploadImage', formData, thunkAPI);
+  }
+);
+
+export const contactUs = createAsyncThunk(
+  'users/contactUs',
+  async (formData, thunkAPI) => {
+    return contactUsThunk('/contact-us', formData, thunkAPI);
   }
 );
 
 const userSlice = createSlice({
-  name: "users",
+  name: 'users',
   initialState,
   reducers: {
     toggleSignInModal: (state) => {
@@ -148,7 +157,7 @@ const userSlice = createSlice({
       state.page = payload;
     },
     clearAvatar: (state) => {
-      state.avatar = "";
+      state.avatar = '';
     },
   },
   extraReducers: {
@@ -183,7 +192,7 @@ const userSlice = createSlice({
       state.isLoading = false;
       state.emailVerificationModal = true;
       state.isSigninIn = false;
-      toast.success("Please Verify Your Email!");
+      toast.success('Please Verify Your Email!');
     },
     [registerUser.rejected]: (state, action) => {
       state.isLoading = false;
@@ -200,7 +209,7 @@ const userSlice = createSlice({
       state.isSigninIn = false;
       addTokenToLocalStorage(token);
       addUserToLocalStorage(user);
-      toast.success("Welcome back " + user.username);
+      toast.success('Welcome back ' + user.username);
     },
     [loginUser.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -212,9 +221,9 @@ const userSlice = createSlice({
     [updateUser.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.user = action.payload.user;
-      state.avatar = "";
+      state.avatar = '';
       addUserToLocalStorage(action.payload.user);
-      toast.success("Profile updated successfully");
+      toast.success('Profile updated successfully');
     },
     [updateUser.rejected]: (state, action) => {
       state.isLoading = false;
@@ -225,7 +234,7 @@ const userSlice = createSlice({
     },
     [updatePassword.fulfilled]: (state) => {
       state.isLoading = false;
-      toast.success("Password updated successfully");
+      toast.success('Password updated successfully');
     },
     [updatePassword.rejected]: (state, action) => {
       state.isLoading = false;
@@ -261,9 +270,21 @@ const userSlice = createSlice({
       console.log(action.payload);
       state.avatar = action.payload.images[0].url;
       state.isLoading = false;
-      toast.success("Avatar uploaded successfully");
+      toast.success('Avatar uploaded successfully');
     },
     [uploadAvatar.rejected]: (state, action) => {
+      state.isLoading = false;
+      toast.error(action.payload.msg);
+    },
+    [contactUs.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [contactUs.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.successState = true;
+      toast.success(action.payload.msg);
+    },
+    [contactUs.rejected]: (state, action) => {
       state.isLoading = false;
       toast.error(action.payload.msg);
     },
