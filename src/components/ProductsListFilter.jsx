@@ -181,7 +181,6 @@ const ProductsListFilter = ({
             label="Free Shipping"
             mb={10}
           />
-          <Checkbox checked={false} label="New Product" disabled />
         </div>
 
         <Divider mt={10} mb={10} />

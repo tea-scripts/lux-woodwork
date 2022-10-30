@@ -5,8 +5,6 @@ import React, { useState } from "react";
 const StarRating = ({ rating, setRating }) => {
   const [hover, setHover] = useState(0);
 
-  console.log(rating);
-
   return (
     <div style={{ display: "flex" }}>
       {[...Array(5)].map((star, index) => {

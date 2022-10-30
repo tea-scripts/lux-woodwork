@@ -8,12 +8,13 @@ import {
 } from "@mantine/core";
 import {
   IconUser,
-  IconShoppingCart,
   IconAddressBook,
   IconTruck,
   IconNotes,
   IconHeart,
   IconRotateRectangle,
+  IconArrowsMaximize,
+  IconArrowsMinimize,
 } from "@tabler/icons";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -126,8 +127,9 @@ const UserSidebar = ({ location }) => {
         className={classes.btn}
         onClick={() => setOpened((prevState) => !prevState)}
         sx={{ marginBottom: "2rem" }}
+        leftIcon={opened ? <IconArrowsMinimize /> : <IconArrowsMaximize />}
       >
-        Open
+        {opened ? "Close Sidebar" : "Open Sidebar"}
       </Button>
       <Stack
         className={`${classes.filterBar} ${opened ? classes.openSidebar : ""}`}

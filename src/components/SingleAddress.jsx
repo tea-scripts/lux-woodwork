@@ -5,9 +5,9 @@ import {
   ActionIcon,
   Badge,
   createStyles,
-  Button,
+  Tooltip,
 } from "@mantine/core";
-import { IconEdit, IconTrash } from "@tabler/icons";
+import { IconEdit, IconMapPin, IconTrash } from "@tabler/icons";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -21,13 +21,16 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     padding: "1rem",
-    borderColor: "var(--prussian-blue-500)",
 
     "@media (min-width: 1080px)": {
       flexDirection: "row",
       justifyContent: "space-between",
       width: "100%",
     },
+  },
+
+  defaultAddress: {
+    borderColor: "#40c057",
   },
 
   btn: {
@@ -40,7 +43,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const SingleAddress = ({ address }) => {
-  const { classes } = useStyles();
+  const { classes, cx } = useStyles();
   const dispatch = useDispatch();
   const { user, isLoading } = useSelector((state) => state.users);
   const [opened, setOpened] = useState(false);
@@ -58,7 +61,9 @@ const SingleAddress = ({ address }) => {
 
   return (
     <Paper
-      className={classes.addressItem}
+      className={cx(classes.addressItem, {
+        [classes.defaultAddress]: defaultAddress,
+      })}
       key={addressId}
       shadow="xs"
       withBorder
@@ -70,36 +75,47 @@ const SingleAddress = ({ address }) => {
       />
 
       <div>
-        {defaultAddress && <Badge color="dark"> Default</Badge>}
+        {defaultAddress && (
+          <Badge color="green" variant="filled">
+            Default Address
+          </Badge>
+        )}
 
-        <Group>
-          {`${user?.first_name || ""} ${user?.last_name || ""}`} {" | "}
-          {`${user?.phone && "(63+)"} ${user?.phone || ""}`}
-        </Group>
-        <Text sx={{ maxWidth: 400, color: "var(--gray)" }}>
+        <Text sx={{ maxWidth: 550 }}>
           {street}, {barangay}, {city}, {province}, {region}, {zip}
         </Text>
       </div>
       <div style={{ display: "flex" }}>
         <Group mb={10} position="right"></Group>
         <Group className={classes.btn}>
-          <ActionIcon color="orange" onClick={() => setOpened(true)}>
-            <IconEdit size={18} />
-          </ActionIcon>
-          <ActionIcon
-            color="red"
-            onClick={() => dispatch(deleteAddress(addressId))}
-          >
-            <IconTrash size={18} />
-          </ActionIcon>
           {!address.defaultAddress && (
-            <Button
-              variant="subtle"
-              onClick={() => dispatch(selectDefaultAddress(addressId))}
+            <Tooltip
+              label="Set as Default"
+              color="blue"
+              position="bottom"
+              withArrow
             >
-              Select as default
-            </Button>
+              <ActionIcon
+                color="blue"
+                onClick={() => dispatch(selectDefaultAddress(addressId))}
+              >
+                <IconMapPin size={18} />
+              </ActionIcon>
+            </Tooltip>
           )}
+          <Tooltip label="Edit" color="orange" position="bottom" withArrow>
+            <ActionIcon color="orange" onClick={() => setOpened(true)}>
+              <IconEdit size={18} />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label="Delete" color="red" position="bottom" withArrow>
+            <ActionIcon
+              color="red"
+              onClick={() => dispatch(deleteAddress(addressId))}
+            >
+              <IconTrash size={18} />
+            </ActionIcon>
+          </Tooltip>
         </Group>
       </div>
     </Paper>

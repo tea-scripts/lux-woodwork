@@ -1,6 +1,7 @@
 import {
   Button,
   createStyles,
+  Divider,
   Group,
   Image,
   Pagination,
@@ -14,6 +15,7 @@ import ProductCard from "./ProductCard";
 import emptyCartImage from "../assets/empty-cart.svg";
 import { fetchUserWishlist } from "../features/wishlist/wishlistSlice";
 import Loading from "./Loading";
+import { IconShoppingCartPlus } from "@tabler/icons";
 
 const useStyles = createStyles((theme) => ({
   imgContainer: {
@@ -50,11 +52,24 @@ const UserWishlist = () => {
 
   return (
     <>
-      <Text sx={{ color: "#C0C0C0", fontSize: "1.1rem" }} mb={32}>
+      <Text
+        sx={{
+          color: "var(--prussian-blue-500)",
+          fontSize: "1.1rem",
+          fontWeight: 500,
+        }}
+      >
         My Wishlist
       </Text>
+
+      <Divider mt={16} mb={32} />
+
       <Group mb={32} position="center">
-        <Button component={Link} to="/products">
+        <Button
+          component={Link}
+          to="/products"
+          leftIcon={<IconShoppingCartPlus />}
+        >
           Add Products
         </Button>
       </Group>
@@ -75,15 +90,17 @@ const UserWishlist = () => {
           alignItems: "center",
         }}
       >
-        {wishlist.length === 0 && (
+        {wishlist?.userWishlist?.length === 0 && (
           <>
-            {" "}
+            <Text
+              weight={500}
+              sx={{ fontSize: "1.5rem", marginBottom: "2rem" }}
+            >
+              Your wishlist is empty!
+            </Text>
             <div className={classes.imgContainer}>
               <Image src={emptyCartImage} />
             </div>
-            <Text sx={{ fontSize: "1.5rem", marginTop: "2rem" }}>
-              Your wishlist is empty!
-            </Text>
           </>
         )}
       </div>
