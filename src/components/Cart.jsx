@@ -116,9 +116,10 @@ const Cart = () => {
     >
       <Box sx={{ height: '100%', display: 'grid' }}>
         <div>
-          {cartItems.length === 0 ? (
+          {cartItems && cartItems.length === 0 ? (
             <Title order={4}>Your cart is empty</Title>
           ) : (
+            cartItems &&
             cartItems.map((item) => {
               const { _id, name, price, images, quantity } = item;
               return (
