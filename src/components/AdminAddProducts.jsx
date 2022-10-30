@@ -11,22 +11,23 @@ import {
   Checkbox,
   Image,
   SimpleGrid,
-} from '@mantine/core';
-import { IconUpload } from '@tabler/icons';
-import { useEffect } from 'react';
-import { useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+  Divider,
+} from "@mantine/core";
+import { IconUpload } from "@tabler/icons";
+import { useEffect } from "react";
+import { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import {
   createProduct,
   handleChange,
   uploadProductImage,
-} from '../features/products/productsSlice';
+} from "../features/products/productsSlice";
 
 const useStyles = createStyles((theme) => ({
   container: {
     flex: 1,
-    width: '100%',
+    width: "100%",
     padding: 0,
   },
 
@@ -35,27 +36,27 @@ const useStyles = createStyles((theme) => ({
   },
 
   title: {
-    color: 'var(--prussian-blue-500)',
-    fontSize: '1.3rem',
+    color: "var(--prussian-blue-500)",
+    fontSize: "1.3rem",
     paddingTop: 5,
-    marginBottom: '2rem',
+    marginBottom: "2rem",
   },
 
   images: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: '2rem',
-    width: '85px',
-    height: '75px',
-    gap: '.5rem',
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "2rem",
+    width: "85px",
+    height: "75px",
+    gap: ".5rem",
 
     img: {
-      width: '100%',
-      height: '100%',
-      display: 'block',
-      borderRadius: '5px',
-      objectFit: 'cover',
+      width: "100%",
+      height: "100%",
+      display: "block",
+      borderRadius: "5px",
+      objectFit: "cover",
     },
   },
 }));
@@ -81,13 +82,13 @@ const AdminAddProducts = () => {
     let name = e.target.name;
     let value = e.target.value;
 
-    if (name === 'featured') {
+    if (name === "featured") {
       value = e.target.checked;
     }
-    if (name === 'freeShipping') {
+    if (name === "freeShipping") {
       value = e.target.checked;
     }
-    if (name === 'displayProduct') {
+    if (name === "displayProduct") {
       value = e.target.checked;
     }
 
@@ -99,7 +100,7 @@ const AdminAddProducts = () => {
     const formData = new FormData();
 
     for (let image of images) {
-      formData.append('image', image);
+      formData.append("image", image);
     }
 
     if (images) {
@@ -111,7 +112,7 @@ const AdminAddProducts = () => {
     e.preventDefault();
 
     if (!name || !price || !inventory || !category || !description) {
-      toast.warning('Please provide all credentials');
+      toast.warning("Please provide all credentials");
       return;
     }
     dispatch(
@@ -129,7 +130,7 @@ const AdminAddProducts = () => {
       <div className={classes.images}>
         {images &&
           images.map((image, index) => (
-            <img key={index} alt={'prouduct-pic'} radius="md" src={image} />
+            <img key={index} alt={"prouduct-pic"} radius="md" src={image} />
           ))}
       </div>
     </SimpleGrid>
@@ -146,9 +147,8 @@ const AdminAddProducts = () => {
             <TextInput
               placeholder="Enter product Name"
               label="Product Name"
-              size="md"
               name="name"
-              mb={16}
+              mb={8}
               withAsterisk
               value={name}
               onChange={handleInputChange}
@@ -158,9 +158,8 @@ const AdminAddProducts = () => {
               type="number"
               placeholder="Enter amount in stock"
               label="Amount in Stock"
-              size="md"
               name="inventory"
-              mb={16}
+              mb={8}
               withAsterisk
               value={inventory}
               onChange={handleInputChange}
@@ -170,9 +169,8 @@ const AdminAddProducts = () => {
               type="number"
               placeholder="Enter product price"
               label="Price (in cents)"
-              size="md"
               name="price"
-              mb={16}
+              mb={8}
               withAsterisk
               value={price}
               onChange={handleInputChange}
@@ -180,31 +178,29 @@ const AdminAddProducts = () => {
 
             <Select
               data={[
-                { label: 'Office', value: 'office' },
-                { label: 'Bedroom', value: 'bedroom' },
-                { label: 'Kitchen', value: 'kitchen' },
-                { label: 'Dining', value: 'dining' },
-                { label: 'Living Room', value: 'living room' },
-                { label: 'Kids', value: 'kids' },
+                { label: "Office", value: "office" },
+                { label: "Bedroom", value: "bedroom" },
+                { label: "Kitchen", value: "kitchen" },
+                { label: "Dining", value: "dining" },
+                { label: "Living Room", value: "living room" },
+                { label: "Kids", value: "kids" },
               ]}
-              sx={{ textTransform: 'capitalize' }}
+              sx={{ textTransform: "capitalize" }}
               placeholder="Select product category"
               label="Category"
-              size="md"
               name="category"
               mb={16}
               searchable
               withAsterisk
               value={category}
               onChange={(value) =>
-                dispatch(handleChange({ name: 'category', value }))
+                dispatch(handleChange({ name: "category", value }))
               }
             />
 
-            <SimpleGrid breakpoints={[{ minWidth: 'xs', cols: 1 }]}>
+            <SimpleGrid breakpoints={[{ minWidth: "xs", cols: 1 }]}>
               <Checkbox
                 label="Featured"
-                size="md"
                 name="featured"
                 value={featured}
                 onChange={handleInputChange}
@@ -212,7 +208,6 @@ const AdminAddProducts = () => {
 
               <Checkbox
                 label="Free Shipping"
-                size="md"
                 name="freeShipping"
                 value={freeShipping}
                 onChange={handleInputChange}
@@ -220,7 +215,6 @@ const AdminAddProducts = () => {
 
               <Checkbox
                 label="Display Product"
-                size="md"
                 name="displayProduct"
                 value={displayProduct}
                 onChange={handleInputChange}
@@ -233,7 +227,6 @@ const AdminAddProducts = () => {
               placeholder="Enter Product Description"
               label="Product Description"
               withAsterisk
-              size="md"
               name="description"
               autosize
               minRows={5}
@@ -247,7 +240,6 @@ const AdminAddProducts = () => {
                 onClick={handleClick}
                 leftIcon={<IconUpload />}
                 variant="outline"
-                size="sm"
                 fullWidth
               >
                 Select Image(s)
@@ -257,19 +249,14 @@ const AdminAddProducts = () => {
                 name="image"
                 multiple
                 style={{
-                  display: 'none',
+                  display: "none",
                 }}
                 height={15}
                 onChange={handleFileChange}
                 ref={hiddenFileInput}
               />
 
-              <Button
-                size="sm"
-                fullWidth
-                loading={isLoading}
-                onClick={handleSubmit}
-              >
+              <Button fullWidth loading={isLoading} onClick={handleSubmit}>
                 Create Product
               </Button>
             </Group>
