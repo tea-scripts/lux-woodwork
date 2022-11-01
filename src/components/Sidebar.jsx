@@ -16,6 +16,7 @@ import navLinks from '../utils/navLinks';
 import logo from '../assets/logo-black.svg';
 import { FaFacebookSquare, FaInstagram, FaTwitterSquare } from 'react-icons/fa';
 import { logoutUser, toggleSignInModal } from '../features/users/userSlice';
+import { HiUserCircle } from 'react-icons/hi';
 
 const useStyles = createStyles((theme) => ({
   sidebar: {
@@ -79,6 +80,14 @@ const Sidebar = () => {
                 </List.Item>
               );
             })}
+            {user && (
+              <List.Item
+                icon={<HiUserCircle size={20} />}
+                onClick={() => dispatch(toggleSidebar())}
+              >
+                <Link to={`${user.role}`}>Account</Link>
+              </List.Item>
+            )}
           </List>
           {user ? (
             <Button
