@@ -1,8 +1,8 @@
-import { ActionIcon, Badge, Group, Paper, Table, Text } from '@mantine/core';
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { DateTime } from 'luxon';
-import { IconArchive, IconSquareCheck, IconTrashX } from '@tabler/icons';
+import { ActionIcon, Badge, Group, Paper, Table, Text } from "@mantine/core";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { DateTime } from "luxon";
+import { IconArchive, IconSquareCheck, IconTrashX } from "@tabler/icons";
 import {
   archiveOrder,
   changePage,
@@ -11,13 +11,13 @@ import {
   setOrderValues,
   togggleActionConfirmModal,
   toggleOrderView,
-} from '../features/orders/orderSlice';
-import ViewOrderModal from './ViewOrderModal';
-import PaginationButtons from './PaginationButtons';
-import { useEffect } from 'react';
-import Loading from './Loading';
-import { useState } from 'react';
-import ActionConfirmationModal from './ActionConfirmationModal';
+} from "../features/orders/orderSlice";
+import ViewOrderModal from "./ViewOrderModal";
+import PaginationButtons from "./PaginationButtons";
+import { useEffect } from "react";
+import Loading from "./Loading";
+import { useState } from "react";
+import ActionConfirmationModal from "./ActionConfirmationModal";
 
 const AdminShipment = () => {
   const dispatch = useDispatch();
@@ -44,9 +44,9 @@ const AdminShipment = () => {
           <td>{user.email}</td>
           <td>{user.phone}</td>
           <td>
-            {status === 'paid' ? (
+            {status === "paid" ? (
               <Badge color="green">Paid</Badge>
-            ) : status === 'cancelled' ? (
+            ) : status === "cancelled" ? (
               <Badge color="red">Cancelled</Badge>
             ) : (
               <Badge color="yellow">Pending</Badge>
@@ -94,10 +94,18 @@ const AdminShipment = () => {
   }, [page, dispatch]);
 
   return (
-    <Paper sx={{ width: '100%', padding: '1rem' }}>
+    <Paper sx={{ width: "100%", padding: "0 1rem" }}>
       <Group>
-        <Text sx={{ fontSize: '1.3rem' }}>
-          Shipped Orders {`(${totalShippedOrders})`}
+        <Text
+          sx={{
+            fontSize: "1.3rem",
+            color: "var(--prussian-blue-500)",
+            fontSize: "1.3rem",
+            paddingTop: 5,
+            marginBottom: "2rem",
+          }}
+        >
+          Shipped Orders
         </Text>
       </Group>
 
@@ -110,7 +118,7 @@ const AdminShipment = () => {
       />
 
       {isLoading ? (
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: "center" }}>
           <Loading />
         </div>
       ) : (

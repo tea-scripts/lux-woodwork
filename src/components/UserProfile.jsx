@@ -15,7 +15,7 @@ import {
   uploadAvatar,
   clearAvatar,
 } from "../features/users/userSlice";
-import { IconUpload } from "@tabler/icons";
+import { IconEdit, IconSend, IconUpload } from "@tabler/icons";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -109,7 +109,6 @@ const UserProfile = () => {
                   onClick={handleClick}
                   leftIcon={<IconUpload />}
                   variant="outline"
-                  size="sm"
                   loading={isLoading}
                 >
                   Upload a file
@@ -169,12 +168,13 @@ const UserProfile = () => {
             }}
             variant={editDetails ? "subtle" : "filled"}
             disabled={isLoading}
+            leftIcon={!editDetails && <IconEdit />}
           >
             {editDetails ? "Cancel" : "Update Profile"}
           </Button>
           {editDetails && (
-            <Button type="submit" disabled={isLoading}>
-              Update
+            <Button type="submit" leftIcon={<IconSend />} disabled={isLoading}>
+              Submit
             </Button>
           )}
         </Group>

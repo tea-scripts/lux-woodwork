@@ -1,5 +1,5 @@
-import customFetch from '../../utils/axios';
-import { fetchAllOrders, fetchUserOrders } from './orderSlice';
+import customFetch from "../../utils/axios";
+import { fetchAllOrders, fetchUserOrders } from "./orderSlice";
 
 export const fetchAllOrdersThunk = async (url, thunkAPI) => {
   try {
@@ -41,7 +41,7 @@ export const fetchUserOrdersThunk = async (url, thunkAPI) => {
 export const deleteOrderThunk = async (url, thunkAPI) => {
   try {
     const response = await customFetch.delete(url);
-    thunkAPI.getState().users.user.role === 'admin' &&
+    thunkAPI.getState().users.user.role === "admin" &&
       thunkAPI.dispatch(fetchAllOrders());
     thunkAPI.dispatch(fetchUserOrders());
     return response.data;
@@ -84,6 +84,7 @@ export const shipOrderThunk = async (url, thunkAPI) => {
   try {
     const response = await customFetch.patch(url);
     thunkAPI.dispatch(fetchAllOrders());
+    thunkAPI.dispatch(fetchUserOrders());
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data);
@@ -94,6 +95,16 @@ export const deliverOrderThunk = async (url, thunkAPI) => {
   try {
     const response = await customFetch.patch(url);
     thunkAPI.dispatch(fetchAllOrders());
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+};
+
+export const receiveOrderThunk = async (url, thunkAPI) => {
+  try {
+    const response = await customFetch.patch(url);
+    thunkAPI.dispatch(fetchUserOrders());
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data);

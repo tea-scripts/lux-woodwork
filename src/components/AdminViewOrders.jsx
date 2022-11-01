@@ -1,8 +1,17 @@
-import { ActionIcon, Badge, Group, Paper, Table, Text } from '@mantine/core';
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { DateTime } from 'luxon';
-import { IconArchive, IconSquareCheck, IconTrashX } from '@tabler/icons';
+import {
+  ActionIcon,
+  Badge,
+  Container,
+  createStyles,
+  Group,
+  Paper,
+  Table,
+  Text,
+} from "@mantine/core";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { DateTime } from "luxon";
+import { IconArchive, IconSquareCheck, IconTrashX } from "@tabler/icons";
 import {
   archiveOrder,
   changePage,
@@ -11,15 +20,53 @@ import {
   setOrderValues,
   togggleActionConfirmModal,
   toggleOrderView,
-} from '../features/orders/orderSlice';
-import ViewOrderModal from './ViewOrderModal';
-import PaginationButtons from './PaginationButtons';
-import { useEffect } from 'react';
-import Loading from './Loading';
-import { useState } from 'react';
-import ActionConfirmationModal from './ActionConfirmationModal';
+} from "../features/orders/orderSlice";
+import ViewOrderModal from "./ViewOrderModal";
+import PaginationButtons from "./PaginationButtons";
+import { useEffect } from "react";
+import Loading from "./Loading";
+import { useState } from "react";
+import ActionConfirmationModal from "./ActionConfirmationModal";
+
+const useStyles = createStyles((theme) => ({
+  container: {
+    flex: 1,
+    width: "100%",
+    padding: 0,
+  },
+
+  inner: {
+    maxWidth: 1200,
+  },
+
+  title: {
+    color: "var(--prussian-blue-500)",
+    fontSize: "1.3rem",
+    paddingTop: 5,
+    marginBottom: "2rem",
+  },
+
+  images: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "2rem",
+    width: "85px",
+    height: "75px",
+    gap: ".5rem",
+
+    img: {
+      width: "100%",
+      height: "100%",
+      display: "block",
+      borderRadius: "5px",
+      objectFit: "cover",
+    },
+  },
+}));
 
 const AdminOrders = () => {
+  const { classes } = useStyles();
   const dispatch = useDispatch();
   const [itemId, setItemId] = useState(null);
   const {
@@ -44,9 +91,9 @@ const AdminOrders = () => {
           <td>{user.email}</td>
           <td>{user.phone}</td>
           <td>
-            {status === 'paid' ? (
+            {status === "paid" ? (
               <Badge color="green">Paid</Badge>
-            ) : status === 'cancelled' ? (
+            ) : status === "cancelled" ? (
               <Badge color="red">Cancelled</Badge>
             ) : (
               <Badge color="yellow">Pending</Badge>
@@ -94,9 +141,19 @@ const AdminOrders = () => {
   }, [page, dispatch]);
 
   return (
-    <Paper sx={{ width: '100%', padding: '1rem' }}>
+    <Paper sx={{ width: "100%", padding: "0 1rem" }}>
       <Group>
-        <Text sx={{ fontSize: '2rem', fontWeight: 500 }}>All Orders</Text>
+        <Text
+          sx={{
+            fontSize: "1.3rem",
+            color: "var(--prussian-blue-500)",
+            fontSize: "1.3rem",
+            paddingTop: 5,
+            marginBottom: "2rem",
+          }}
+        >
+          Orders List
+        </Text>
       </Group>
 
       <ViewOrderModal />
@@ -108,7 +165,7 @@ const AdminOrders = () => {
       />
 
       {isLoading ? (
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: "center" }}>
           <Loading />
         </div>
       ) : (

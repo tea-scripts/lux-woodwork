@@ -150,7 +150,7 @@ const AdminViewProducts = () => {
   return (
     <Container className={classes.container} fluid>
       <Container className={classes.inner} fluid>
-        <Text className={classes.title}>View Products List</Text>
+        <Text className={classes.title}>Products List</Text>
       </Container>
       <Container className={classes.inner} fluid>
         <Container sx={{ padding: 0 }} fluid>

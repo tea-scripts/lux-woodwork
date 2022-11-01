@@ -82,10 +82,9 @@ const AdminAddUser = () => {
           <TextInput
             placeholder="Enter username"
             label="Username"
-            size="md"
             withAsterisk
             name="username"
-            mb={16}
+            mb={8}
             value={values.username}
             onChange={handleChange}
           />
@@ -93,10 +92,9 @@ const AdminAddUser = () => {
           <TextInput
             placeholder="Enter email"
             label="Email"
-            size="md"
             withAsterisk
             name="email"
-            mb={16}
+            mb={8}
             value={values.email}
             onChange={handleChange}
           />
@@ -104,10 +102,9 @@ const AdminAddUser = () => {
           <PasswordInput
             placeholder="Enter password"
             label="Password"
-            size="md"
             withAsterisk
             name="password"
-            mb={16}
+            mb={8}
             value={values.password}
             onChange={handleChange}
           />
@@ -115,15 +112,14 @@ const AdminAddUser = () => {
           <PasswordInput
             placeholder="Enter password again"
             label="Confirm Password"
-            size="md"
             withAsterisk
             name="confirmPassword"
             value={values.confirmPassword}
             onChange={handleChange}
           />
         </SimpleGrid>
-        <Group position="right">
-          <Button size="md" loading={isLoading} onClick={handleSubmit}>
+        <Group position="right" mt={8}>
+          <Button loading={isLoading} onClick={handleSubmit}>
             Create User
           </Button>
         </Group>

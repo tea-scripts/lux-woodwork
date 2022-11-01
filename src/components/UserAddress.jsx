@@ -5,6 +5,7 @@ import { fetchAllUserAddresses } from "../features/address/addressSlice";
 import Loading from "./Loading";
 import AddAddressModal from "./AddAddressModal";
 import SingleAddress from "./SingleAddress";
+import { IconPlus } from "@tabler/icons";
 
 const UserAddress = () => {
   const dispatch = useDispatch();
@@ -47,8 +48,9 @@ const UserAddress = () => {
             onClick={() => {
               setOpened(true);
             }}
+            leftIcon={<IconPlus />}
           >
-            Add New Address
+           New Address
           </Button>
         </Group>
       </div>
