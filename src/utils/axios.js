@@ -4,7 +4,7 @@ import { getUserFromLocalStorage } from './localStorage';
 import { getTokenFromLocalStorage } from './localStorage';
 
 const customFetch = axios.create({
-  baseURL: 'https://lux-woodwork-api.herokuapp.com/api/v1',
+  baseURL: 'https://lux-woodwork-api.onrender.com/api/v1',
   // baseURL: "http://localhost:5000/api/v1",
 });
 

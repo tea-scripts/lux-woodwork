@@ -44,6 +44,7 @@ const initialState = {
   totalPages: 0,
   avatar: '',
   successState: false,
+  file: '',
 };
 
 export const fetchUsers = createAsyncThunk(
