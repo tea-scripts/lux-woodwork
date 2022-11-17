@@ -140,6 +140,8 @@ const SingleProduct = () => {
     productReviews,
     reviewPage,
     totalReviewPages,
+    isFetchingProduct,
+    isFetchingProductReviews,
   } = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -148,11 +150,7 @@ const SingleProduct = () => {
     dispatch(fetchProduct(id));
     dispatch(fetchSingleProductReviews(id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
-
-  // if (isLoading) {
-  //   return <Loading />;
-  // }
+  }, [id, dispatch]);
 
   const {
     name,
@@ -166,35 +164,35 @@ const SingleProduct = () => {
     numOfReviews,
   } = product;
 
-  const slides =
-    images &&
-    images.map((image) => (
-      <Carousel.Slide key={image}>
-        <Image src={image} height={400} />
-      </Carousel.Slide>
-    ));
+  const slides = images?.map((image) => (
+    <Carousel.Slide key={image}>
+      <Image src={image} height={400} />
+    </Carousel.Slide>
+  ));
 
   return (
     <section className={classes.wrapper}>
       <Button component={Link} to="/products">
         Back to Products
       </Button>
-      {isLoading ? (
+      {isFetchingProduct ? (
         <Loading />
       ) : (
         <>
           <div className={classes.product}>
-            <Carousel
-              withIndicators
-              loop
-              classNames={{
-                root: classes.carousel,
-                controls: classes.carouselControls,
-                indicator: classes.carouselIndicator,
-              }}
-            >
-              {slides}
-            </Carousel>
+            {images && !isFetchingProduct && (
+              <Carousel
+                withIndicators
+                loop
+                classNames={{
+                  root: classes.carousel,
+                  controls: classes.carouselControls,
+                  indicator: classes.carouselIndicator,
+                }}
+              >
+                {slides}
+              </Carousel>
+            )}
             <section className={classes.content}>
               <h2>{name}</h2>
               <Stars stars={averageRating} reviewsCount={numOfReviews} />
@@ -220,18 +218,22 @@ const SingleProduct = () => {
             </section>
           </div>
 
-          <div className={classes.productReviews}>
-            <h4>Product Reviews </h4>
-            {productReviews.map((review, index) => (
-              <SingleReview {...review} key={index} />
-            ))}
-            <PaginationButtons
-              changePage={changePage}
-              page={reviewPage}
-              isLoading={isLoading}
-              totalPages={totalReviewPages}
-            />
-          </div>
+          {isFetchingProductReviews ? (
+            <Loading />
+          ) : (
+            <div className={classes.productReviews}>
+              <h4>Product Reviews </h4>
+              {productReviews.map((review, index) => (
+                <SingleReview {...review} key={index} />
+              ))}
+              <PaginationButtons
+                changePage={changePage}
+                page={reviewPage}
+                isLoading={isLoading}
+                totalPages={totalReviewPages}
+              />
+            </div>
+          )}
 
           <Container size={1200} className={classes.relatedProducts}>
             <h5>Related Products</h5>

@@ -92,7 +92,7 @@ const Navbar = () => {
                   <Avatar
                     src={user.avatar || null}
                     radius="md"
-                    alt={'isAuthenticated && user.given_name'}
+                    alt={user.username}
                   />
                 </Menu.Target>
 

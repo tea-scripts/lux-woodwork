@@ -68,6 +68,10 @@ const FeaturedProducts = () => {
   const { classes } = useStyles();
   const { products, isLoading } = useSelector((state) => state.products);
 
+  const filteredProducts = products.filter(
+    (product) => product.featured && product.displayProduct
+  );
+
   if (isLoading) {
     return <Loading />;
   }
@@ -83,14 +87,12 @@ const FeaturedProducts = () => {
           cols={1}
           breakpoints={[
             { minWidth: 678, cols: 2 },
-            { minWidth: 992, cols: 3 },
+            { minWidth: 992, cols: filteredProducts.length < 3 ? 2 : 3 },
           ]}
         >
-          {products
-            .filter((product) => product.featured)
-            .map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))}
+          {filteredProducts.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
         </SimpleGrid>
         <Box className={classes.viewProductsBtn}>
           <Button component={Link} to="/products" color="white">

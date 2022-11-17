@@ -25,6 +25,9 @@ const initialState = {
   freeShipping: false,
   description: '',
   images: [],
+  averageRating: 0,
+  numOfReviews: 0,
+  isFetchingProduct: false,
   isViewing: false,
   displayProduct: false,
   isEditingProduct: false,
@@ -41,6 +44,7 @@ const initialState = {
   actionConfirmModal: false,
   inventoryModal: false,
   deleteConfirmation: false,
+  isFetchingProductReviews: false,
 };
 
 export const createProduct = createAsyncThunk(
@@ -154,6 +158,23 @@ const productsSlice = createSlice({
       state.images = payload.images;
       state.displayProduct = payload.displayProduct;
       state.product_name = payload.product_name;
+      state.averageRating = payload.averageRating;
+      state.numOfReviews = payload.numOfReviews;
+    },
+    clearProductValues: (state) => {
+      state.productId = '';
+      state.name = '';
+      state.price = 0;
+      state.inventory = 0;
+      state.category = '';
+      state.featured = false;
+      state.freeShipping = false;
+      state.description = '';
+      state.images = [];
+      state.displayProduct = false;
+      state.product_name = '';
+      state.averageRating = 0;
+      state.numOfReviews = 0;
     },
     changePage: (state, { payload }) => {
       state.page = payload;
@@ -185,14 +206,14 @@ const productsSlice = createSlice({
       toast.error(action.payload.msg);
     },
     [fetchProduct.pending]: (state) => {
-      state.isLoading = true;
+      state.isFetchingProduct = true;
     },
     [fetchProduct.fulfilled]: (state, action) => {
       state.product = action.payload.product;
-      state.isLoading = false;
+      state.isFetchingProduct = false;
     },
     [fetchProduct.rejected]: (state, action) => {
-      state.isLoading = false;
+      state.isFetchingProduct = false;
       toast.error(action.payload.msg);
     },
     [uploadProductImage.pending]: (state) => {
@@ -248,17 +269,17 @@ const productsSlice = createSlice({
       toast.error(action.payload.msg);
     },
     [fetchSingleProductReviews.pending]: (state) => {
-      state.isLoading = true;
+      state.isFetchingProductReviews = true;
     },
     [fetchSingleProductReviews.fulfilled]: (state, action) => {
       const { reviews, totalPages, totalReviews } = action.payload;
       state.productReviews = reviews;
       state.totalReviewPages = totalPages;
       state.totalReviews = totalReviews;
-      state.isLoading = false;
+      state.isFetchingProductReviews = false;
     },
     [fetchSingleProductReviews.rejected]: (state, action) => {
-      state.isLoading = false;
+      state.isFetchingProductReviews = false;
       toast.error(action.payload.msg);
     },
     [archiveProduct.pending]: (state) => {
@@ -298,6 +319,7 @@ export const {
   togggleActionConfirmModal,
   toggleInventoryModal,
   toggleDeleteProduct,
+  clearProductValues,
 } = productsSlice.actions;
 
 export default productsSlice.reducer;
