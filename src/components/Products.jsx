@@ -8,7 +8,7 @@ import { ProductsListSort, ProductsListFilter } from "./";
 
 const Products = () => {
   const minPrice = 0;
-  const maxPrice = 1000000;
+  const maxPrice = 300000;
   const { products } = useSelector((state) => state.products);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -66,7 +66,7 @@ const Products = () => {
   }, [products, searchText, category, isFreeShipping, priceRange, sort]);
 
   useEffect(() => {
-    if (width < 1024) {
+    if (width < 1100) {
       setGridView(true);
     }
   }, [width]);

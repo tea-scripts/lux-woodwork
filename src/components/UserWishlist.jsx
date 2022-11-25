@@ -1,5 +1,6 @@
 import {
   Button,
+  Container,
   createStyles,
   Divider,
   Group,
@@ -16,6 +17,8 @@ import emptyCartImage from "../assets/empty-cart.svg";
 import { fetchUserWishlist } from "../features/wishlist/wishlistSlice";
 import Loading from "./Loading";
 import { IconShoppingCartPlus } from "@tabler/icons";
+import { HorizontalProductCard, VerticalProductCard } from ".";
+import { useViewportSize } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   imgContainer: {
@@ -34,17 +37,16 @@ const UserWishlist = () => {
   const [activePage, setPage] = useState(1);
 
   const displayWishlist = wishlist.userWishlist?.map((item, index) => (
-    <ProductCard
+    <VerticalProductCard
+      key={item.id}
       product={item.product}
-      key={item._id}
-      location="/user/wishlist"
       wishlistId={item._id}
     />
   ));
 
   useEffect(() => {
     dispatch(fetchUserWishlist(activePage));
-  }, [activePage]);
+  }, [activePage, dispatch]);
 
   if (isLoading) {
     return <Loading />;
@@ -64,24 +66,22 @@ const UserWishlist = () => {
 
       <Divider mt={16} mb={32} />
 
-      <Group mb={32} position="center">
-        <Button
-          component={Link}
-          to="/products"
-          leftIcon={<IconShoppingCartPlus />}
-        >
-          Add Products
-        </Button>
-      </Group>
-      <SimpleGrid
-        breakpoints={[
-          { minWidth: "xs", cols: 1 },
-          { minWidth: "sm", cols: 2 },
-          { minWidth: "md", cols: 3 },
-        ]}
+      <SimpleGrid cols={2}></SimpleGrid>
+
+      <Container
+        px={0}
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: "1rem",
+        }}
       >
         {displayWishlist}
-      </SimpleGrid>
+      </Container>
+
       <div
         style={{
           display: "flex",
@@ -92,6 +92,15 @@ const UserWishlist = () => {
       >
         {wishlist?.userWishlist?.length === 0 && (
           <>
+            <Group mb={32} position="center">
+              <Button
+                component={Link}
+                to="/products"
+                leftIcon={<IconShoppingCartPlus />}
+              >
+                Add Products
+              </Button>
+            </Group>
             <Text
               weight={500}
               sx={{ fontSize: "1.5rem", marginBottom: "2rem" }}
