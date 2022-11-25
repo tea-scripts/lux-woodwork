@@ -81,6 +81,8 @@ const CartTotals = () => {
             component={Link}
             to="/checkout"
             className={classes.checkOutBtn}
+            fw="normal"
+            sx={{ fontSize: '.95rem' }}
           >
             place order
           </Button>

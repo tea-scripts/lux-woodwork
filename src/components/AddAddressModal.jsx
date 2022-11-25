@@ -5,15 +5,17 @@ import {
   TextInput,
   Modal,
   NativeSelect,
-} from "@mantine/core";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+  Alert,
+} from '@mantine/core';
+import { IconAlertCircle } from '@tabler/icons';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   createAddress,
   fetchAllUserAddresses,
-} from "../features/address/addressSlice";
-import addressData from "../utils/addresses";
+} from '../features/address/addressSlice';
+import addressData from '../utils/addresses';
 
 const AddAddressModal = ({ opened, setOpened }) => {
   const dispatch = useDispatch();
@@ -21,14 +23,14 @@ const AddAddressModal = ({ opened, setOpened }) => {
   const { address } = useSelector((state) => state.address);
   const [userAddress, setUserAddress] = useState({
     userId: user?._id,
-    name: `${user?.first_name || ""} ${user?.last_name || ""}`,
-    phone: user?.phone || "",
-    city: address?.city || "",
-    street: address?.street || "",
-    zip: address?.zip || "",
-    province: address?.province || "",
-    region: address?.region || "",
-    barangay: address?.barangay || "",
+    name: `${user?.first_name || ''} ${user?.last_name || ''}`,
+    phone: user?.phone || '',
+    city: address?.city || '',
+    street: address?.street || '',
+    zip: address?.zip || '',
+    province: address?.province || '',
+    region: address?.region || '',
+    barangay: address?.barangay || '',
   });
 
   const [regionsList, setRegionsList] = useState([]);
@@ -37,26 +39,26 @@ const AddAddressModal = ({ opened, setOpened }) => {
   const [barangayList, setBarangayList] = useState([]);
 
   const handleAddressChange = (e) => {
-    if (e.target.name === "region") {
+    if (e.target.name === 'region') {
       setUserAddress({
         ...userAddress,
         [e.target.name]: e.target.value,
-        province: "",
-        city: "",
-        barangay: "",
+        province: '',
+        city: '',
+        barangay: '',
       });
-    } else if (e.target.name === "province") {
+    } else if (e.target.name === 'province') {
       setUserAddress({
         ...userAddress,
         [e.target.name]: e.target.value,
-        city: "",
-        barangay: "",
+        city: '',
+        barangay: '',
       });
-    } else if (e.target.name === "city") {
+    } else if (e.target.name === 'city') {
       setUserAddress({
         ...userAddress,
         [e.target.name]: e.target.value,
-        barangay: "",
+        barangay: '',
       });
     } else {
       setUserAddress({
@@ -77,7 +79,7 @@ const AddAddressModal = ({ opened, setOpened }) => {
       !userAddress.barangay ||
       !userAddress.zip
     ) {
-      toast.error("Please fill out all fields");
+      toast.error('Please fill out all fields');
       return;
     }
 
@@ -87,14 +89,14 @@ const AddAddressModal = ({ opened, setOpened }) => {
     setOpened(false);
     setUserAddress({
       userId: user?._id,
-      name: `${user?.first_name || ""} ${user?.last_name || ""}`,
-      phone: user?.phone || "",
-      city: "",
-      street: "",
-      zip: "",
-      province: "",
-      region: "",
-      barangay: "",
+      name: `${user?.first_name || ''} ${user?.last_name || ''}`,
+      phone: user?.phone || '',
+      city: '',
+      street: '',
+      zip: '',
+      province: '',
+      region: '',
+      barangay: '',
     });
   };
 
@@ -144,14 +146,14 @@ const AddAddressModal = ({ opened, setOpened }) => {
     if (isLoading === false) {
       setUserAddress({
         userId: user?._id,
-        name: `${user?.first_name || ""} ${user?.last_name || ""}`,
-        phone: user?.phone || "",
-        city: "",
-        street: "",
-        zip: "",
-        province: "",
-        region: "",
-        barangay: "",
+        name: `${user?.first_name || ''} ${user?.last_name || ''}`,
+        phone: user?.phone || '',
+        city: '',
+        street: '',
+        zip: '',
+        province: '',
+        region: '',
+        barangay: '',
       });
       setOpened(false);
     }
@@ -167,11 +169,15 @@ const AddAddressModal = ({ opened, setOpened }) => {
       size="lg"
       centered
     >
+      {!user.first_name && !user.phone && (
+        <Alert icon={<IconAlertCircle size={16} />} mb={'md'} color="blue">
+          Please update your profile first before adding an address
+        </Alert>
+      )}
       <form onSubmit={handleCreateAddress}>
         <Grid>
           <Grid.Col xs={12} sm={6}>
             <TextInput
-              placeholder="Enter Name"
               name="name"
               value={userAddress.name}
               onChange={handleAddressChange}
@@ -182,7 +188,6 @@ const AddAddressModal = ({ opened, setOpened }) => {
           </Grid.Col>
           <Grid.Col xs={12} sm={6}>
             <TextInput
-              placeholder="Enter Phone Number"
               label="Phone Number"
               name="phone"
               value={userAddress.phone}
@@ -195,7 +200,7 @@ const AddAddressModal = ({ opened, setOpened }) => {
             <NativeSelect
               value={userAddress.region}
               onChange={handleAddressChange}
-              data={["", ...regionsList]}
+              data={['', ...regionsList]}
               placeholder="Select Region"
               name="region"
               label="Region"
@@ -205,7 +210,7 @@ const AddAddressModal = ({ opened, setOpened }) => {
 
           <Grid.Col xs={12} sm={6}>
             <NativeSelect
-              data={provincesList ? ["", ...provincesList] : []}
+              data={provincesList ? ['', ...provincesList] : []}
               onChange={handleAddressChange}
               placeholder="Select Province"
               label="Province"
@@ -218,7 +223,7 @@ const AddAddressModal = ({ opened, setOpened }) => {
 
           <Grid.Col xs={12} sm={6}>
             <NativeSelect
-              data={cityList ? ["", ...cityList] : []}
+              data={cityList ? ['', ...cityList] : []}
               onChange={handleAddressChange}
               placeholder="Select City / Municipality"
               name="city"
@@ -231,7 +236,7 @@ const AddAddressModal = ({ opened, setOpened }) => {
 
           <Grid.Col xs={12} sm={6}>
             <NativeSelect
-              data={barangayList ? ["", ...barangayList] : []}
+              data={barangayList ? ['', ...barangayList] : []}
               onChange={handleAddressChange}
               placeholder="Select Barangay"
               name="barangay"
@@ -272,8 +277,8 @@ const AddAddressModal = ({ opened, setOpened }) => {
             loading={isLoading}
             type="submit"
             sx={{
-              "@media (max-width: 600px)": {
-                width: "100%",
+              '@media (max-width: 600px)': {
+                width: '100%',
               },
             }}
           >

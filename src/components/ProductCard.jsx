@@ -85,7 +85,7 @@ const ProductCard = ({
   const dispatch = useDispatch();
   const { hovered, ref } = useHover();
 
-  console.log(product);
+  // console.log(product);
 
   return (
     <Card
@@ -200,20 +200,17 @@ const ProductCard = ({
           >
             {product.name}
           </Text>
-          {!horizontal && (
-            <Badge
-              color={
-                product.inventory <= 0 ? 'gray' : product.featured ? 'pink' : ''
-              }
-              variant="light"
-            >
-              {product.inventory <= 0
-                ? 'Out of stock'
-                : product.featured
-                ? 'Featured'
-                : ''}
+          {!horizontal && product.featured && (
+            <Badge color={product.featured && 'pink'} variant="light">
+              Featured
             </Badge>
           )}
+
+          {product.inventory <= 0 ? (
+            <Badge color="gray" variant="light">
+              Out of stock
+            </Badge>
+          ) : null}
         </Group>
 
         <Text color="dimmed">{formatPrice(product.price)}</Text>

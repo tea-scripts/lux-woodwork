@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from 'react';
 import {
   ActionIcon,
   Container,
@@ -6,22 +6,23 @@ import {
   Group,
   Table,
   Text,
-} from "@mantine/core";
-import { useDispatch, useSelector } from "react-redux";
-import Loading from "./Loading";
-import { IconArchive, IconTrashX } from "@tabler/icons";
+} from '@mantine/core';
+import { useDispatch, useSelector } from 'react-redux';
+import Loading from './Loading';
+import { IconArchive, IconTrashX } from '@tabler/icons';
 import {
   archiveReview,
   deleteReview,
+  fetchReviews,
   togggleActionConfirmModal,
-} from "../features/reviews/reviewsSlice";
-import { useState } from "react";
-import ActionConfirmationModal from "./ActionConfirmationModal";
+} from '../features/reviews/reviewsSlice';
+import { useState } from 'react';
+import ActionConfirmationModal from './ActionConfirmationModal';
 
 const useStyles = createStyles((theme) => ({
   container: {
     flex: 1,
-    width: "100%",
+    width: '100%',
     padding: 0,
   },
 
@@ -30,10 +31,10 @@ const useStyles = createStyles((theme) => ({
   },
 
   title: {
-    color: "var(--prussian-blue-500)",
-    fontSize: "1.3rem",
+    color: 'var(--prussian-blue-500)',
+    fontSize: '1.3rem',
     paddingTop: 5,
-    marginBottom: "2rem",
+    marginBottom: '2rem',
   },
 }));
 
@@ -50,7 +51,13 @@ const AdminViewReviews = () => {
       (review) => review.isArchived === false && review.isDeleted === false
     )
     .map((review, index) => {
-      const { first_name, last_name, product, rating, comment, _id } = review;
+      const {
+        user: { first_name, last_name },
+        product,
+        rating,
+        comment,
+        _id,
+      } = review;
       return (
         <tr key={_id}>
           <td>{index + 1}</td>
@@ -59,7 +66,7 @@ const AdminViewReviews = () => {
           </td>
           <td>{product.name}</td>
           <td>{rating}</td>
-          <td style={{ maxWidth: "400px" }}>{comment}</td>
+          <td style={{ maxWidth: '400px' }}>{comment}</td>
           <td>
             <Group spacing={5}>
               <ActionIcon
@@ -82,6 +89,10 @@ const AdminViewReviews = () => {
         </tr>
       );
     });
+
+  useEffect(() => {
+    dispatch(fetchReviews());
+  }, []);
 
   if (isLoading) {
     return <Loading />;

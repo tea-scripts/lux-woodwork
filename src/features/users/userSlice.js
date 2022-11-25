@@ -197,7 +197,7 @@ const userSlice = createSlice({
     },
     [registerUser.rejected]: (state, action) => {
       state.isLoading = false;
-      toast.error(action.payload.msg);
+      toast.error(action.payload);
     },
     [loginUser.pending]: (state) => {
       state.isLoading = true;
@@ -268,7 +268,7 @@ const userSlice = createSlice({
       state.isLoading = true;
     },
     [uploadAvatar.fulfilled]: (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
       state.avatar = action.payload.images[0].url;
       state.isLoading = false;
       toast.success('Avatar uploaded successfully');

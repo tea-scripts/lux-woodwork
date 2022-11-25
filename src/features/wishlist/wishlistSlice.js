@@ -65,6 +65,7 @@ const wishlistSlice = createSlice({
     [addWishlistItem.rejected]: (state, action) => {
       state.isLoading = false;
       toast.error(action.payload.msg);
+      toast.info('Please login to add item to wishlist');
     },
     [deleteWishlistItem.pending]: (state) => {
       state.isLoading = true;
