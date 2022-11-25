@@ -1,12 +1,12 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import {
   createAddressThunk,
   deleteAddressThunk,
   fetchAllAddressesThunk,
   selectDefaultAddressThunk,
   updateAddressThunk,
-} from '../address/addressThunk';
+} from "../address/addressThunk";
 
 const initialState = {
   isLoading: false,
@@ -17,21 +17,21 @@ const initialState = {
 };
 
 export const fetchAllAddresses = createAsyncThunk(
-  'users/fetchAllAddresses',
+  "users/fetchAllAddresses",
   async (_, thunkAPI) => {
-    return fetchAllAddressesThunk('/address', thunkAPI);
+    return fetchAllAddressesThunk("/address", thunkAPI);
   }
 );
 
 export const createAddress = createAsyncThunk(
-  'users/createAddress',
+  "users/createAddress",
   async (address, thunkAPI) => {
-    return createAddressThunk('/address', address, thunkAPI);
+    return createAddressThunk("/address", address, thunkAPI);
   }
 );
 
 export const fetchAllUserAddresses = createAsyncThunk(
-  'users/fetchAllUserAddresses',
+  "users/fetchAllUserAddresses",
   async (page, thunkAPI) => {
     return fetchAllAddressesThunk(
       `/address/user/${thunkAPI.getState().users.user._id}?page=${page}`,
@@ -41,35 +41,35 @@ export const fetchAllUserAddresses = createAsyncThunk(
 );
 
 export const fetchAddress = createAsyncThunk(
-  'users/fetchAddress',
+  "users/fetchAddress",
   async (addressId, thunkAPI) => {
     return fetchAllAddressesThunk(`/address/${addressId}`, thunkAPI);
   }
 );
 
 export const updateAddress = createAsyncThunk(
-  'users/updateAddress',
+  "users/updateAddress",
   async (address, thunkAPI) => {
     return updateAddressThunk(`/address/${address._id}`, address, thunkAPI);
   }
 );
 
 export const deleteAddress = createAsyncThunk(
-  'users/deleteAddress',
+  "users/deleteAddress",
   async (addressId, thunkAPI) => {
     return deleteAddressThunk(`/address/${addressId}`, thunkAPI);
   }
 );
 
 export const selectDefaultAddress = createAsyncThunk(
-  'users/selectDefaultAddress',
+  "users/selectDefaultAddress",
   async (addressId, thunkAPI) => {
     return selectDefaultAddressThunk(`/address/default/${addressId}`, thunkAPI);
   }
 );
 
 const addressSlice = createSlice({
-  name: 'address',
+  name: "address",
   initialState,
   reducers: {},
   extraReducers: {
@@ -90,7 +90,7 @@ const addressSlice = createSlice({
     [createAddress.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.address = action.payload.address;
-      toast.success('Address created successfully');
+      toast.success("Address created successfully");
     },
     [createAddress.rejected]: (state, action) => {
       state.isLoading = false;
@@ -143,7 +143,7 @@ const addressSlice = createSlice({
     },
     [deleteAddress.fulfilled]: (state, action) => {
       state.isLoading = false;
-      toast.success('Address deleted successfully');
+      toast.success("Address deleted successfully");
     },
     [deleteAddress.rejected]: (state, action) => {
       state.isLoading = false;
@@ -154,7 +154,6 @@ const addressSlice = createSlice({
     },
     [selectDefaultAddress.fulfilled]: (state, action) => {
       state.isLoading = false;
-      // console.log(action);
       toast.success(action.payload.msg);
     },
     [selectDefaultAddress.rejected]: (state, action) => {
