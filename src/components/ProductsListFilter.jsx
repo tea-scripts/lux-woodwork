@@ -83,6 +83,7 @@ const ProductsListFilter = ({
   isFreeShipping,
   setIsFreeShipping,
   resetFilters,
+  setItemFiltered,
   minPrice,
   maxPrice,
 }) => {
@@ -107,7 +108,10 @@ const ProductsListFilter = ({
         <div className={classes.filter} style={{ marginBottom: 10 }}>
           <TextInput
             value={searchText}
-            onChange={(e) => setSearchText(e.currentTarget.value)}
+            onChange={(e) => {
+              setSearchText(e.currentTarget.value);
+              setItemFiltered(true);
+            }}
             placeholder="Search"
             icon={<IconSearch size={14} />}
           />
@@ -127,7 +131,10 @@ const ProductsListFilter = ({
                   color: category === cat ? "blue" : "inherit",
                   textTransform: "capitalize",
                 }}
-                onClick={() => setCategory(cat)}
+                onClick={() => {
+                  setCategory(cat);
+                  setItemFiltered(true);
+                }}
               >
                 {cat}
               </List.Item>
@@ -143,7 +150,10 @@ const ProductsListFilter = ({
           </Title>
           <RangeSlider
             value={priceRange}
-            onChange={setPriceRange}
+            onChange={(e) => {
+              setPriceRange(e);
+              setItemFiltered(true);
+            }}
             min={minPrice}
             max={maxPrice}
             step={10000}
@@ -177,7 +187,10 @@ const ProductsListFilter = ({
           </Title>
           <Checkbox
             checked={isFreeShipping}
-            onChange={(event) => setIsFreeShipping(event.currentTarget.checked)}
+            onChange={(event) => {
+              setIsFreeShipping(event.currentTarget.checked);
+              setItemFiltered(true);
+            }}
             label="Free Shipping"
             mb={10}
           />
@@ -188,7 +201,10 @@ const ProductsListFilter = ({
         <div className={classes.filter}>
           <Button
             type="button"
-            onClick={resetFilters}
+            onClick={() => {
+              resetFilters();
+              setItemFiltered(false);
+            }}
             variant="outline"
             color="red"
             sx={{ width: "100%" }}

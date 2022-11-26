@@ -4,14 +4,16 @@ import { Box, Center, SimpleGrid, Text } from "@mantine/core";
 import Loading from "./Loading";
 import { useSelector } from "react-redux";
 
-const ProductsList = ({ gridView, filteredProducts }) => {
+const ProductsList = ({ gridView, filteredProducts, itemFiltered }) => {
   const { isLoading } = useSelector((state) => state.products);
+
+  console.log(itemFiltered);
 
   if (isLoading) {
     return <Loading />;
   }
 
-  if (filteredProducts.length <= 0) {
+  if (itemFiltered && filteredProducts.length <= 0) {
     return (
       <Box
         sx={{

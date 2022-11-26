@@ -18,6 +18,7 @@ const Products = () => {
   const [sort, setSort] = useState("Price: Low to High");
   const [gridView, setGridView] = useState(true);
   const { width } = useViewportSize();
+  const [itemFiltered, setItemFiltered] = useState(false);
 
   const resetFilters = () => {
     setSearchText("");
@@ -83,6 +84,7 @@ const Products = () => {
         priceRange={priceRange}
         setPriceRange={setPriceRange}
         resetFilters={resetFilters}
+        setItemFiltered={setItemFiltered}
         minPrice={minPrice}
         maxPrice={maxPrice}
       />
@@ -103,7 +105,11 @@ const Products = () => {
           gridView={gridView}
           setGridView={setGridView}
         />
-        <ProductsList gridView={gridView} filteredProducts={filteredProducts} />
+        <ProductsList
+          gridView={gridView}
+          filteredProducts={filteredProducts}
+          itemFiltered={itemFiltered}
+        />
       </Container>
     </>
   );
