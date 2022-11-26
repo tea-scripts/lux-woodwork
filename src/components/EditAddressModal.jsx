@@ -5,15 +5,15 @@ import {
   TextInput,
   Modal,
   NativeSelect,
-} from '@mantine/core';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+} from "@mantine/core";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import {
   fetchAllUserAddresses,
   updateAddress as updateAddressAction,
-} from '../features/address/addressSlice';
-import addressData from '../utils/addresses';
+} from "../features/address/addressSlice";
+import addressData from "../utils/addresses";
 
 const EditAddressModal = ({ opened, setOpened, address }) => {
   const dispatch = useDispatch();
@@ -34,26 +34,26 @@ const EditAddressModal = ({ opened, setOpened, address }) => {
   const [barangayList, setBarangayList] = useState([]);
 
   const handleAddressChange = (e) => {
-    if (e.target.name === 'region') {
+    if (e.target.name === "region") {
       setUpdateAddress({
         ...updateAddress,
         [e.target.name]: e.target.value,
-        province: '',
-        city: '',
-        barangay: '',
+        province: "",
+        city: "",
+        barangay: "",
       });
-    } else if (e.target.name === 'province') {
+    } else if (e.target.name === "province") {
       setUpdateAddress({
         ...updateAddress,
         [e.target.name]: e.target.value,
-        city: '',
-        barangay: '',
+        city: "",
+        barangay: "",
       });
-    } else if (e.target.name === 'city') {
+    } else if (e.target.name === "city") {
       setUpdateAddress({
         ...updateAddress,
         [e.target.name]: e.target.value,
-        barangay: '',
+        barangay: "",
       });
     } else {
       setUpdateAddress({
@@ -74,12 +74,12 @@ const EditAddressModal = ({ opened, setOpened, address }) => {
       !updateAddress.barangay ||
       !updateAddress.zip
     ) {
-      toast.error('Please fill out all fields');
+      toast.error("Please fill out all fields");
       return;
     }
 
     dispatch(updateAddressAction(updateAddress));
-    user.isVerified && dispatch(fetchAllUserAddresses());
+    dispatch(fetchAllUserAddresses());
 
     setOpened(false);
   };
@@ -145,7 +145,7 @@ const EditAddressModal = ({ opened, setOpened, address }) => {
             <TextInput
               placeholder="Enter Name"
               name="name"
-              value={`${user?.first_name || ''} ${user?.last_name || ''}`}
+              value={`${user?.first_name || ""} ${user?.last_name || ""}`}
               onChange={() => {}}
               label="Full Name"
               size="md"
@@ -157,7 +157,7 @@ const EditAddressModal = ({ opened, setOpened, address }) => {
               placeholder="Enter Phone Number"
               label="Phone Number"
               name="phone"
-              value={`${user?.phone && '(63+)'} ${user?.phone || ''}`}
+              value={`${user?.phone && "(63+)"} ${user?.phone || ""}`}
               onChange={() => {}}
               size="md"
               readOnly
@@ -167,7 +167,7 @@ const EditAddressModal = ({ opened, setOpened, address }) => {
             <NativeSelect
               value={updateAddress.region}
               onChange={handleAddressChange}
-              data={['', ...regionsList]}
+              data={["", ...regionsList]}
               placeholder="Select Region"
               name="region"
               label="Region"
@@ -177,7 +177,7 @@ const EditAddressModal = ({ opened, setOpened, address }) => {
 
           <Grid.Col xs={12} sm={6}>
             <NativeSelect
-              data={provincesList ? ['', ...provincesList] : []}
+              data={provincesList ? ["", ...provincesList] : []}
               onChange={handleAddressChange}
               placeholder="Select Province"
               label="Province"
@@ -190,7 +190,7 @@ const EditAddressModal = ({ opened, setOpened, address }) => {
 
           <Grid.Col xs={12} sm={6}>
             <NativeSelect
-              data={cityList ? ['', ...cityList] : []}
+              data={cityList ? ["", ...cityList] : []}
               onChange={handleAddressChange}
               placeholder="Select City / Municipality"
               name="city"
@@ -203,7 +203,7 @@ const EditAddressModal = ({ opened, setOpened, address }) => {
 
           <Grid.Col xs={12} sm={6}>
             <NativeSelect
-              data={barangayList ? ['', ...barangayList] : []}
+              data={barangayList ? ["", ...barangayList] : []}
               onChange={handleAddressChange}
               placeholder="Select Barangay"
               name="barangay"
@@ -241,8 +241,8 @@ const EditAddressModal = ({ opened, setOpened, address }) => {
             loading={isLoading}
             type="submit"
             sx={{
-              '@media (max-width: 600px)': {
-                width: '100%',
+              "@media (max-width: 600px)": {
+                width: "100%",
               },
             }}
           >
