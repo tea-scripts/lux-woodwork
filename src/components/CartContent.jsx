@@ -5,11 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { clearCart } from '../features/cart/cartSlice';
 import CartTotals from './CartTotals';
-import { IoMdTrash } from 'react-icons/io';
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import SelectAddress from './SelectAddress';
+import { IconTrashX } from '@tabler/icons';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -34,6 +32,7 @@ const useStyles = createStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     marginTop: '2rem',
+    gap: '1rem',
     width: '100%',
   },
 }));
@@ -43,22 +42,6 @@ const CartContent = () => {
   const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const { classes } = useStyles();
-  const [dimensions, setDimensions] = useState(window.innerWidth);
-
-  useEffect(() => {
-    function handleResize() {
-      setDimensions({
-        height: window.innerHeight,
-        width: window.innerWidth,
-      });
-    }
-
-    window.addEventListener('resize', handleResize);
-
-    return (_) => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
   return (
     <section className={classes.wrapper}>
@@ -73,17 +56,17 @@ const CartContent = () => {
           variant="gradient"
           gradient={{ from: 'indigo', to: 'hsla(354, 65%, 51%, 1)' }}
           to="/products"
-          leftIcon={dimensions > 678 && <BsFillArrowLeftCircleFill />}
+          leftIcon={<BsFillArrowLeftCircleFill />}
           className={classes.linkBtn}
         >
-          continue shopping
+          our store
         </Button>
         <Button
           className={classes.linkBtn}
           onClick={() => dispatch(clearCart())}
-          rightIcon={dimensions > 678 && <IoMdTrash />}
+          rightIcon={<IconTrashX />}
         >
-          clear shopping cart
+          clear cart
         </Button>
       </div>
       <Group

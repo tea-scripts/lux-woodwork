@@ -80,7 +80,7 @@ const Cart = () => {
     return (
       <Container size={1200} className={classes.empty}>
         <SimpleGrid spacing={20}>
-          <h2>Your cart is empty</h2>
+          <h3 style={{ textAlign: 'center' }}>Your cart is empty</h3>
           <Button component={Link} to="/products" mb={50}>
             Fill It
           </Button>

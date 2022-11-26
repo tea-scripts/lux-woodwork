@@ -87,7 +87,7 @@ const CartTotals = () => {
             place order
           </Button>
         ) : (
-          <Button onClick={() => dispatch(toggleSignInModal())}>Sign In</Button>
+          <Button onClick={() => dispatch(toggleSignInModal())}>Buy Now</Button>
         )}
       </div>
     </div>

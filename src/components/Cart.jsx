@@ -189,8 +189,13 @@ const Cart = () => {
                 Proceed to Checkout
               </Button>
             ) : (
-              <Button onClick={() => dispatch(toggleSignInModal())}>
-                Sign In
+              <Button
+                onClick={() => {
+                  dispatch(openCart());
+                  dispatch(toggleSignInModal());
+                }}
+              >
+                Buy Now
               </Button>
             )}
           </div>

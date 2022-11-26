@@ -6,8 +6,15 @@ import {
   Button,
   Image,
   Container,
+  CheckIcon,
 } from '@mantine/core';
+import { useDispatch, useSelector } from 'react-redux';
 import image from '../assets/newsletter.svg';
+import {
+  clearEmail,
+  handleChange,
+  subscribeToNewsLetter,
+} from '../features/users/userSlice';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -71,6 +78,25 @@ const useStyles = createStyles((theme) => ({
 
 const NewsletterSection = () => {
   const { classes } = useStyles();
+  const dispatch = useDispatch();
+  const { email, isSubscribing, successState } = useSelector(
+    (state) => state.users
+  );
+
+  const handleInput = (e) => {
+    dispatch(handleChange({ name: e.target.name, value: e.target.value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    dispatch(subscribeToNewsLetter({ email }));
+
+    setTimeout(() => {
+      dispatch(clearEmail());
+    }, 1500);
+  };
+
   return (
     <Container size={1200} p="1.25rem">
       <div className={classes.wrapper}>
@@ -87,9 +113,25 @@ const NewsletterSection = () => {
           <div className={classes.controls}>
             <TextInput
               placeholder="Your email"
+              value={email}
+              name="email"
+              onChange={handleInput}
+              disabled={isSubscribing}
               classNames={{ input: classes.input, root: classes.inputWrapper }}
             />
-            <Button className={classes.control}>Subscribe</Button>
+            <Button
+              loading={isSubscribing}
+              onClick={handleSubmit}
+              className={classes.control}
+              rightIcon={
+                successState ? (
+                  <CheckIcon style={{ width: 20, height: 20 }} />
+                ) : null
+              }
+              color={successState ? 'teal' : 'blue'}
+            >
+              {successState ? 'Subscribed!' : 'Subscribe'}
+            </Button>
           </div>
         </div>
         <Image src={image} className={classes.image} />

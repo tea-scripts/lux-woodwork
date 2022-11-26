@@ -1,5 +1,5 @@
 import customFetch from '../../utils/axios';
-import { logoutUser } from './userSlice';
+import { fetchAllSubscribers, logoutUser } from './userSlice';
 
 export const registerUserThunk = async (url, user, thunkAPI) => {
   try {
@@ -97,6 +97,43 @@ export const uploadAvatarThunk = async (url, formData, thunkAPI) => {
 export const contactUsThunk = async (url, formData, thunkAPI) => {
   try {
     const response = await customFetch.post(url, formData);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+};
+
+export const fetchAllSubscribersThunk = async (url, thunkAPI) => {
+  try {
+    const response = await customFetch.get(url);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+};
+
+export const subscribeToNewsLetterThunk = async (url, email, thunkAPI) => {
+  try {
+    const response = await customFetch.post(url, email);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+};
+
+export const deleteSubscriberThunk = async (url, thunkAPI) => {
+  try {
+    const response = await customFetch.delete(url);
+    thunkAPI.dispatch(fetchAllSubscribers());
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+};
+
+export const unsubscribeFromNewsLetterThunk = async (url, thunkAPI) => {
+  try {
+    const response = await customFetch.delete(url);
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data);
