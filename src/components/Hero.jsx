@@ -5,24 +5,24 @@ import {
   Overlay,
   createStyles,
   Box,
-} from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+} from "@mantine/core";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import image1 from "../assets/images/landing-image.jpg";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    position: 'relative',
+    position: "relative",
     marginTop: -60,
     paddingTop: 180,
     paddingBottom: 130,
     zIndex: 0,
-    backgroundImage:
-      'url(https://res.cloudinary.com/teascript/image/upload/v1663866947/Lux-Woodwork/steph-wilson-G4fICun7Q48-unsplash_f2equq.jpg)',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundImage: `url(${image1})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
     minHeight: 800,
 
-    '@media (max-width: 520px)': {
+    "@media (max-width: 520px)": {
       paddingTop: 150,
       paddingBottom: 50,
       minHeight: 600,
@@ -30,11 +30,11 @@ const useStyles = createStyles((theme) => ({
   },
 
   inner: {
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    position: "relative",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
     zIndex: 1,
   },
 
@@ -46,12 +46,12 @@ const useStyles = createStyles((theme) => ({
     paddingRight: theme.spacing.md,
     color: theme.white,
     marginBottom: theme.spacing.xs,
-    textAlign: 'center',
+    textAlign: "center",
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
 
-    '@media (max-width: 520px)': {
+    "@media (max-width: 520px)": {
       fontSize: 28,
-      textAlign: 'left',
+      textAlign: "left",
     },
   },
 
@@ -61,9 +61,9 @@ const useStyles = createStyles((theme) => ({
 
   description: {
     color: theme.colors.gray[0],
-    textAlign: 'center',
+    textAlign: "center",
 
-    '@media (max-width: 520px)': {
+    "@media (max-width: 520px)": {
       fontSize: theme.fontSizes.md,
       marginTop: theme.spacing.md,
     },
@@ -71,13 +71,13 @@ const useStyles = createStyles((theme) => ({
 
   controls: {
     marginTop: theme.spacing.xl * 1.5,
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center",
     paddingLeft: theme.spacing.md,
     paddingRight: theme.spacing.md,
 
-    '@media (max-width: 520px)': {
-      flexDirection: 'column',
+    "@media (max-width: 520px)": {
+      flexDirection: "column",
     },
   },
 
@@ -85,12 +85,12 @@ const useStyles = createStyles((theme) => ({
     height: 42,
     fontSize: theme.fontSizes.md,
 
-    '&:not(:first-of-type)': {
+    "&:not(:first-of-type)": {
       marginLeft: theme.spacing.md,
     },
 
-    '@media (max-width: 520px)': {
-      '&:not(:first-of-type)': {
+    "@media (max-width: 520px)": {
+      "&:not(:first-of-type)": {
         marginTop: theme.spacing.md,
         marginLeft: 0,
       },
@@ -99,10 +99,10 @@ const useStyles = createStyles((theme) => ({
 
   secondaryControl: {
     color: theme.white,
-    backgroundColor: 'rgba(255, 255, 255, .4)',
+    backgroundColor: "rgba(255, 255, 255, .4)",
 
-    '&:hover': {
-      backgroundColor: 'rgba(255, 255, 255, .45) !important',
+    "&:hover": {
+      backgroundColor: "rgba(255, 255, 255, .45) !important",
     },
   },
 }));
@@ -117,7 +117,7 @@ const Hero = () => {
 
       <Box className={classes.inner}>
         <Title className={classes.title}>
-          Find Your{' '}
+          Find Your{" "}
           <Text component="span" inherit className={classes.highlight}>
             Dream Furniture
           </Text>
@@ -137,7 +137,7 @@ const Hero = () => {
         </Container>
 
         <HeroButton>
-          <button onClick={() => navigate('/products')}>
+          <button onClick={() => navigate("/products")}>
             <span className="label">Shop Now</span>
             <span className="icon">
               <svg
@@ -180,7 +180,7 @@ const HeroButton = styled.div`
     cursor: pointer;
 
     &::before {
-      content: '';
+      content: "";
       display: block;
       position: absolute;
       z-index: 0;

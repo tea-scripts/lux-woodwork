@@ -12,13 +12,11 @@ import {
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import ProductCard from "./ProductCard";
 import emptyCartImage from "../assets/empty-cart.svg";
 import { fetchUserWishlist } from "../features/wishlist/wishlistSlice";
 import Loading from "./Loading";
 import { IconShoppingCartPlus } from "@tabler/icons";
-import { HorizontalProductCard, VerticalProductCard } from ".";
-import { useViewportSize } from "@mantine/hooks";
+import { VerticalProductCard } from ".";
 
 const useStyles = createStyles((theme) => ({
   imgContainer: {

@@ -7,8 +7,6 @@ import { useSelector } from "react-redux";
 const ProductsList = ({ gridView, filteredProducts, itemFiltered }) => {
   const { isLoading } = useSelector((state) => state.products);
 
-  console.log(itemFiltered);
-
   if (isLoading) {
     return <Loading />;
   }
