@@ -67,7 +67,7 @@ const Navbar = () => {
             >
               <HiShoppingBag />
             </Button>
-            {!user && (
+            {!user.role && (
               <Button
                 variant="filled"
                 sx={{

@@ -16,6 +16,7 @@ import {
   openCart,
   removeItem,
 } from '../features/cart/cartSlice';
+import { toggleSidebar } from '../features/navigation/navSlice';
 import { toggleSignInModal } from '../features/users/userSlice';
 import { formatPrice } from '../utils/helpers';
 import AmountButtons from './AmountButtons';
@@ -169,7 +170,14 @@ const Cart = () => {
               )}
             </Title>
           </Group>
-          <div>
+          <div
+            style={{
+              margin: '0 auto',
+              display: 'grid',
+              rowGap: '1rem',
+              width: '100%',
+            }}
+          >
             {user && user.isVerified ? (
               <Button
                 component={Link}
@@ -184,6 +192,19 @@ const Cart = () => {
             ) : (
               <Button onClick={() => dispatch(toggleSignInModal())}>
                 Sign In
+              </Button>
+            )}
+
+            {!user.isVerified && (
+              <Button
+                component={Link}
+                to="/cart"
+                onClick={() => {
+                  dispatch(openCart());
+                }}
+                fullWidth
+              >
+                Go to Cart
               </Button>
             )}
           </div>

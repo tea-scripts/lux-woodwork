@@ -84,7 +84,7 @@ const AddAddressModal = ({ opened, setOpened }) => {
     }
 
     dispatch(createAddress(userAddress));
-    dispatch(fetchAllUserAddresses());
+    user.isVerified && dispatch(fetchAllUserAddresses());
 
     setOpened(false);
     setUserAddress({
