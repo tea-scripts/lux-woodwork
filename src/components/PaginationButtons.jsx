@@ -7,7 +7,7 @@ const PaginationButtons = ({ totalPages, page, changePage, isLoading }) => {
   return (
     <Pagination
       total={totalPages}
-      current={page}
+      page={page}
       onChange={(page) => dispatch(changePage(page))}
       disabled={isLoading}
       position="center"
