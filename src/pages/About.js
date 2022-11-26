@@ -8,7 +8,7 @@ import {
   Text,
   ThemeIcon,
   Title,
-} from '@mantine/core';
+} from "@mantine/core";
 import {
   IconChecks,
   IconEye,
@@ -16,7 +16,10 @@ import {
   IconMedal,
   IconTarget,
   IconThumbUp,
-} from '@tabler/icons';
+} from "@tabler/icons";
+import image1 from "../assets/images/about-image-1.png";
+import image2 from "../assets/images/about-image-2.png";
+import image3 from "../assets/images/about-image-3.jpg";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -25,17 +28,16 @@ const useStyles = createStyles((theme) => ({
   },
 
   image_container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundImage:
-      'url(https://res.cloudinary.com/dtyzbmtlz/image/upload/v1664164375/spacejoy-RqO6kwm4tZY-unsplash-edited_hvq6sp.jpg)',
-    backgroundRepeat: 'no-repeat',
-    backgroundAttachment: 'fixed',
-    backgroundPositionX: 'center',
-    backgroundPositionY: 'center',
-    backgroundSize: 'cover',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundImage: `url(${image3})`,
+    backgroundRepeat: "no-repeat",
+    backgroundAttachment: "fixed",
+    backgroundPositionX: "center",
+    backgroundPositionY: "center",
+    backgroundSize: "cover",
     height: 400,
     marginBottom: 96,
   },
@@ -43,7 +45,7 @@ const useStyles = createStyles((theme) => ({
   title: {
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     fontSize: 48,
-    color: 'var(--white)',
+    color: "var(--white)",
     marginBottom: 10,
     zIndex: 2,
   },
@@ -52,34 +54,34 @@ const useStyles = createStyles((theme) => ({
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     fontSize: 26,
     fontWeight: 600,
-    color: 'var(--prussian-blue-500)',
+    color: "var(--prussian-blue-500)",
     marginBottom: 30,
 
-    '@media (min-width: 1000px)': {
+    "@media (min-width: 1000px)": {
       fontSize: 26,
-      textAlign: 'left',
+      textAlign: "left",
     },
   },
 
   text: {
     fontSize: 18,
     fontWeight: 400,
-    width: 'initial',
+    width: "initial",
     marginBottom: 30,
 
-    '@media (min-width: 1000px)': {
-      textAlign: 'left',
+    "@media (min-width: 1000px)": {
+      textAlign: "left",
       maxWidth: 400,
     },
   },
 
   content_column: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     marginBottom: 20,
     maxWidth: 1200,
 
-    '@media (min-width: 1000px)': {
+    "@media (min-width: 1000px)": {
       paddingLeft: 120,
       paddingRight: 120,
       marginBottom: 96,
@@ -87,30 +89,30 @@ const useStyles = createStyles((theme) => ({
   },
 
   image_one: {
-    boxShadow: 'var(--shadow)',
+    boxShadow: "var(--shadow)",
     marginBottom: 96,
     maxWidth: 800,
 
-    '@media (min-width: 1000px)': {
+    "@media (min-width: 1000px)": {
       marginBottom: 0,
     },
   },
 
   image_two: {
-    boxShadow: 'var(--shadow)',
+    boxShadow: "var(--shadow)",
     marginBottom: 20,
     maxWidth: 800,
 
-    '@media (min-width: 1000px)': {
+    "@media (min-width: 1000px)": {
       marginBottom: 0,
     },
   },
 
   company_statements_container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 20,
   },
 
@@ -118,11 +120,11 @@ const useStyles = createStyles((theme) => ({
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     fontSize: 26,
     fontWeight: 600,
-    color: 'var(--prussian-blue-500)',
-    textAlign: 'center',
+    color: "var(--prussian-blue-500)",
+    textAlign: "center",
     marginBottom: 10,
 
-    '@media (min-width: 1000px)': {
+    "@media (min-width: 1000px)": {
       fontSize: 26,
     },
   },
@@ -131,11 +133,11 @@ const useStyles = createStyles((theme) => ({
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     fontSize: 20,
     fontWeight: 600,
-    color: 'var(--gray)',
-    textAlign: 'center',
+    color: "var(--gray)",
+    textAlign: "center",
     marginBottom: 10,
 
-    '@media (min-width: 1000px)': {
+    "@media (min-width: 1000px)": {
       fontSize: 20,
     },
   },
@@ -143,42 +145,42 @@ const useStyles = createStyles((theme) => ({
   text_2: {
     fontSize: 18,
     fontWeight: 400,
-    textAlign: 'center',
-    width: 'initial',
+    textAlign: "center",
+    width: "initial",
     marginBottom: 10,
   },
 
   core_values_container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     padding: 32,
   },
 
   paper_style: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     padding: 32,
   },
 
   flex_container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
 
-    '@media (min-width: 1000px)': {
-      flexDirection: 'row',
+    "@media (min-width: 1000px)": {
+      flexDirection: "row",
     },
   },
 }));
 
 const imageLinks = [
-  'https://res.cloudinary.com/dtyzbmtlz/image/upload/v1664179826/about-image-1_fbte82.png',
-  'https://res.cloudinary.com/dtyzbmtlz/image/upload/v1664191210/about-img-2_sk5bxm.png',
+  "https://res.cloudinary.com/dtyzbmtlz/image/upload/v1664179826/about-image-1_fbte82.png",
+  "https://res.cloudinary.com/dtyzbmtlz/image/upload/v1664191210/about-img-2_sk5bxm.png",
 ];
 
 const About = () => {
@@ -187,7 +189,7 @@ const About = () => {
   return (
     <section className={classes.container}>
       <Container
-        style={{ maxWidth: '100%' }}
+        style={{ maxWidth: "100%" }}
         className={classes.image_container}
       >
         <Overlay opacity={0.5} color="#000" zIndex={1} sx={{ height: 460 }} />
@@ -224,7 +226,7 @@ const About = () => {
         </div>
         <div style={{ flex: 1 }}>
           <Image
-            src={imageLinks[0]}
+            src={image1}
             className={classes.image_one}
             alt="images of furnitures"
           />
@@ -258,7 +260,7 @@ const About = () => {
         </div>
         <div style={{ flex: 1 }}>
           <Image
-            src={imageLinks[1]}
+            src={image2}
             className={classes.image_two}
             alt="images of people"
           />
@@ -275,8 +277,8 @@ const About = () => {
         <SimpleGrid
           cols={2}
           breakpoints={[
-            { maxWidth: 755, cols: 2, spacing: 'sm' },
-            { maxWidth: 600, cols: 1, spacing: 'sm' },
+            { maxWidth: 755, cols: 2, spacing: "sm" },
+            { maxWidth: 600, cols: 1, spacing: "sm" },
           ]}
         >
           <Paper shadow="md" p="xl">
@@ -316,8 +318,8 @@ const About = () => {
         <SimpleGrid
           cols={2}
           breakpoints={[
-            { maxWidth: 755, cols: 2, spacing: 'sm' },
-            { maxWidth: 600, cols: 1, spacing: 'sm' },
+            { maxWidth: 755, cols: 2, spacing: "sm" },
+            { maxWidth: 600, cols: 1, spacing: "sm" },
           ]}
         >
           <Paper className={classes.core_values_container} shadow="md" p="xl">
