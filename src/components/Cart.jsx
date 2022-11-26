@@ -169,7 +169,14 @@ const Cart = () => {
               )}
             </Title>
           </Group>
-          <div>
+          <div
+            style={{
+              margin: '0 auto',
+              display: 'grid',
+              rowGap: '1rem',
+              width: '100%',
+            }}
+          >
             {user && user.isVerified ? (
               <Button
                 component={Link}

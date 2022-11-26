@@ -13,7 +13,7 @@ const useStyles = createStyles((theme) => ({
   product: {
     transition: 'all 0.2s ease-in-out',
     height: '100% !important',
-    alignSelf: 'stretch',
+    alignSelf: 'center',
     maxWidth: '300px',
 
     '&:hover': {

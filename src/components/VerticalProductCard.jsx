@@ -9,48 +9,48 @@ import {
   Overlay,
   Text,
   Tooltip,
-} from "@mantine/core";
-import { useHover } from "@mantine/hooks";
+} from '@mantine/core';
+import { useHover } from '@mantine/hooks';
 import {
   IconGift,
   IconSearch,
   IconShoppingCartPlus,
   IconTrash,
-} from "@tabler/icons";
-import React from "react";
-import { useDispatch } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
-import { addToCart } from "../features/cart/cartSlice";
+} from '@tabler/icons';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import { addToCart } from '../features/cart/cartSlice';
 import {
   addWishlistItem,
   deleteWishlistItem,
-} from "../features/wishlist/wishlistSlice";
-import { formatPrice } from "../utils/helpers";
+} from '../features/wishlist/wishlistSlice';
+import { formatPrice } from '../utils/helpers';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   card: {
     maxWidth: 360,
   },
   imageContainer: {
-    position: "relative",
+    position: 'relative',
   },
   BtnContainer: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     zIndex: 10,
   },
   icon: {
-    borderRadius: "50%",
-    transition: "all 0.2s ease",
+    borderRadius: '50%',
+    transition: 'all 0.2s ease',
 
-    "&:hover": {
-      transform: "scale(1.2)",
+    '&:hover': {
+      transform: 'scale(1.2)',
     },
   },
   badge: {
-    position: "absolute",
+    position: 'absolute',
     top: 5,
     right: 5,
     zIndex: 3,
@@ -87,7 +87,7 @@ const VerticalProductCard = ({ product, wishlistId = null }) => {
       <Card.Section className={classes.imageContainer}>
         {hovered && (
           <>
-            <Group className={classes.BtnContainer} group noWrap>
+            <Group className={classes.BtnContainer} noWrap>
               <Tooltip
                 label="View Product"
                 color="blue"
@@ -131,7 +131,7 @@ const VerticalProductCard = ({ product, wishlistId = null }) => {
                 </Tooltip>
               )}
 
-              {location.pathname === "/user/wishlist" ? (
+              {location.pathname === '/user/wishlist' ? (
                 <Tooltip
                   label="Remove from Wishlist"
                   color="blue"
@@ -203,12 +203,12 @@ const VerticalProductCard = ({ product, wishlistId = null }) => {
         weight={600}
         mt="md"
         mb="xs"
-        sx={{ color: "#002742" }}
+        sx={{ color: '#002742' }}
       >
         {product.name}
       </Text>
 
-      <Text align="center" sx={{ color: "var(--prussian-blue-500)" }}>
+      <Text align="center" sx={{ color: 'var(--prussian-blue-500)' }}>
         {formatPrice(product.price)}
       </Text>
     </Card>

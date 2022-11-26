@@ -126,7 +126,10 @@ const useStyles = createStyles((theme) => ({
 
   products: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(270px, 1fr))',
+    justifyContent: 'center',
+    alignItems: 'center',
+    justifyItems: 'center',
     gap: '1rem',
   },
 }));

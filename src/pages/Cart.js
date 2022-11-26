@@ -71,9 +71,10 @@ const Cart = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchAllUserAddresses());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (user) {
+      dispatch(fetchAllUserAddresses());
+    }
+  }, [dispatch, user]);
 
   if (cartItems.length === 0) {
     return (

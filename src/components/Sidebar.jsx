@@ -113,17 +113,15 @@ const Sidebar = () => {
             </Button>
           )}
 
-          {user && (
-            <Button
-              component={Link}
-              to="/cart"
-              onClick={() => {
-                dispatch(toggleSidebar());
-              }}
-            >
-              Go to Cart
-            </Button>
-          )}
+          <Button
+            component={Link}
+            to="/cart"
+            onClick={() => {
+              dispatch(toggleSidebar());
+            }}
+          >
+            Go to Cart
+          </Button>
         </SimpleGrid>
 
         <Center>
