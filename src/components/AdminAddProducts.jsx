@@ -19,6 +19,7 @@ import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import {
+  clearProductValues,
   createProduct,
   handleChange,
   uploadProductImage,
@@ -128,6 +129,10 @@ const AdminAddProducts = () => {
         freeShipping,
       })
     );
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
 
   const handleClick = (event) => {
