@@ -6,16 +6,16 @@ import {
   Modal,
   NativeSelect,
   Alert,
-} from '@mantine/core';
-import { IconAlertCircle } from '@tabler/icons';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+} from "@mantine/core";
+import { IconAlertCircle } from "@tabler/icons";
+import { useEffect, useMemo, useReducer, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import {
   createAddress,
   fetchAllUserAddresses,
-} from '../features/address/addressSlice';
-import addressData from '../utils/addresses';
+} from "../features/address/addressSlice";
+import phAddress from "../utils/phAddress.json";
 
 const AddAddressModal = ({ opened, setOpened }) => {
   const dispatch = useDispatch();
@@ -23,49 +23,78 @@ const AddAddressModal = ({ opened, setOpened }) => {
   const { address } = useSelector((state) => state.address);
   const [userAddress, setUserAddress] = useState({
     userId: user?._id,
-    name: `${user?.first_name || ''} ${user?.last_name || ''}`,
-    phone: user?.phone || '',
-    city: address?.city || '',
-    street: address?.street || '',
-    zip: address?.zip || '',
-    province: address?.province || '',
-    region: address?.region || '',
-    barangay: address?.barangay || '',
+    name: `${user?.first_name || ""} ${user?.last_name || ""}`,
+    phone: user?.phone || "",
+    city: address?.city || "",
+    street: address?.street || "",
+    zip: address?.zip || "",
+    province: address?.province || "",
+    region: address?.region || "",
+    barangay: address?.barangay || "",
   });
 
-  const [regionsList, setRegionsList] = useState([]);
-  const [provincesList, setProvincesList] = useState([]);
-  const [cityList, setCityList] = useState([]);
-  const [barangayList, setBarangayList] = useState([]);
+  const list = useMemo(
+    () =>
+      Object.keys(phAddress)
+        .map((key) => phAddress[key])
+        .map((region) => region),
+    []
+  );
+
+  const filteredRegion = useMemo(() => {
+    if (phAddress) {
+      return Object.keys(phAddress)
+        .map((key) => phAddress[key])
+        .map((region) => region)
+        .filter((region) => region.region_name === userAddress.region)[0];
+    }
+  }, [userAddress.region]);
+
+  const filteredProvince = useMemo(() => {
+    if (filteredRegion) {
+      return filteredRegion.province_list[userAddress.province];
+    }
+  }, [userAddress.province, filteredRegion]);
+
+  const filteredCity = useMemo(() => {
+    if (filteredProvince) {
+      return filteredProvince.municipality_list[userAddress.city];
+    }
+  }, [userAddress.city, filteredProvince]);
+
+  const regionNames = useMemo(() => {
+    return list.map((region) => region.region_name);
+  }, [list]);
+
+  const provinceNames = useMemo(() => {
+    if (filteredRegion) {
+      const provinces = filteredRegion.province_list;
+      return Object.keys(provinces);
+    }
+    return "";
+  }, [filteredRegion]);
+
+  const cityNames = useMemo(() => {
+    if (filteredProvince) {
+      const cities = filteredProvince.municipality_list;
+      return Object.keys(cities);
+    }
+    return "";
+  }, [filteredProvince]);
+
+  const barangayNames = useMemo(() => {
+    if (filteredCity) {
+      const barangays = filteredCity.barangay_list;
+      return barangays;
+    }
+    return "";
+  }, [filteredCity]);
 
   const handleAddressChange = (e) => {
-    if (e.target.name === 'region') {
-      setUserAddress({
-        ...userAddress,
-        [e.target.name]: e.target.value,
-        province: '',
-        city: '',
-        barangay: '',
-      });
-    } else if (e.target.name === 'province') {
-      setUserAddress({
-        ...userAddress,
-        [e.target.name]: e.target.value,
-        city: '',
-        barangay: '',
-      });
-    } else if (e.target.name === 'city') {
-      setUserAddress({
-        ...userAddress,
-        [e.target.name]: e.target.value,
-        barangay: '',
-      });
-    } else {
-      setUserAddress({
-        ...userAddress,
-        [e.target.name]: e.target.value,
-      });
-    }
+    setUserAddress({
+      ...userAddress,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleCreateAddress = (e) => {
@@ -79,81 +108,44 @@ const AddAddressModal = ({ opened, setOpened }) => {
       !userAddress.barangay ||
       !userAddress.zip
     ) {
-      toast.error('Please fill out all fields');
+      toast.error("Please fill out all fields");
       return;
     }
 
-    dispatch(createAddress(userAddress));
+    dispatch(
+      createAddress({
+        ...userAddress,
+        street: userAddress.street.toUpperCase(),
+      })
+    );
     dispatch(fetchAllUserAddresses());
 
     setOpened(false);
     setUserAddress({
       userId: user?._id,
-      name: `${user?.first_name || ''} ${user?.last_name || ''}`,
-      phone: user?.phone || '',
-      city: '',
-      street: '',
-      zip: '',
-      province: '',
-      region: '',
-      barangay: '',
+      name: `${user?.first_name || ""} ${user?.last_name || ""}`,
+      phone: user?.phone || "",
+      city: "",
+      street: "",
+      zip: "",
+      province: "",
+      region: "",
+      barangay: "",
     });
   };
-
-  useEffect(() => {
-    const regions = addressData.map(({ region_name }) => region_name);
-    setRegionsList(regions);
-  }, [userAddress]);
-
-  useEffect(() => {
-    const provinces = addressData
-      .filter((region) => region.region_name === userAddress.region)
-      .flatMap((region) =>
-        region.province_list.map((province) => province.province_name)
-      );
-    setProvincesList(provinces);
-  }, [userAddress]);
-
-  useEffect(() => {
-    const cities = addressData
-      .filter((region) => region.region_name === userAddress.region)
-      .flatMap((region) =>
-        region.province_list
-          .filter((province) => province.province_name === userAddress.province)
-          .flatMap((province) =>
-            province.city_list.map((city) => city.city_name)
-          )
-      );
-    setCityList(cities);
-  }, [userAddress]);
-
-  useEffect(() => {
-    const barangays = addressData
-      .filter((region) => region.region_name === userAddress.region)
-      .flatMap((region) =>
-        region.province_list
-          .filter((province) => province.province_name === userAddress.province)
-          .flatMap((province) =>
-            province.city_list
-              .filter((city) => city.city_name === userAddress.city)
-              .flatMap((city) => city.barangay_list)
-          )
-      );
-    setBarangayList(barangays);
-  }, [userAddress]);
 
   useEffect(() => {
     if (isLoading === false) {
       setUserAddress({
         userId: user?._id,
-        name: `${user?.first_name || ''} ${user?.last_name || ''}`,
-        phone: user?.phone || '',
-        city: '',
-        street: '',
-        zip: '',
-        province: '',
-        region: '',
-        barangay: '',
+        name: `${user?.first_name || ""} ${user?.last_name || ""}`,
+        phone: user?.phone || "",
+        city: "",
+        street: "",
+        zip: "",
+        province: "",
+        region: "",
+        barangay: "",
       });
       setOpened(false);
     }
@@ -170,7 +162,7 @@ const AddAddressModal = ({ opened, setOpened }) => {
       centered
     >
       {!user.first_name && !user.phone && (
-        <Alert icon={<IconAlertCircle size={16} />} mb={'md'} color="blue">
+        <Alert icon={<IconAlertCircle size={16} />} mb={"md"} color="blue">
           Please update your profile first before adding an address
         </Alert>
       )}
@@ -198,9 +190,14 @@ const AddAddressModal = ({ opened, setOpened }) => {
           </Grid.Col>
           <Grid.Col xs={12} sm={6}>
             <NativeSelect
+              data={["---Select Region---", ...regionNames]}
               value={userAddress.region}
-              onChange={handleAddressChange}
-              data={['', ...regionsList]}
+              onChange={(e) =>
+                setUserAddress({
+                  ...userAddress,
+                  region: e.currentTarget.value,
+                })
+              }
               placeholder="Select Region"
               name="region"
               label="Region"
@@ -210,8 +207,13 @@ const AddAddressModal = ({ opened, setOpened }) => {
 
           <Grid.Col xs={12} sm={6}>
             <NativeSelect
-              data={provincesList ? ['', ...provincesList] : []}
-              onChange={handleAddressChange}
+              data={["---Select Province---", ...provinceNames]}
+              onChange={(e) =>
+                setUserAddress({
+                  ...userAddress,
+                  province: e.currentTarget.value,
+                })
+              }
               placeholder="Select Province"
               label="Province"
               name="province"
@@ -223,8 +225,13 @@ const AddAddressModal = ({ opened, setOpened }) => {
 
           <Grid.Col xs={12} sm={6}>
             <NativeSelect
-              data={cityList ? ['', ...cityList] : []}
-              onChange={handleAddressChange}
+              data={["---Select City---", ...cityNames]}
+              onChange={(e) =>
+                setUserAddress({
+                  ...userAddress,
+                  city: e.currentTarget.value,
+                })
+              }
               placeholder="Select City / Municipality"
               name="city"
               value={userAddress.city}
@@ -236,8 +243,13 @@ const AddAddressModal = ({ opened, setOpened }) => {
 
           <Grid.Col xs={12} sm={6}>
             <NativeSelect
-              data={barangayList ? ['', ...barangayList] : []}
-              onChange={handleAddressChange}
+              data={["---Select Barangay---", ...barangayNames]}
+              onChange={(e) =>
+                setUserAddress({
+                  ...userAddress,
+                  barangay: e.currentTarget.value,
+                })
+              }
               placeholder="Select Barangay"
               name="barangay"
               value={userAddress.barangay}
@@ -277,8 +289,8 @@ const AddAddressModal = ({ opened, setOpened }) => {
             loading={isLoading}
             type="submit"
             sx={{
-              '@media (max-width: 600px)': {
-                width: '100%',
+              "@media (max-width: 600px)": {
+                width: "100%",
               },
             }}
           >
