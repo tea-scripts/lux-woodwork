@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   UserAddress,
   UserProfile,
@@ -26,9 +26,10 @@ import {
   AdminShipment,
   AdminViewOrder,
   AdminSupportContact,
-} from './components';
-import { calculateTotals } from './features/cart/cartSlice';
-import { fetchUsers } from './features/users/userSlice';
+  UserSupportTickets,
+} from "./components";
+import { calculateTotals } from "./features/cart/cartSlice";
+import { fetchUsers } from "./features/users/userSlice";
 
 import {
   Landing,
@@ -47,15 +48,15 @@ import {
   SingleOrder,
   ReviewProduct,
   UnsubscribeNewsLetter,
-} from './pages';
-import { Flip, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import User from './pages/User';
-import SharedLayout from './pages/SharedLayout';
-import { fetchAllProducts } from './features/products/productsSlice';
-import { fetchAllUserAddresses } from './features/address/addressSlice';
-import { fetchAllOrders } from './features/orders/orderSlice';
-import { fetchReviews } from './features/reviews/reviewsSlice';
+} from "./pages";
+import { Flip, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import User from "./pages/User";
+import SharedLayout from "./pages/SharedLayout";
+import { fetchAllProducts } from "./features/products/productsSlice";
+import { fetchAllUserAddresses } from "./features/address/addressSlice";
+import { fetchAllOrders } from "./features/orders/orderSlice";
+import { fetchReviews } from "./features/reviews/reviewsSlice";
 
 function App() {
   const { cartItems } = useSelector((state) => state.cart);
@@ -125,6 +126,7 @@ function App() {
               <Route path="wishlist" element={<UserWishlist />} />
               <Route path="reviews" element={<UserReviews />} />
               <Route path="update-password" element={<UpdatePassword />} />
+              <Route path="support" element={<UserSupportTickets />} />
             </Route>
 
             <Route

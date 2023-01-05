@@ -21,7 +21,8 @@ import { formatPrice } from "../utils/helpers";
 import Loading from "./Loading";
 import { setUserOrdersQueryType } from "../features/orders/orderSlice";
 import { DateTime } from "luxon";
-import { IconEye } from "@tabler/icons";
+import { IconEye, IconSearch } from "@tabler/icons";
+import FindOrderModal from "./FindOrderModal";
 
 const useStyles = createStyles((theme) => ({
   orderItem: {
@@ -72,6 +73,7 @@ const UserOrders = () => {
   const [activePage, setPage] = useState(1);
   const [currOrderQueryType, setCurrOrderQueryType] =
     useState(userOrdersQueryType);
+  const [openFindOrderModal, setOpenFindOrderModal] = useState(false);
 
   const displayOrders = userOrders.map((order) => {
     const date = DateTime.fromISO(order.createdAt);
@@ -173,7 +175,7 @@ const UserOrders = () => {
       setCurrOrderQueryType(userOrdersQueryType);
       setPage(1);
     }
-  }, [activePage, userOrdersQueryType]);
+  }, [activePage, userOrdersQueryType, currOrderQueryType, dispatch]);
 
   if (isLoading) {
     return <Loading />;
@@ -197,6 +199,19 @@ const UserOrders = () => {
         >
           My Orders
         </Text>
+        <Group position="right">
+          <Button
+            leftIcon={<IconSearch size={14} />}
+            onClick={() => setOpenFindOrderModal(true)}
+          >
+            Find an Order
+          </Button>
+        </Group>
+
+        <FindOrderModal
+          opened={openFindOrderModal}
+          setOpened={setOpenFindOrderModal}
+        />
       </div>
 
       <Divider mt={16} mb={32} />
