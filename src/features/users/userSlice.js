@@ -186,6 +186,7 @@ const userSlice = createSlice({
       state.token = null;
       removeUserFromLocalStorage();
       removeTokenFromLocalStorage();
+      localStorage.removeItem('city');
     },
     addToWishlist: (state, action) => {
       const { id } = action.payload;

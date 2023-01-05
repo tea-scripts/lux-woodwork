@@ -104,6 +104,7 @@ const addressSlice = createSlice({
       state.defaultAddress = action.payload.userAddresses.find(
         (address) => address.defaultAddress
       );
+      localStorage.setItem('city', state.defaultAddress?.city);
       state.userAddresses = action.payload.userAddresses;
       state.pages = action.payload.pages;
     },

@@ -8,9 +8,35 @@ const initialState = {
   total_items: 0,
   total_amount: 0,
   total_quantity: 0,
-  shipping_fee: 7490,
-  tax: 100,
+  shipping_fee: 0,
+  tax: 0,
   isCartOpen: false,
+  shippingFees: {
+    Angeles: 74900,
+    Antipolo: 45667,
+    Baguio: 30000,
+    Caloocan: 45555,
+    Cebu: 22333,
+    Davao: 12122,
+    'General Santos': 12121,
+    'Lapu-Lapu': 45667,
+    'Las Pinas': 45667,
+    Makati: 45667,
+    Malabon: 45667,
+    Mandaluyong: 45667,
+    Manila: 45667,
+    Marikina: 45667,
+    Muntinlupa: 45667,
+    Navotas: 45667,
+    Paranaque: 45667,
+    Pasay: 45667,
+    Pasig: 45667,
+    'Quezon City': 45667,
+    'San Juan': 45667,
+    Taguig: 45667,
+    Valenzuela: 45667,
+    Zamboanga: 45667,
+  },
 };
 
 const cartSlice = createSlice({
@@ -95,6 +121,7 @@ const cartSlice = createSlice({
     calculateTotals: (state) => {
       let quantity = 0;
       let total = 0;
+      let taxPercent = 0.12;
 
       state.cartItems.forEach((item) => {
         quantity += item.quantity;
@@ -102,6 +129,8 @@ const cartSlice = createSlice({
       });
 
       state.total_quantity = quantity;
+      state.tax = (total * taxPercent) / 100;
+      state.shipping_fee = state.shippingFees[localStorage.getItem('city')];
       state.total_amount = total;
     },
   },

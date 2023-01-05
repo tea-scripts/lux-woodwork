@@ -55,7 +55,9 @@ const CartTotals = () => {
   const { classes } = useStyles();
   const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
-  const { shipping_fee, total_amount } = useSelector((state) => state.cart);
+  const { shipping_fee, total_amount, tax } = useSelector(
+    (state) => state.cart
+  );
 
   return (
     <div className={classes.wrapper}>
@@ -68,10 +70,13 @@ const CartTotals = () => {
             <p>
               shipping fee : <span>{formatPrice(shipping_fee)}</span>
             </p>
+            <p>
+              VAT : <span>{formatPrice(tax)}</span>
+            </p>
             <Divider />
             <h4>
               order total :{' '}
-              <span>{formatPrice(total_amount + shipping_fee)}</span>
+              <span>{formatPrice(total_amount + shipping_fee + tax)}</span>
             </h4>
           </article>
         </Card>

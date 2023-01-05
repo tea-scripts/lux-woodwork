@@ -7,24 +7,24 @@ import {
   PasswordInput,
   Text,
   TextInput,
-} from "@mantine/core";
+} from '@mantine/core';
 import {
   loginUser,
   registerUser,
   toggleForgotPasswordModal,
   toggleSignInModal,
-} from "../features/users/userSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { useCallback, useMemo, useState } from "react";
-import { IconAlertCircle, IconCircleCheck } from "@tabler/icons";
-import { toast } from "react-toastify";
-import { useEffect } from "react";
+} from '../features/users/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useCallback, useMemo, useState } from 'react';
+import { IconAlertCircle, IconCircleCheck } from '@tabler/icons';
+import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 
 const initialState = {
-  email: "",
-  username: "",
-  password: "",
-  confirmPassword: "",
+  email: '',
+  username: '',
+  password: '',
+  confirmPassword: '',
 };
 
 const Registration = () => {
@@ -37,11 +37,11 @@ const Registration = () => {
     useState(false);
 
   const handleErrorMessages = useCallback(() => {
-    const hasMinLength = new RegExp("^(?=.{8,})");
-    const hasOneUppercaseChar = new RegExp("^(?=.*[A-Z])");
-    const hasOneLowerCaseChar = new RegExp("^(?=.*[a-z])");
-    const hasOneDigit = new RegExp("^(?=.*[0-9])");
-    const hasOneSpecialChar = new RegExp("^(?=.*[!@#$%^&*])");
+    const hasMinLength = new RegExp('^(?=.{8,})');
+    const hasOneUppercaseChar = new RegExp('^(?=.*[A-Z])');
+    const hasOneLowerCaseChar = new RegExp('^(?=.*[a-z])');
+    const hasOneDigit = new RegExp('^(?=.*[0-9])');
+    const hasOneSpecialChar = new RegExp('^(?=.*[!@#$%^&*])');
 
     const message = []; /* {
       text: string,
@@ -52,73 +52,73 @@ const Registration = () => {
 
     if (!hasMinLength.test(password)) {
       message.push({
-        text: "Password must contain at least 8 characters",
-        type: "error",
+        text: 'Password must contain at least 8 characters',
+        type: 'error',
       });
     } else {
       message.push({
-        text: "Password contains at least 8 characters",
-        type: "success",
+        text: 'Password contains at least 8 characters',
+        type: 'success',
       });
     }
 
     if (!hasOneUppercaseChar.test(password)) {
       message.push({
-        text: "Password must contain at least one uppercase character",
-        type: "error",
+        text: 'Password must contain at least one uppercase character',
+        type: 'error',
       });
     } else {
       message.push({
-        text: "Password contains at least one uppercase character",
-        type: "success",
+        text: 'Password contains at least one uppercase character',
+        type: 'success',
       });
     }
 
     if (!hasOneLowerCaseChar.test(password)) {
       message.push({
-        text: "Password must contain at least one lowercase character",
-        type: "error",
+        text: 'Password must contain at least one lowercase character',
+        type: 'error',
       });
     } else {
       message.push({
-        text: "Password contains at least one lowercase character",
-        type: "success",
+        text: 'Password contains at least one lowercase character',
+        type: 'success',
       });
     }
 
     if (!hasOneDigit.test(password)) {
       message.push({
-        text: "Password must contain at least one digit",
-        type: "error",
+        text: 'Password must contain at least one digit',
+        type: 'error',
       });
     } else {
       message.push({
-        text: "Password contains at least one digit",
-        type: "success",
+        text: 'Password contains at least one digit',
+        type: 'success',
       });
     }
 
     if (!hasOneSpecialChar.test(password)) {
       message.push({
-        text: "Password must contain at least one special character",
-        type: "error",
+        text: 'Password must contain at least one special character',
+        type: 'error',
       });
     } else {
       message.push({
-        text: "Password contains at least one special character",
-        type: "success",
+        text: 'Password contains at least one special character',
+        type: 'success',
       });
     }
 
     if (password === confirmPassword && password.length !== 0) {
       message.push({
-        text: "Passwords match",
-        type: "success",
+        text: 'Passwords match',
+        type: 'success',
       });
     } else {
       message.push({
-        text: "Passwords do not match",
-        type: "error",
+        text: 'Passwords do not match',
+        type: 'error',
       });
     }
 
@@ -126,7 +126,7 @@ const Registration = () => {
   }, [values.password, values.confirmPassword]);
 
   const handleChange = (e) => {
-    if (isNewUser && e.target.name === "password") {
+    if (isNewUser && e.target.name === 'password') {
       setTypedPasswordAtleastOnce(true);
     }
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -136,7 +136,7 @@ const Registration = () => {
     e.preventDefault();
     const { username, email, password } = values;
     if (!username || !password || (isNewUser && errorMessages.length > 0)) {
-      toast.warning("Please provide all credentials");
+      toast.warning('Please provide all credentials');
       return;
     }
 
@@ -167,7 +167,7 @@ const Registration = () => {
           dispatch(toggleSignInModal());
         }}
         centered
-        title={isNewUser ? "Sign Up" : "Sign In"}
+        title={isNewUser ? 'Sign Up' : 'Sign In'}
       >
         {/* Modal content HERE 🙋‍♂️ */}
         <form>
@@ -219,18 +219,18 @@ const Registration = () => {
                 onChange={handleChange}
               />
               {typedPasswordAtleastOnce &&
-                errorMessages.map((message) => (
+                errorMessages.map((message, index) => (
                   <Box
-                    sx={{ display: "flex", alignItems: "center", gap: "4px" }}
-                    key={message._id}
+                    sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+                    key={index}
                   >
-                    {message.type === "error" ? (
+                    {message.type === 'error' ? (
                       <IconAlertCircle size={12} color="red" />
                     ) : (
                       <IconCircleCheck size={12} color="green" />
                     )}
                     <Text
-                      color={message.type === "error" ? "red" : "green"}
+                      color={message.type === 'error' ? 'red' : 'green'}
                       size={12}
                     >
                       {message.text}
@@ -257,18 +257,18 @@ const Registration = () => {
             type="submit"
             onClick={handleSubmit}
           >
-            {isNewUser ? "Sign Up" : "Sign In"}
+            {isNewUser ? 'Sign Up' : 'Sign In'}
           </Button>
         </form>
 
         <Text align="center" mt={15} sx={{ fontSize: 14 }}>
-          {isNewUser ? "Already have an account? " : "Don't have an account? "}
+          {isNewUser ? 'Already have an account? ' : "Don't have an account? "}
           <Button
             variant="subtle"
             compact
             onClick={() => setIsNewUser((prevState) => !prevState)}
           >
-            {isNewUser ? "Sign In" : "Sign Up"}
+            {isNewUser ? 'Sign In' : 'Sign Up'}
           </Button>
         </Text>
       </Modal>

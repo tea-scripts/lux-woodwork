@@ -72,7 +72,7 @@ const AdminNavLinks = [
   },
   { label: 'Profile', icon: IconUserCircle, link: '/admin/profile' },
 
-  { label: 'Store', icon: IconHome, link: '/' },
+  { label: 'Go to Store', icon: IconHome, link: '/' },
 ];
 
 export default AdminNavLinks;
