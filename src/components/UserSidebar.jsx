@@ -15,6 +15,7 @@ import {
   IconRotateRectangle,
   IconArrowsMaximize,
   IconArrowsMinimize,
+  IconHelp,
 } from "@tabler/icons";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -91,6 +92,11 @@ const mockdata = [
     label: "Update Password",
     icon: <IconRotateRectangle />,
     link: "/user/update-password",
+  },
+  {
+    label: "Support Tickets",
+    icon: <IconHelp />,
+    link: "/user/support",
   },
 ];
 
