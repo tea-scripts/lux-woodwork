@@ -30,10 +30,11 @@ import AdminDashboard from './AdminDashboard';
 import AdminAddUsers from './AdminAddUsers';
 import AdminViewUsers from './AdminViewUsers';
 import AdminViewOrders from './AdminViewOrders';
+import AdminViewOrder from './AdminViewOrder';
 import AdminAddProducts from './AdminAddProducts';
 import AdminViewProducts from './AdminViewProducts';
 import AdminViewReviews from './AdminViewReviews';
-import AdminSupport from './AdminSupport';
+import AdminSupportTickets from './AdminSupportTickets';
 import AdminProfile from './AdminProfile';
 import AdminArchivedOrders from './AdminArchivedOrders';
 import AdminArchivedProducts from './AdminArchivedProducts';
@@ -48,7 +49,7 @@ import ActionConfirmationModal from './ActionConfirmationModal';
 import AdminShipment from './AdminShipment';
 import HorizontalProductCard from './HorizontalProductCard';
 import VerticalProductCard from './VerticalProductCard';
-
+import AdminSupportContact from './AdminSupportContact';
 export {
   Navbar,
   Hero,
@@ -81,10 +82,11 @@ export {
   AdminAddUsers,
   AdminViewUsers,
   AdminViewOrders,
+  AdminViewOrder,
   AdminAddProducts,
   AdminViewProducts,
   AdminProfile,
-  AdminSupport,
+  AdminSupportTickets,
   AdminViewReviews,
   UpdatePassword,
   StripeCheckout,
@@ -100,4 +102,5 @@ export {
   AdminShipment,
   HorizontalProductCard,
   VerticalProductCard,
+  AdminSupportContact,
 };

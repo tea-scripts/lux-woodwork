@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 import {
   archiveOrderThunk,
   cancelOrderThunk,
@@ -12,12 +12,14 @@ import {
   shipOrderThunk,
   unarchiveOrderThunk,
   updateOrderThunk,
-} from "./ordersThunk";
+} from './ordersThunk';
 
 const initialState = {
   orders: [],
+  order_id: '',
   userOrders: [],
   order: {},
+  isFetchingOrders: false,
   isLoading: false,
   isViewing: false,
   user: {},
@@ -26,12 +28,12 @@ const initialState = {
   shipping: 0,
   total: 0,
   subtotal: 0,
-  createdAt: "",
-  orderId: "",
-  status: "",
+  createdAt: '',
+  orderId: '',
+  status: '',
   pages: 1,
   page: 1,
-  expiryDate: "",
+  expiryDate: '',
   totalPages: 0,
   totalOrders: 0,
   actionConfirmModal: false,
@@ -40,11 +42,11 @@ const initialState = {
   isDelivered: false,
   shippedOrders: [],
   totalShippedOrders: 0,
-  userOrdersQueryType: "All",
+  userOrdersQueryType: 'All',
 };
 
 export const fetchAllOrders = createAsyncThunk(
-  "orders/fetchAllOrders",
+  'orders/fetchAllOrders',
   async (_, thunkAPI) => {
     return fetchAllOrdersThunk(
       `/orders?page=${thunkAPI.getState().orders.page}`,
@@ -54,14 +56,14 @@ export const fetchAllOrders = createAsyncThunk(
 );
 
 export const fetchOrder = createAsyncThunk(
-  "orders/fetchOrder",
+  'orders/fetchOrder',
   async (orderId, thunkAPI) => {
     return fetchOrderThunk(`/orders/${orderId}`, thunkAPI);
   }
 );
 
 export const updateOrder = createAsyncThunk(
-  "orders/updateOrder",
+  'orders/updateOrder',
   async ({ orderId, paymentIntentId }, thunkAPI) => {
     return updateOrderThunk(
       `/orders/${orderId}`,
@@ -72,7 +74,7 @@ export const updateOrder = createAsyncThunk(
 );
 
 export const fetchUserOrders = createAsyncThunk(
-  "orders/fetchUserOrders",
+  'orders/fetchUserOrders',
   async (page, thunkAPI) => {
     return fetchUserOrdersThunk(
       `/orders/show-my-orders/${
@@ -84,56 +86,56 @@ export const fetchUserOrders = createAsyncThunk(
 );
 
 export const deleteOrder = createAsyncThunk(
-  "orders/deleteOrder",
+  'orders/deleteOrder',
   async (orderId, thunkAPI) => {
     return deleteOrderThunk(`/orders/${orderId}`, thunkAPI);
   }
 );
 
 export const cancelOrder = createAsyncThunk(
-  "orders/cancelOrder",
+  'orders/cancelOrder',
   async (orderId, thunkAPI) => {
     return cancelOrderThunk(`/orders/cancel/${orderId}`, thunkAPI);
   }
 );
 
 export const archiveOrder = createAsyncThunk(
-  "orders/archiveOrder",
+  'orders/archiveOrder',
   async (id, thunkAPI) => {
     return archiveOrderThunk(`/orders/archive/${id}`, thunkAPI);
   }
 );
 
 export const unarchiveOrder = createAsyncThunk(
-  "orders/unarchiveOrder",
+  'orders/unarchiveOrder',
   async (id, thunkAPI) => {
     return unarchiveOrderThunk(`/orders/unarchive/${id}`, thunkAPI);
   }
 );
 
 export const shipOrder = createAsyncThunk(
-  "orders/shipOrder",
+  'orders/shipOrder',
   async (orderId, thunkAPI) => {
     return shipOrderThunk(`/orders/ship/${orderId}`, thunkAPI);
   }
 );
 
 export const deliverOrder = createAsyncThunk(
-  "orders/deliverOrder",
+  'orders/deliverOrder',
   async (orderId, thunkAPI) => {
     return deliverOrderThunk(`/orders/deliver/${orderId}`, thunkAPI);
   }
 );
 
 export const receiveOrder = createAsyncThunk(
-  "orders/receiveOrder",
+  'orders/receiveOrder',
   async (orderId, thunkAPI) => {
     return receiveOrderThunk(`/orders/receive/${orderId}`, thunkAPI);
   }
 );
 
 const orderSlice = createSlice({
-  name: "orders",
+  name: 'orders',
   initialState,
   reducers: {
     setOrderValues: (state, { payload }) => {
@@ -163,6 +165,12 @@ const orderSlice = createSlice({
     setUserOrdersQueryType: (state, { payload }) => {
       state.userOrdersQueryType = payload;
     },
+    handleChange: (state, { payload }) => {
+      state[payload.name] = payload.value;
+    },
+    resetOrder: (state) => {
+      state.order = {};
+    },
   },
   extraReducers: {
     [fetchAllOrders.pending]: (state) => {
@@ -171,14 +179,8 @@ const orderSlice = createSlice({
     [fetchAllOrders.fulfilled]: (state, action) => {
       const { orders, totalPages, totalOrders } = action.payload;
       state.orders = orders;
-      state.totalPages = Math.ceil(
-        orders.filter(
-          (order) => order.isArchived === false && order.isDeleted === false
-        ).length / 10
-      );
-      state.totalOrders = orders.filter(
-        (order) => order.isArchived === false && order.isDeleted === false
-      ).length;
+      state.totalPages = totalPages;
+      state.totalOrders = totalOrders;
       state.shippedOrders = orders.filter((order) => order.isShipped === true);
       state.totalShippedOrders = orders.filter(
         (order) => order.isShipped === true
@@ -202,14 +204,14 @@ const orderSlice = createSlice({
       toast.error(action.payload.msg);
     },
     [fetchOrder.pending]: (state) => {
-      state.isLoading = true;
+      state.isFetchingOrder = true;
     },
     [fetchOrder.fulfilled]: (state, action) => {
       state.order = action.payload.order;
-      state.isLoading = false;
+      state.isFetchingOrder = false;
     },
     [fetchOrder.rejected]: (state, action) => {
-      state.isLoading = false;
+      state.isFetchingOrder = false;
       toast.error(action.payload.msg);
     },
     [deleteOrder.pending]: (state) => {
@@ -217,7 +219,7 @@ const orderSlice = createSlice({
     },
     [deleteOrder.fulfilled]: (state) => {
       state.isLoading = false;
-      toast.success("Order deleted successfully");
+      toast.success('Order deleted successfully');
     },
     [deleteOrder.rejected]: (state, action) => {
       state.isLoading = false;
@@ -238,7 +240,7 @@ const orderSlice = createSlice({
     },
     [cancelOrder.fulfilled]: (state) => {
       state.isLoading = false;
-      toast.success("Order cancelled successfully");
+      toast.success('Order cancelled successfully');
     },
     [cancelOrder.rejected]: (state, action) => {
       state.isLoading = false;
@@ -249,7 +251,7 @@ const orderSlice = createSlice({
     },
     [archiveOrder.fulfilled]: (state) => {
       state.isLoading = false;
-      toast.success("Order archived successfully");
+      toast.success('Order archived successfully');
     },
     [archiveOrder.rejected]: (state, action) => {
       state.isLoading = false;
@@ -260,7 +262,7 @@ const orderSlice = createSlice({
     },
     [unarchiveOrder.fulfilled]: (state) => {
       state.isLoading = false;
-      toast.success("Order unarchived successfully");
+      toast.success('Order unarchived successfully');
     },
     [unarchiveOrder.rejected]: (state, action) => {
       state.isLoading = false;
@@ -272,7 +274,7 @@ const orderSlice = createSlice({
     [shipOrder.fulfilled]: (state) => {
       state.isLoading = false;
       state.isViewing = false;
-      toast.success("Order shipped successfully");
+      toast.success('Order shipped successfully');
     },
     [shipOrder.rejected]: (state, action) => {
       state.isLoading = false;
@@ -284,7 +286,7 @@ const orderSlice = createSlice({
     [deliverOrder.fulfilled]: (state) => {
       state.isLoading = false;
       state.isViewing = false;
-      toast.success("Order delivered successfully");
+      toast.success('Order delivered successfully');
     },
     [deliverOrder.rejected]: (state, action) => {
       state.isLoading = false;
@@ -295,7 +297,7 @@ const orderSlice = createSlice({
     },
     [receiveOrder.fulfilled]: (state) => {
       state.isLoading = false;
-      toast.success("Order received successfully");
+      toast.success('Order received successfully');
     },
     [receiveOrder.rejected]: (state, action) => {
       state.isLoading = false;
@@ -310,6 +312,8 @@ export const {
   changePage,
   togggleActionConfirmModal,
   setUserOrdersQueryType,
+  handleChange,
+  resetOrder,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

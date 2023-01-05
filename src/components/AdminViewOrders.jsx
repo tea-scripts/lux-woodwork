@@ -1,7 +1,6 @@
 import {
   ActionIcon,
   Badge,
-  Container,
   createStyles,
   Group,
   Paper,
@@ -66,7 +65,6 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const AdminOrders = () => {
-  const { classes } = useStyles();
   const dispatch = useDispatch();
   const [itemId, setItemId] = useState(null);
   const {
@@ -137,7 +135,6 @@ const AdminOrders = () => {
 
   useEffect(() => {
     dispatch(fetchAllOrders());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, dispatch]);
 
   return (
@@ -147,7 +144,6 @@ const AdminOrders = () => {
           sx={{
             fontSize: '1.3rem',
             color: 'var(--prussian-blue-500)',
-            fontSize: '1.3rem',
             paddingTop: 5,
             marginBottom: '2rem',
           }}

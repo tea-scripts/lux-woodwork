@@ -17,13 +17,15 @@ import {
   AdminViewProducts,
   AdminViewReviews,
   AdminProfile,
-  AdminSupport,
+  AdminSupportTickets,
   StripeCheckout,
   AdminArchivedOrders,
   AdminArchivedProducts,
   AdminArchivedReviews,
   AdminInventory,
   AdminShipment,
+  AdminViewOrder,
+  AdminSupportContact,
 } from './components';
 import { calculateTotals } from './features/cart/cartSlice';
 import { fetchUsers } from './features/users/userSlice';
@@ -156,7 +158,8 @@ function App() {
             <Route index element={<AdminViewProducts />} />
             <Route path="users-add" element={<AdminAddUsers />} />
             <Route path="users-view" element={<AdminViewUsers />} />
-            <Route path="orders/view" element={<AdminViewOrders />} />
+            <Route path="orders-view" element={<AdminViewOrders />} />
+            <Route path="orders-search" element={<AdminViewOrder />} />
             <Route path="products-add" element={<AdminAddProducts />} />
             <Route path="products-view" element={<AdminViewProducts />} />
             <Route path="reviews/view" element={<AdminViewReviews />} />
@@ -169,7 +172,11 @@ function App() {
             <Route path="inventory" element={<AdminInventory />} />
             <Route path="shipment" element={<AdminShipment />} />
             <Route path="profile" element={<AdminProfile />} />
-            <Route path="support" element={<AdminSupport />} />
+            <Route path="support/tickets" element={<AdminSupportTickets />} />
+            <Route
+              path="support/contact-us"
+              element={<AdminSupportContact />}
+            />
           </Route>
         </Routes>
       </ScrollToTop>

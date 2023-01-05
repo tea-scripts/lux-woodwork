@@ -54,6 +54,12 @@ const initialState = {
   isDeletingSubscriber: false,
   isSubscribing: false,
   isUnsubscribing: false,
+  name: '',
+  message: '',
+  subject: '',
+  product_name: '',
+  order_id: '',
+  support_type: '',
 };
 
 export const fetchUsers = createAsyncThunk(

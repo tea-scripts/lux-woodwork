@@ -5,7 +5,6 @@ import { getTokenFromLocalStorage } from './localStorage';
 
 const customFetch = axios.create({
   baseURL: 'https://lux-woodwork-api.onrender.com/api/v1',
-  // baseURL: "http://localhost:5000/api/v1",
 });
 
 customFetch.interceptors.request.use((config) => {

@@ -6,6 +6,9 @@ import {
   IconUserCircle,
   IconHome,
   IconFileZip,
+  IconList,
+  IconTruckDelivery,
+  IconMessageChatbot,
 } from '@tabler/icons';
 
 const AdminNavLinks = [
@@ -28,8 +31,14 @@ const AdminNavLinks = [
   },
   {
     label: 'Orders',
-    icon: IconShoppingCart,
-    link: '/admin/orders/view',
+    icon: IconList,
+    links: [
+      // { label: 'Add Orders', link: '/admin/orders-add' },
+      { label: 'Find Order', link: '/admin/orders-search' },
+      // { label: 'Pending Orders', link: '/admin/orders-pending' },
+      // { label: 'Canceled Orders', link: '/admin/orders-canceled' },
+      { label: 'View Orders', link: '/admin/orders-view' },
+    ],
   },
   {
     label: 'Reviews',
@@ -46,8 +55,16 @@ const AdminNavLinks = [
     ],
   },
   {
+    label: 'Support',
+    icon: IconMessageChatbot,
+    links: [
+      { label: 'Tickets', link: '/admin/support/tickets' },
+      { label: 'Contact Us', link: '/admin/support/contact-us' },
+    ],
+  },
+  {
     label: 'Shipment & Tracking',
-    icon: IconHome,
+    icon: IconTruckDelivery,
     links: [
       { label: 'Shipment', link: '/admin/shipment' },
       { label: 'Inventory', link: '/admin/inventory' },

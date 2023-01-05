@@ -3,6 +3,7 @@ import {
   Button,
   Group,
   Paper,
+  Select,
   Stack,
   Textarea,
   TextInput,
@@ -14,47 +15,49 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { contactUs } from '../features/users/userSlice';
+import { contactUs, handleChange } from '../features/users/userSlice';
 
 const ContactForm = () => {
   const dispatch = useDispatch();
-  const { isLoading, successState } = useSelector((store) => store.users);
-  const [values, setValues] = useState({
-    name: '',
-    email: '',
-    message: '',
-    subject: '',
-  });
+  const {
+    isLoading,
+    successState,
+    name,
+    email,
+    message,
+    subject,
+    product_name,
+    order_id,
+    support_type,
+  } = useSelector((store) => store.users);
+  const { products } = useSelector((store) => store.products);
 
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
+  const handleInputChange = (event) => {
+    dispatch(
+      handleChange({ name: event.target.name, value: event.target.value })
+    );
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!values.name || !values.email || !values.message || !values.subject) {
+    if (!name || !email || !message || !subject) {
       toast.warning('Please provide all credentials');
       return;
     }
 
-    dispatch(contactUs(values));
+    dispatch(
+      contactUs({
+        name,
+        email,
+        message,
+        subject,
+        product_name: subject === 'product-availability' ? product_name : '',
+        order_id: subject === 'product-return' ? order_id : '',
+        support_type: subject === 'support' ? support_type : '',
+      })
+    );
   };
-
-  useEffect(() => {
-    if (successState) {
-      setValues({
-        name: '',
-        email: '',
-        message: '',
-        subject: '',
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <Paper shadow="xs" radius="md" p="xl">
@@ -87,32 +90,110 @@ const ContactForm = () => {
               placeholder="Enter your email"
               label="Email"
               name="email"
-              value={values.email}
-              onChange={handleChange}
+              value={email}
+              onChange={handleInputChange}
               withAsterisk
             />
             <TextInput
               placeholder="Enter your name"
               name="name"
-              value={values.name}
-              onChange={handleChange}
+              value={name}
+              onChange={handleInputChange}
               label="Name"
               withAsterisk
             />
-            <TextInput
-              placeholder="Enter the subject"
+            <Select
               label="Subject"
+              placeholder="Select subject"
               name="subject"
-              value={values.subject}
-              onChange={handleChange}
+              value={subject}
+              onChange={(value) =>
+                dispatch(
+                  handleChange({
+                    name: 'subject',
+                    value: value,
+                  })
+                )
+              }
               withAsterisk
+              data={[
+                { label: 'General', value: 'general' },
+                { label: 'Support', value: 'support' },
+                {
+                  label: 'Product Availability',
+                  value: 'product-availability',
+                },
+              ]}
             />
+
+            {subject === 'product-availability' && (
+              <Select
+                label="Product"
+                placeholder="Select product"
+                name="product_name"
+                value={product_name}
+                onChange={(value) =>
+                  dispatch(
+                    handleChange({
+                      name: 'product_name',
+                      value: value,
+                    })
+                  )
+                }
+                withAsterisk
+                data={products
+                  .filter((product) => product.displayProduct === true)
+                  .map((product) => ({
+                    label: product.name,
+                    value: product._id,
+                  }))}
+              />
+            )}
+
+            {subject === 'support' && (
+              <Select
+                label="Support Type"
+                placeholder="Select support type"
+                name="support_type"
+                value={support_type}
+                onChange={(value) =>
+                  dispatch(
+                    handleChange({
+                      name: 'support_type',
+                      value: value,
+                    })
+                  )
+                }
+                withAsterisk
+                data={[
+                  { label: 'Technical', value: 'technical' },
+                  { label: 'Billing', value: 'billing' },
+                  { label: 'Account', value: 'account' },
+                  {
+                    label: 'Returns',
+                    value: 'product-return',
+                  },
+                ]}
+              />
+            )}
+
+            {support_type === 'product-return' && subject === 'support' && (
+              <TextInput
+                placeholder="Enter your order id"
+                label="Order ID"
+                name="order_id"
+                value={order_id}
+                onChange={handleInputChange}
+                withAsterisk
+              />
+            )}
+
             <Textarea
               placeholder="Enter your message"
               label="Message"
               name="message"
-              value={values.message}
-              onChange={handleChange}
+              value={message}
+              onChange={handleInputChange}
               withAsterisk
             />
             <Group position="right">
