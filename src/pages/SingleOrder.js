@@ -72,8 +72,10 @@ const SingleOrder = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchOrder(id));
-  }, [dispatch, id]);
+    if (isLoading) {
+      dispatch(fetchOrder(id));
+    }
+  }, [dispatch, id, isLoading]);
 
   if (isLoading || isFetchingOrder) {
     return <Loading />;
