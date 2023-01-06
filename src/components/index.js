@@ -54,6 +54,8 @@ import UserSupportTickets from "./UserSupportTickets";
 import FindOrderModal from "./FindOrderModal";
 import OrderStepper from "./OrderStepper";
 import OrderTimeline from "./OrderTimeline";
+import SubmitTicket from "./SubmitTicket";
+import ViewTickets from "./ViewTickets";
 
 export {
   Navbar,
@@ -112,4 +114,6 @@ export {
   FindOrderModal,
   OrderStepper,
   OrderTimeline,
+  SubmitTicket,
+  ViewTickets,
 };

@@ -1,5 +1,5 @@
-import customFetch from '../../utils/axios';
-import { fetchAllContactUsForms } from './supportSlice';
+import customFetch from "../../utils/axios";
+import { fetchAllContactUsForms } from "./supportSlice";
 
 export const fetchAllContactUsFormsThunk = async (url, thunkAPI) => {
   try {
@@ -46,5 +46,23 @@ export const fetchAllSupportTicketsThunk = async (url, thunkAPI) => {
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data.msg);
+  }
+};
+
+export const createTicketThunk = async (url, ticket, thunkAPI) => {
+  try {
+    const response = await customFetch.post(url, ticket);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+};
+
+export const getUserTicketsThunk = async (url, thunkAPI) => {
+  try {
+    const response = await customFetch.get(url);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
   }
 };

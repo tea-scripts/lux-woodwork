@@ -1,14 +1,32 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createTicketThunk, getUserTicketsThunk } from "./supportThunk";
+import { toast } from "react-toastify";
 import {
   cancelContactUsFormThunk,
   deleteContactUsFormThunk,
   fetchAllContactUsFormsThunk,
   resolveContactUsFormThunk,
-} from './supportThunk';
+} from "./supportThunk";
+
+export const createTicket = createAsyncThunk(
+  "support/createTicket",
+  async (ticket, thunkAPI) => {
+    return createTicketThunk(`/support-ticket`, ticket, thunkAPI);
+  }
+);
+
+export const getUserTickets = createAsyncThunk(
+  "support/getUserTickets",
+  async ({ page, limit }, thunkAPI) => {
+    return getUserTicketsThunk(
+      `/support-ticket/user?page=${page}&limit=${limit}`,
+      thunkAPI
+    );
+  }
+);
 
 export const fetchAllContactUsForms = createAsyncThunk(
-  'support/fetchAllContactUsForms',
+  "support/fetchAllContactUsForms",
   async (_, thunkAPI) => {
     return fetchAllContactUsFormsThunk(
       `/contact-us?page=${thunkAPI.getState().support.contactUsFormPage}`,
@@ -18,30 +36,31 @@ export const fetchAllContactUsForms = createAsyncThunk(
 );
 
 export const resolveContactUsForm = createAsyncThunk(
-  'support/resolveContactUsForm',
+  "support/resolveContactUsForm",
   async (data, thunkAPI) => {
     return resolveContactUsFormThunk(`/contact-us/${data._id}`, data, thunkAPI);
   }
 );
 
 export const cancelContactForm = createAsyncThunk(
-  'support/cancelContactForm',
+  "support/cancelContactForm",
   async (id, thunkAPI) => {
     return cancelContactUsFormThunk(`/contact-us/cancel/${id}`, thunkAPI);
   }
 );
 
 export const deleteContactForm = createAsyncThunk(
-  'support/deleteContactForm',
+  "support/deleteContactForm",
   async (id, thunkAPI) => {
     return deleteContactUsFormThunk(`/contact-us/${id}`, thunkAPI);
   }
 );
 
 const supportSlice = createSlice({
-  name: 'support',
+  name: "support",
   initialState: {
     supportTickets: [],
+    userTickets: [],
     contactUsForms: [],
     supportTicket: {},
     isFetchingSupportTickets: false,
@@ -50,18 +69,20 @@ const supportSlice = createSlice({
     isFetchingContactUsForms: false,
     isUpdatingContactUsForm: false,
     isDeleteingContactUsForm: false,
-    contactFormId: '',
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-    order_id: '',
-    support_type: '',
-    status: '',
+    contactFormId: "",
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+    order_id: "",
+    support_type: "",
+    status: "",
     product: {},
     contactUsFormPage: 1,
     totalContactUsForms: 0,
     totalContactUsFormPages: 0,
+    pages: 0,
+    count: 0,
   },
   reducers: {
     setSupportTicket: (state, { payload }) => {},
@@ -79,14 +100,21 @@ const supportSlice = createSlice({
     },
     resetSupportTicket: (state) => {},
     resetContactUsForm: (state) => {
-      state.name = '';
-      state.contactFormId = '';
-      state.email = '';
-      state.subject = '';
-      state.message = '';
-      state.order_id = '';
-      state.support_type = '';
-      state.status = '';
+      state.name = "";
+      state.email = "";
+      state.subject = "";
+      state.message = "";
+      state.order_id = "";
+      state.support_type = "";
+      state.status = "";
+      state.name = "";
+      state.contactFormId = "";
+      state.email = "";
+      state.subject = "";
+      state.message = "";
+      state.order_id = "";
+      state.support_type = "";
+      state.status = "";
       state.product = {};
       state.viewContactUsForm = false;
     },
@@ -141,6 +169,31 @@ const supportSlice = createSlice({
       .addCase(deleteContactForm.rejected, (state) => {
         state.isDeleteingContactUsForm = false;
       });
+    builder.addCase(createTicket.pending, (state) => {
+      state.isFetchingSupportTickets = true;
+    });
+    builder.addCase(createTicket.fulfilled, (state, action) => {
+      state.supportTicket = action.payload;
+      state.isFetchingSupportTickets = false;
+      toast.success("Ticket created successfully");
+    });
+    builder.addCase(createTicket.rejected, (state, action) => {
+      state.isFetchingSupportTickets = false;
+      toast.error(action.payload.msg);
+    });
+    builder.addCase(getUserTickets.pending, (state) => {
+      state.isFetchingContactUsForms = true;
+    });
+    builder.addCase(getUserTickets.fulfilled, (state, action) => {
+      state.pages = action.payload.pages;
+      state.count = action.payload.count;
+      state.userTickets = action.payload.tickets;
+      state.isFetchingContactUsForms = false;
+    });
+    builder.addCase(getUserTickets.rejected, (state, action) => {
+      state.isFetchingSupportTickets = false;
+      toast.error(action.payload.msg);
+    });
   },
 });
 
