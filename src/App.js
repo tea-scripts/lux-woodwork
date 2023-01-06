@@ -61,12 +61,13 @@ import { fetchReviews } from "./features/reviews/reviewsSlice";
 function App() {
   const { cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.users);
+  const { defaultAddress } = useSelector((state) => state.address);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(calculateTotals());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cartItems]);
+  }, [cartItems, defaultAddress]);
 
   useEffect(() => {
     if (user && user.isAdmin) {

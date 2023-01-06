@@ -1,4 +1,4 @@
-import { Stepper, Text } from "@mantine/core";
+import { Stepper } from "@mantine/core";
 import {
   IconArticle,
   IconCash,
@@ -7,7 +7,6 @@ import {
   IconDownload,
   IconTruckDelivery,
 } from "@tabler/icons";
-import { DateTime } from "luxon";
 
 const OrderStepper = ({ order }) => {
   return (

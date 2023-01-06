@@ -1,7 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
+import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
+import { getShippingFee } from "../../utils/shippingRates";
 
-const cartItems = localStorage.getItem('cartItems');
+const cartItems = localStorage.getItem("cartItems");
 
 const initialState = {
   cartItems: cartItems ? JSON.parse(cartItems) : [],
@@ -18,9 +19,9 @@ const initialState = {
     Caloocan: 45555,
     Cebu: 22333,
     Davao: 12122,
-    'General Santos': 12121,
-    'Lapu-Lapu': 45667,
-    'Las Pinas': 45667,
+    "General Santos": 12121,
+    "Lapu-Lapu": 45667,
+    "Las Pinas": 45667,
     Makati: 45667,
     Malabon: 45667,
     Mandaluyong: 45667,
@@ -31,8 +32,8 @@ const initialState = {
     Paranaque: 45667,
     Pasay: 45667,
     Pasig: 45667,
-    'Quezon City': 45667,
-    'San Juan': 45667,
+    "Quezon City": 45667,
+    "San Juan": 45667,
     Taguig: 45667,
     Valenzuela: 45667,
     Zamboanga: 45667,
@@ -40,7 +41,7 @@ const initialState = {
 };
 
 const cartSlice = createSlice({
-  name: 'cart',
+  name: "cart",
   initialState,
   reducers: {
     openCart: (state) => {
@@ -67,15 +68,15 @@ const cartSlice = createSlice({
         (acc, item) => acc + item.quantity,
         0
       );
-      toast.success('Item added to cart');
+      toast.success("Item added to cart");
 
-      localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
 
     clearCart: (state) => {
       state.cartItems = [];
 
-      localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
 
     removeItem: (state, action) => {
@@ -83,7 +84,7 @@ const cartSlice = createSlice({
 
       state.cartItems = state.cartItems.filter((item) => item.id !== itemID);
 
-      localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
 
     increase: (state, { payload }) => {
@@ -97,7 +98,7 @@ const cartSlice = createSlice({
         state.cartItems.push({ ...payload, quantity: 1 });
       }
 
-      localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
 
     decrease: (state, { payload }) => {
@@ -115,7 +116,7 @@ const cartSlice = createSlice({
       });
       state.cartItems = tempCart;
 
-      localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
 
     calculateTotals: (state) => {
@@ -130,7 +131,7 @@ const cartSlice = createSlice({
 
       state.total_quantity = quantity;
       state.tax = (total * taxPercent) / 100;
-      state.shipping_fee = state.shippingFees[localStorage.getItem('city')];
+      state.shipping_fee = getShippingFee(localStorage.getItem("city"));
       state.total_amount = total;
     },
   },
