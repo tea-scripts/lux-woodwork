@@ -72,7 +72,7 @@ const SingleOrder = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (isLoading) {
+    if (!isLoading) {
       dispatch(fetchOrder(id));
     }
   }, [dispatch, id, isLoading]);
