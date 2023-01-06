@@ -68,9 +68,12 @@ const FeaturedProducts = () => {
   const { classes } = useStyles();
   const { products, isLoading } = useSelector((state) => state.products);
 
-  const filteredProducts = products.filter(
-    (product) => product.featured && product.displayProduct
-  );
+  const filteredProducts = products
+    .filter(
+      (product) =>
+        product.featured && product.displayProduct && product.inventory > 0
+    )
+    .splice(0, 3);
 
   if (isLoading) {
     return <Loading />;

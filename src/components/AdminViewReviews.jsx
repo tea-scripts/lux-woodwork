@@ -86,7 +86,7 @@ const AdminViewReviews = () => {
 
   useEffect(() => {
     dispatch(fetchReviews());
-  }, []);
+  }, [dispatch]);
 
   if (isLoading) {
     return <Loading />;
