@@ -8,7 +8,7 @@ import {
   Alert,
 } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons";
-import { useEffect, useMemo, useReducer, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {

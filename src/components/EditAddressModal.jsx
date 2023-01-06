@@ -6,14 +6,14 @@ import {
   Modal,
   NativeSelect,
 } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
   fetchAllUserAddresses,
   updateAddress as updateAddressAction,
 } from "../features/address/addressSlice";
-import addressData from "../utils/addresses";
+import phAddress from "../utils/phAddress.json";
 
 const EditAddressModal = ({ opened, setOpened, address }) => {
   const dispatch = useDispatch();
@@ -28,39 +28,68 @@ const EditAddressModal = ({ opened, setOpened, address }) => {
     zip: address.zip,
   });
 
-  const [regionsList, setRegionsList] = useState([]);
-  const [provincesList, setProvincesList] = useState([]);
-  const [cityList, setCityList] = useState([]);
-  const [barangayList, setBarangayList] = useState([]);
+  const list = useMemo(
+    () =>
+      Object.keys(phAddress)
+        .map((key) => phAddress[key])
+        .map((region) => region),
+    []
+  );
+
+  const filteredRegion = useMemo(() => {
+    if (phAddress) {
+      return Object.keys(phAddress)
+        .map((key) => phAddress[key])
+        .map((region) => region)
+        .filter((region) => region.region_name === updateAddress.region)[0];
+    }
+  }, [updateAddress.region]);
+
+  const filteredProvince = useMemo(() => {
+    if (filteredRegion) {
+      return filteredRegion.province_list[updateAddress.province];
+    }
+  }, [updateAddress.province, filteredRegion]);
+
+  const filteredCity = useMemo(() => {
+    if (filteredProvince) {
+      return filteredProvince.municipality_list[updateAddress.city];
+    }
+  }, [updateAddress.city, filteredProvince]);
+
+  const regionNames = useMemo(() => {
+    return list.map((region) => region.region_name);
+  }, [list]);
+
+  const provinceNames = useMemo(() => {
+    if (filteredRegion) {
+      const provinces = filteredRegion.province_list;
+      return Object.keys(provinces);
+    }
+    return "";
+  }, [filteredRegion]);
+
+  const cityNames = useMemo(() => {
+    if (filteredProvince) {
+      const cities = filteredProvince.municipality_list;
+      return Object.keys(cities);
+    }
+    return "";
+  }, [filteredProvince]);
+
+  const barangayNames = useMemo(() => {
+    if (filteredCity) {
+      const barangays = filteredCity.barangay_list;
+      return barangays;
+    }
+    return "";
+  }, [filteredCity]);
 
   const handleAddressChange = (e) => {
-    if (e.target.name === "region") {
-      setUpdateAddress({
-        ...updateAddress,
-        [e.target.name]: e.target.value,
-        province: "",
-        city: "",
-        barangay: "",
-      });
-    } else if (e.target.name === "province") {
-      setUpdateAddress({
-        ...updateAddress,
-        [e.target.name]: e.target.value,
-        city: "",
-        barangay: "",
-      });
-    } else if (e.target.name === "city") {
-      setUpdateAddress({
-        ...updateAddress,
-        [e.target.name]: e.target.value,
-        barangay: "",
-      });
-    } else {
-      setUpdateAddress({
-        ...updateAddress,
-        [e.target.name]: e.target.value,
-      });
-    }
+    setUpdateAddress({
+      ...updateAddress,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleUpdateAddress = (e) => {
@@ -78,57 +107,16 @@ const EditAddressModal = ({ opened, setOpened, address }) => {
       return;
     }
 
-    dispatch(updateAddressAction(updateAddress));
+    dispatch(
+      updateAddressAction({
+        ...updateAddress,
+        street: updateAddress.street.toUpperCase(),
+      })
+    );
     dispatch(fetchAllUserAddresses());
 
     setOpened(false);
   };
-
-  useEffect(() => {
-    const regions = addressData.map(({ region_name }) => region_name);
-    setRegionsList(regions);
-  }, [updateAddress]);
-
-  useEffect(() => {
-    const provinces = addressData
-      .filter((region) => region.region_name === updateAddress.region)
-      .flatMap((region) =>
-        region.province_list.map((province) => province.province_name)
-      );
-    setProvincesList(provinces);
-  }, [updateAddress]);
-
-  useEffect(() => {
-    const cities = addressData
-      .filter((region) => region.region_name === updateAddress.region)
-      .flatMap((region) =>
-        region.province_list
-          .filter(
-            (province) => province.province_name === updateAddress.province
-          )
-          .flatMap((province) =>
-            province.city_list.map((city) => city.city_name)
-          )
-      );
-    setCityList(cities);
-  }, [updateAddress]);
-
-  useEffect(() => {
-    const barangays = addressData
-      .filter((region) => region.region_name === updateAddress.region)
-      .flatMap((region) =>
-        region.province_list
-          .filter(
-            (province) => province.province_name === updateAddress.province
-          )
-          .flatMap((province) =>
-            province.city_list
-              .filter((city) => city.city_name === updateAddress.city)
-              .flatMap((city) => city.barangay_list)
-          )
-      );
-    setBarangayList(barangays);
-  }, [updateAddress]);
 
   return (
     <Modal
@@ -165,9 +153,14 @@ const EditAddressModal = ({ opened, setOpened, address }) => {
           </Grid.Col>
           <Grid.Col xs={12} sm={6}>
             <NativeSelect
+              data={["---Select Region---", ...regionNames]}
+              onChange={(e) =>
+                setUpdateAddress({
+                  ...updateAddress,
+                  region: e.currentTarget.value,
+                })
+              }
               value={updateAddress.region}
-              onChange={handleAddressChange}
-              data={["", ...regionsList]}
               placeholder="Select Region"
               name="region"
               label="Region"
@@ -177,12 +170,17 @@ const EditAddressModal = ({ opened, setOpened, address }) => {
 
           <Grid.Col xs={12} sm={6}>
             <NativeSelect
-              data={provincesList ? ["", ...provincesList] : []}
-              onChange={handleAddressChange}
+              data={["---Select Province---", ...provinceNames]}
+              onChange={(e) =>
+                setUpdateAddress({
+                  ...updateAddress,
+                  province: e.currentTarget.value,
+                })
+              }
+              value={updateAddress.province}
               placeholder="Select Province"
               label="Province"
               name="province"
-              value={updateAddress.province}
               size="sm"
               disabled={!updateAddress.region}
             />
@@ -190,11 +188,16 @@ const EditAddressModal = ({ opened, setOpened, address }) => {
 
           <Grid.Col xs={12} sm={6}>
             <NativeSelect
-              data={cityList ? ["", ...cityList] : []}
-              onChange={handleAddressChange}
+              data={["---Select City---", ...cityNames]}
+              onChange={(e) =>
+                setUpdateAddress({
+                  ...updateAddress,
+                  city: e.currentTarget.value,
+                })
+              }
+              value={updateAddress.city}
               placeholder="Select City / Municipality"
               name="city"
-              value={updateAddress.city}
               label="City / Municipality"
               size="sm"
               disabled={!updateAddress.province}
@@ -203,11 +206,16 @@ const EditAddressModal = ({ opened, setOpened, address }) => {
 
           <Grid.Col xs={12} sm={6}>
             <NativeSelect
-              data={barangayList ? ["", ...barangayList] : []}
-              onChange={handleAddressChange}
+              data={["---Select Barangay---", ...barangayNames]}
+              onChange={(e) =>
+                setUpdateAddress({
+                  ...updateAddress,
+                  barangay: e.currentTarget.value,
+                })
+              }
+              value={updateAddress.barangay}
               placeholder="Select Barangay"
               name="barangay"
-              value={updateAddress.barangay}
               label="Barangay"
               size="sm"
               disabled={!updateAddress.city}
