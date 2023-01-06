@@ -39,6 +39,14 @@ const EditContactForm = () => {
     dispatch(resetContactUsForm());
   };
 
+  const handleCloseTicket = (e) => {
+    e.preventDefault();
+
+    dispatch(cancelContactForm(contactFormId));
+
+    dispatch(resetContactUsForm());
+  };
+
   return (
     <Modal
       opened={viewContactUsForm}
@@ -76,7 +84,7 @@ const EditContactForm = () => {
               <Text transform="capitalize">{support_type}</Text>
             </Group>
 
-            <Divider my="sm" />
+            {support_type !== 'account' && <Divider my="sm" />}
           </>
         )}
 
@@ -119,6 +127,7 @@ const EditContactForm = () => {
               onChange={(value) =>
                 dispatch(handleChange({ name: 'status', value: value }))
               }
+              disabled={status === 'resolved'}
             />
           )}
         </Group>
@@ -134,7 +143,7 @@ const EditContactForm = () => {
 
           {status === 'pending' && (
             <Button
-              onClick={() => dispatch(cancelContactForm(contactFormId))}
+              onClick={handleCloseTicket}
               variant="outline"
               color={status === 'cancelled' ? 'green' : 'red'}
               disabled={status === 'cancelled'}
@@ -160,6 +169,7 @@ const EditContactForm = () => {
               color="blue"
               loading={isUpdatingContactUsForm}
               onClick={handleSubmit}
+              disabled={status === 'resolved'}
             >
               Update
             </Button>

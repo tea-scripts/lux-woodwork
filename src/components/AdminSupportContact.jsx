@@ -6,13 +6,14 @@ import {
   Table,
   ActionIcon,
 } from '@mantine/core';
-import { IconSquareCheck } from '@tabler/icons';
+import { IconSquareCheck, IconTrash } from '@tabler/icons';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from './Loading';
 import PaginationButtons from './PaginationButtons';
 import {
   changeContactUsFormPage,
+  deleteContactForm,
   fetchAllContactUsForms,
   setContactUsForm,
 } from '../features/support/supportSlice';
@@ -95,6 +96,16 @@ const AdminContactUs = () => {
                           radius="md"
                         >
                           <IconSquareCheck />
+                        </ActionIcon>
+
+                        <ActionIcon
+                          onClick={() =>
+                            dispatch(deleteContactForm(ticket._id))
+                          }
+                          color="red"
+                          radius="md"
+                        >
+                          <IconTrash />
                         </ActionIcon>
                       </Group>
                     </td>

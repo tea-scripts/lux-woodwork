@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import {
+  cancelContactUsFormThunk,
+  deleteContactUsFormThunk,
   fetchAllContactUsFormsThunk,
   resolveContactUsFormThunk,
 } from './supportThunk';
@@ -25,7 +27,14 @@ export const resolveContactUsForm = createAsyncThunk(
 export const cancelContactForm = createAsyncThunk(
   'support/cancelContactForm',
   async (id, thunkAPI) => {
-    return resolveContactUsFormThunk(`/contact-us/cancel/${id}`, thunkAPI);
+    return cancelContactUsFormThunk(`/contact-us/cancel/${id}`, thunkAPI);
+  }
+);
+
+export const deleteContactForm = createAsyncThunk(
+  'support/deleteContactForm',
+  async (id, thunkAPI) => {
+    return deleteContactUsFormThunk(`/contact-us/${id}`, thunkAPI);
   }
 );
 
@@ -40,6 +49,7 @@ const supportSlice = createSlice({
     viewContactUsForm: false,
     isFetchingContactUsForms: false,
     isUpdatingContactUsForm: false,
+    isDeleteingContactUsForm: false,
     contactFormId: '',
     name: '',
     email: '',
@@ -120,6 +130,16 @@ const supportSlice = createSlice({
       })
       .addCase(cancelContactForm.rejected, (state) => {
         state.isUpdatingContactUsForm = false;
+      })
+      .addCase(deleteContactForm.pending, (state) => {
+        state.isDeleteingContactUsForm = true;
+      })
+      .addCase(deleteContactForm.fulfilled, (state, { payload }) => {
+        state.isDeleteingContactUsForm = false;
+        toast.success(payload.msg);
+      })
+      .addCase(deleteContactForm.rejected, (state) => {
+        state.isDeleteingContactUsForm = false;
       });
   },
 });
