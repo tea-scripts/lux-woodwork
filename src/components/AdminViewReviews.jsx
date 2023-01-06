@@ -51,18 +51,12 @@ const AdminViewReviews = () => {
       (review) => review.isArchived === false && review.isDeleted === false
     )
     .map((review, index) => {
-      const {
-        user: { first_name, last_name },
-        product,
-        rating,
-        comment,
-        _id,
-      } = review;
+      const { user, product, rating, comment, _id } = review;
       return (
         <tr key={_id}>
           <td>{index + 1}</td>
           <td>
-            {first_name} {last_name}
+            {user ? user.first_name + ' ' + user.last_name : 'User Deleted'}
           </td>
           <td>{product.name}</td>
           <td>{rating}</td>
