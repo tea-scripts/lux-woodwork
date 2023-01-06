@@ -10,35 +10,35 @@ import {
   Text,
   Textarea,
   TextInput,
-} from "@mantine/core";
-import { useDispatch, useSelector } from "react-redux";
+} from '@mantine/core';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   setProductValues,
   toggleProductEdit,
   uploadProductImage,
   updateProduct,
   handleChange,
-} from "../features/products/productsSlice";
-import { toast } from "react-toastify";
-import { IconSend, IconUpload } from "@tabler/icons";
-import { useRef } from "react";
+} from '../features/products/productsSlice';
+import { toast } from 'react-toastify';
+import { IconUpload } from '@tabler/icons';
+import { useRef } from 'react';
 
 const useStyles = createStyles((theme) => ({
   images: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: "2rem",
-    width: "85px",
-    height: "75px",
-    gap: ".5rem",
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '2rem',
+    width: '85px',
+    height: '75px',
+    gap: '.5rem',
 
     img: {
-      width: "100%",
-      height: "100%",
-      display: "block",
-      borderRadius: "5px",
-      objectFit: "cover",
+      width: '100%',
+      height: '100%',
+      display: 'block',
+      borderRadius: '5px',
+      objectFit: 'cover',
     },
   },
 }));
@@ -66,13 +66,13 @@ const EditProductModal = () => {
     let name = e.target.name;
     let value = e.target.value;
 
-    if (name === "featured") {
+    if (name === 'featured') {
       value = e.target.checked;
     }
-    if (name === "freeShipping") {
+    if (name === 'freeShipping') {
       value = e.target.checked;
     }
-    if (name === "displayProduct") {
+    if (name === 'displayProduct') {
       value = e.target.checked;
     }
 
@@ -84,7 +84,7 @@ const EditProductModal = () => {
     const formData = new FormData();
 
     for (let image of images) {
-      formData.append("image", image);
+      formData.append('image', image);
     }
 
     if (images) {
@@ -96,7 +96,7 @@ const EditProductModal = () => {
     e.preventDefault();
 
     if (!name || !price || !inventory || !category || !description) {
-      toast.warning("Please provide all credentials");
+      toast.warning('Please provide all credentials');
       return;
     }
 
@@ -126,7 +126,7 @@ const EditProductModal = () => {
       <div className={classes.images}>
         {images &&
           images.map((image, index) => (
-            <img key={index} alt={"prouduct-pic"} radius="md" src={image} />
+            <img key={index} alt={'prouduct-pic'} radius="md" src={image} />
           ))}
       </div>
     </SimpleGrid>
@@ -179,14 +179,14 @@ const EditProductModal = () => {
 
           <Select
             data={[
-              { label: "Office", value: "office" },
-              { label: "Bedroom", value: "bedroom" },
-              { label: "Kitchen", value: "kitchen" },
-              { label: "Dining", value: "dining" },
-              { label: "Living Room", value: "living room" },
-              { label: "Kids", value: "kids" },
+              { label: 'Office', value: 'office' },
+              { label: 'Bedroom', value: 'bedroom' },
+              { label: 'Kitchen', value: 'kitchen' },
+              { label: 'Dining', value: 'dining' },
+              { label: 'Living Room', value: 'living room' },
+              { label: 'Kids', value: 'kids' },
             ]}
-            sx={{ textTransform: "capitalize" }}
+            sx={{ textTransform: 'capitalize' }}
             placeholder="Select product category"
             label="Category"
             name="category"
@@ -195,11 +195,11 @@ const EditProductModal = () => {
             withAsterisk
             value={category}
             onChange={(value) =>
-              dispatch(handleChange({ name: "category", value }))
+              dispatch(handleChange({ name: 'category', value }))
             }
           />
 
-          <SimpleGrid breakpoints={[{ minWidth: "xs", cols: 1 }]}>
+          <SimpleGrid breakpoints={[{ minWidth: 'xs', cols: 1 }]}>
             <Checkbox
               label="Featured"
               name="featured"
@@ -253,18 +253,14 @@ const EditProductModal = () => {
               name="image"
               multiple
               style={{
-                display: "none",
+                display: 'none',
               }}
               height={15}
               onChange={handleFileChange}
               ref={hiddenFileInput}
             />
 
-            <Button
-              fullWidth
-              loading={isLoading}
-              onClick={handleSubmit}
-            >
+            <Button fullWidth loading={isLoading} onClick={handleSubmit}>
               Update Product
             </Button>
           </Group>

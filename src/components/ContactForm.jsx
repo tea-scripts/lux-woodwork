@@ -46,22 +46,61 @@ const ContactForm = () => {
       return;
     }
 
-    dispatch(
-      contactUs({
-        name,
-        email,
-        message,
-        subject,
-        product_name: subject === 'product-availability' ? product_name : '',
-        order_id: subject === 'product-return' ? order_id : '',
-        support_type: subject === 'support' ? support_type : '',
-      })
-    );
+    if (subject === 'product-availability') {
+      dispatch(
+        contactUs({
+          name,
+          email,
+          message,
+          subject,
+          product_name,
+        })
+      );
+    } else if (subject === 'product-return') {
+      dispatch(
+        contactUs({
+          name,
+          email,
+          message,
+          subject,
+          order_id,
+        })
+      );
+    } else if (subject === 'support') {
+      dispatch(
+        contactUs({
+          name,
+          email,
+          message,
+          subject,
+          support_type,
+        })
+      );
+    } else {
+      dispatch(
+        contactUs({
+          name,
+          email,
+          message,
+          subject,
+        })
+      );
+    }
   };
 
   return (
-    <Paper shadow="xs" radius="md" p="xl">
-      <form>
+    <Paper
+      shadow="xs"
+      radius="md"
+      p="xl"
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+      }}
+    >
+      <form style={{ width: '100%' }}>
         <Title align={successState && 'center'} order={3} mb={5}>
           Send us a message
         </Title>

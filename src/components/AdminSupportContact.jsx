@@ -5,36 +5,18 @@ import {
   createStyles,
   Table,
   ActionIcon,
-  Input,
 } from '@mantine/core';
-import {
-  IconSquareCheck,
-  IconEdit,
-  IconTrashX,
-  IconSearch,
-  IconArchive,
-} from '@tabler/icons';
+import { IconSquareCheck } from '@tabler/icons';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  archiveProduct,
-  changePage,
-  deleteProduct,
-  fetchAllProducts,
-  handleChange,
-  setProductValues,
-  togggleActionConfirmModal,
-  toggleDeleteProduct,
-  toggleProductEdit,
-  toggleProductView,
-} from '../features/products/productsSlice';
-import { formatPrice } from '../utils/helpers';
 import Loading from './Loading';
-import ViewProductModal from './ViewProductModal';
-import EditProductModal from './EditProductModal';
 import PaginationButtons from './PaginationButtons';
-import ActionConfirmationModal from './ActionConfirmationModal';
-import { useState } from 'react';
+import {
+  changeContactUsFormPage,
+  fetchAllContactUsForms,
+  setContactUsForm,
+} from '../features/support/supportSlice';
+import EditContactForm from './EditContactForm';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -58,24 +40,28 @@ const useStyles = createStyles((theme) => ({
 const AdminContactUs = () => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
-  const { isFetchingSupportTickets, supportTickets } = useSelector(
-    (state) => state.support
-  );
+  const {
+    isFetchingContactUsForms,
+    contactUsForms,
+    totalContactUsFormPages,
+    contactUsFormPage,
+  } = useSelector((state) => state.support);
 
-  const handleInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    dispatch(handleChange({ name, value }));
-  };
+  useEffect(() => {
+    dispatch(fetchAllContactUsForms());
+  }, [dispatch]);
 
   return (
     <Container className={classes.container} fluid>
       <Container className={classes.inner} fluid>
         <Text className={classes.title}>Contact Us Form</Text>
       </Container>
+
+      <EditContactForm />
+
       <Container className={classes.inner} fluid>
         <Container sx={{ padding: 0 }} fluid>
-          {isFetchingSupportTickets ? (
+          {isFetchingContactUsForms ? (
             <Loading />
           ) : (
             <Table highlightOnHover captionSide="bottom">
@@ -84,30 +70,28 @@ const AdminContactUs = () => {
                   <th>Name</th>
                   <th>Email</th>
                   <th>Subject</th>
-                  <th>Support Type</th>
+                  <th>Type</th>
                   <th>Order ID</th>
                   <th>Product</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {supportTickets.map((ticket) => (
+                {contactUsForms.map((ticket) => (
                   <tr key={ticket._id}>
                     <td>{ticket.name}</td>
                     <td>{ticket.email}</td>
                     <td>{ticket.subject}</td>
-                    <td>{ticket.supportType}</td>
-                    <td>{ticket.orderId}</td>
-                    <td>{ticket.product}</td>
+                    <td>{ticket.support_type ? ticket.support_type : 'N/A'}</td>
+                    <td>{ticket.order_id ? ticket.order_id._id : 'N/A'}</td>
+                    <td>
+                      {ticket.product_name ? ticket.product_name.name : 'N/A'}
+                    </td>
                     <td>
                       <Group position="center">
                         <ActionIcon
-                          onClick={() => {
-                            dispatch(setProductValues(ticket));
-                            dispatch(toggleProductView());
-                          }}
+                          onClick={() => dispatch(setContactUsForm(ticket))}
                           color="blue"
-                          variant="outline"
                           radius="md"
                         >
                           <IconSquareCheck />
@@ -118,6 +102,15 @@ const AdminContactUs = () => {
                 ))}
               </tbody>
             </Table>
+          )}
+
+          {totalContactUsFormPages > 1 && (
+            <PaginationButtons
+              changePage={changeContactUsFormPage}
+              totalPages={totalContactUsFormPages}
+              page={contactUsFormPage}
+              isLoading={isFetchingContactUsForms}
+            />
           )}
         </Container>
       </Container>
