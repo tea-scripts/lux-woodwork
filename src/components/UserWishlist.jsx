@@ -36,7 +36,7 @@ const UserWishlist = () => {
 
   const displayWishlist = wishlist.userWishlist?.map((item, index) => (
     <VerticalProductCard
-      key={item.id}
+      key={item._id}
       product={item.product}
       wishlistId={item._id}
     />
