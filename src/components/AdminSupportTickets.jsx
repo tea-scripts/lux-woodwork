@@ -5,37 +5,19 @@ import {
   createStyles,
   Table,
   ActionIcon,
-  Input,
 } from '@mantine/core';
-import {
-  IconSquareCheck,
-  IconEdit,
-  IconTrashX,
-  IconSearch,
-  IconArchive,
-} from '@tabler/icons';
+import { IconSquareCheck, IconTrashX } from '@tabler/icons';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  archiveProduct,
-  changePage,
-  deleteProduct,
-  fetchAllProducts,
-  handleChange,
-  setProductValues,
-  togggleActionConfirmModal,
-  toggleDeleteProduct,
-  toggleProductEdit,
-  toggleProductView,
-} from '../features/products/productsSlice';
-import { formatPrice } from '../utils/helpers';
 import Loading from './Loading';
-import ViewProductModal from './ViewProductModal';
-import EditProductModal from './EditProductModal';
 import PaginationButtons from './PaginationButtons';
-import ActionConfirmationModal from './ActionConfirmationModal';
-import { useState } from 'react';
-import { setSupportTicket } from '../features/support/supportSlice';
+import {
+  changePage,
+  deleteTicket,
+  fetchAllTickets,
+  setSupportTicket,
+} from '../features/support/supportSlice';
+import EditSupportTicket from './EditSupportTicket';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -59,21 +41,25 @@ const useStyles = createStyles((theme) => ({
 const AdminSupportTickets = () => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
-  const { isFetchingSupportTickets, supportTickets } = useSelector(
-    (state) => state.support
-  );
+  const {
+    isFetchingSupportTickets,
+    supportTickets,
+    totalSupportTicketPages,
+    page,
+  } = useSelector((state) => state.support);
 
-  const handleInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    dispatch(handleChange({ name, value }));
-  };
+  useEffect(() => {
+    dispatch(fetchAllTickets());
+  }, [dispatch]);
 
   return (
     <Container className={classes.container} fluid>
       <Container className={classes.inner} fluid>
         <Text className={classes.title}>Tickets</Text>
       </Container>
+
+      <EditSupportTicket />
+
       <Container className={classes.inner} fluid>
         <Container sx={{ padding: 0 }} fluid>
           {isFetchingSupportTickets ? (
@@ -82,24 +68,22 @@ const AdminSupportTickets = () => {
             <Table highlightOnHover captionSide="bottom">
               <thead>
                 <tr>
-                  <th>Name</th>
+                  <th>Customer</th>
                   <th>Email</th>
                   <th>Subject</th>
-                  <th>Support Type</th>
-                  <th>Order ID</th>
-                  <th>Product</th>
+                  <th>Status</th>
+                  <th>Message</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {supportTickets.map((ticket) => (
                   <tr key={ticket._id}>
-                    <td>{ticket.name}</td>
-                    <td>{ticket.email}</td>
+                    <td>{ticket.user.username}</td>
+                    <td>{ticket.user.email}</td>
                     <td>{ticket.subject}</td>
-                    <td>{ticket.supportType}</td>
-                    <td>{ticket.orderId}</td>
-                    <td>{ticket.product}</td>
+                    <td>{ticket.status}</td>
+                    <td>{ticket.message.substring(0, 50) + '...'}</td>
                     <td>
                       <Group position="center">
                         <ActionIcon
@@ -107,10 +91,19 @@ const AdminSupportTickets = () => {
                             dispatch(setSupportTicket(ticket));
                           }}
                           color="blue"
-                          variant="outline"
                           radius="md"
                         >
                           <IconSquareCheck />
+                        </ActionIcon>
+
+                        <ActionIcon
+                          onClick={() => {
+                            dispatch(deleteTicket(ticket._id));
+                          }}
+                          color="red"
+                          radius="md"
+                        >
+                          <IconTrashX />
                         </ActionIcon>
                       </Group>
                     </td>
@@ -119,6 +112,13 @@ const AdminSupportTickets = () => {
               </tbody>
             </Table>
           )}
+
+          <PaginationButtons
+            changePage={changePage}
+            totalPages={totalSupportTicketPages}
+            page={page}
+            isLoading={isFetchingSupportTickets}
+          />
         </Container>
       </Container>
     </Container>

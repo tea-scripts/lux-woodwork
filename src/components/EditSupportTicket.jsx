@@ -1,66 +1,62 @@
 import { Button, Group, Modal, Text, Box, Divider } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  cancelContactForm,
-  resetContactUsForm,
-  resolveContactUsForm,
+  cancelSupportTicket,
+  resetSupportTicket,
+  resolveSupportTicket,
 } from '../features/support/supportSlice';
 
-const EditContactForm = () => {
+const EditSupportTicket = () => {
   const dispatch = useDispatch();
   const {
-    viewContactUsForm,
-    name,
-    email,
+    status,
+    isUpdatingSupportTicket,
+    viewSupportTicket,
+    supportTicketId,
+    user,
     subject,
     message,
-    order_id,
-    support_type,
-    status,
-    product,
-    isUpdatingContactUsForm,
-    contactFormId,
   } = useSelector((state) => state.support);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(resolveContactUsForm({ status, _id: contactFormId }));
+    dispatch(resolveSupportTicket(supportTicketId));
 
     setTimeout(() => {
-      dispatch(resetContactUsForm());
+      dispatch(resetSupportTicket());
     }, 1500);
   };
 
   const handleCloseTicket = (e) => {
     e.preventDefault();
 
-    dispatch(cancelContactForm(contactFormId));
+    dispatch(cancelSupportTicket(supportTicketId));
 
     setTimeout(() => {
-      dispatch(resetContactUsForm());
+      dispatch(resetSupportTicket());
     }, 1500);
   };
 
   return (
     <Modal
-      opened={viewContactUsForm}
-      onClose={() => dispatch(resetContactUsForm())}
+      opened={viewSupportTicket}
+      onClose={() => dispatch(resetSupportTicket())}
       title="View Contact Us Form"
       centered
       size={'lg'}
     >
       <Box py={10}>
         <Group>
-          <Text>Name:</Text>
-          <Text>{name}</Text>
+          <Text>Customer:</Text>
+          <Text>{user.username}</Text>
         </Group>
 
         <Divider my="sm" />
 
         <Group>
           <Text>Email:</Text>
-          <Text>{email}</Text>
+          <Text>{user.email}</Text>
         </Group>
 
         <Divider my="sm" />
@@ -69,33 +65,6 @@ const EditContactForm = () => {
           <Text>Subject:</Text>
           <Text transform="capitalize">{subject}</Text>
         </Group>
-
-        {subject !== 'general' && <Divider my="sm" />}
-
-        {support_type && (
-          <>
-            <Group>
-              <Text>Support Type:</Text>
-              <Text transform="capitalize">{support_type}</Text>
-            </Group>
-
-            {support_type !== 'account' && <Divider my="sm" />}
-          </>
-        )}
-
-        {order_id && (
-          <Group>
-            <Text>Order ID:</Text>
-            <Text>{order_id._id}</Text>
-          </Group>
-        )}
-
-        {subject === 'product-availability' && (
-          <Group>
-            <Text>Product:</Text>
-            <Text>{product.name}</Text>
-          </Group>
-        )}
 
         <Divider my="sm" />
 
@@ -134,7 +103,7 @@ const EditContactForm = () => {
             variant="outline"
             color={status === 'cancelled' ? 'green' : 'red'}
             disabled={status === 'cancelled' || status === 'resolved'}
-            loading={isUpdatingContactUsForm}
+            loading={isUpdatingSupportTicket}
           >
             {status === 'cancelled' ? 'Canceled' : 'Close Ticket'}
           </Button>
@@ -144,7 +113,7 @@ const EditContactForm = () => {
             variant="outline"
             color="green"
             disabled={status === 'resolved' || status === 'cancelled'}
-            loading={isUpdatingContactUsForm}
+            loading={isUpdatingSupportTicket}
           >
             {status === 'resolved' ? 'Ticket Resolved' : 'Resolve Ticket'}
           </Button>
@@ -153,4 +122,4 @@ const EditContactForm = () => {
     </Modal>
   );
 };
-export default EditContactForm;
+export default EditSupportTicket;
