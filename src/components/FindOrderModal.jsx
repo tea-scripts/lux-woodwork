@@ -42,7 +42,7 @@ const FindOrderModal = ({ opened, setOpened }) => {
     <Modal
       opened={opened}
       onClose={() => setOpened(false)}
-      title="Find an Order"
+      title="Track Your Order"
       size={Object.keys(order).length > 0 ? 'xl' : 'sm'}
       centered
     >

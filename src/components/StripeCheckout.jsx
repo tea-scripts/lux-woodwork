@@ -191,7 +191,7 @@ const CheckoutForm = () => {
           }}
         >
           <h4>Hello, {user && user.first_name + ' ' + user.last_name}</h4>
-          <p>Your total is {formatPrice(shippingFee + total_amount)}</p>
+          <p>Your total is {formatPrice(shippingFee + total_amount + tax)}</p>
           <p>Test Card Number : 4242 4242 4242 4242</p>
           <p>3D Secure Auth Test Card : 4000 0000 0000 3220</p>
           <p>Insufficient Funds Test Card : 4000 0000 0000 9995</p>

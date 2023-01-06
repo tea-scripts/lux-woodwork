@@ -12,36 +12,36 @@ import {
   Badge,
   Pagination,
   NativeSelect,
-} from "@mantine/core";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { fetchUserOrders } from "../features/orders/orderSlice";
-import { formatPrice } from "../utils/helpers";
-import Loading from "./Loading";
-import { setUserOrdersQueryType } from "../features/orders/orderSlice";
-import { DateTime } from "luxon";
-import { IconEye, IconSearch } from "@tabler/icons";
-import FindOrderModal from "./FindOrderModal";
+} from '@mantine/core';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { fetchUserOrders } from '../features/orders/orderSlice';
+import { formatPrice } from '../utils/helpers';
+import Loading from './Loading';
+import { setUserOrdersQueryType } from '../features/orders/orderSlice';
+import { DateTime } from 'luxon';
+import { IconEye, IconSearch } from '@tabler/icons';
+import FindOrderModal from './FindOrderModal';
 
 const useStyles = createStyles((theme) => ({
   orderItem: {
-    padding: "1rem",
+    padding: '1rem',
   },
   imageContainer: {
-    width: "100%",
+    width: '100%',
 
-    "@media (min-width: 800px)": {
+    '@media (min-width: 800px)': {
       width: 200,
     },
   },
   header: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
 
-    "@media (min-width: 800px)": {
-      flexDirection: "row",
-      justifyContent: "space-between",
+    '@media (min-width: 800px)': {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
     },
   },
   orderIdText: {
@@ -49,15 +49,15 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 500,
     fontSize: 16,
 
-    "@media (min-width: 800px)": {
-      marginBottom: "1rem",
+    '@media (min-width: 800px)': {
+      marginBottom: '1rem',
       fontSize: 18,
       maxWidth: 450,
     },
   },
 
   image: {
-    "@media (min-width: 800px)": {
+    '@media (min-width: 800px)': {
       width: 250,
       height: 180,
     },
@@ -96,19 +96,19 @@ const UserOrders = () => {
             <Badge
               radius="xs"
               color={
-                order.status === "paid"
-                  ? "green"
-                  : order.status === "pending"
-                  ? "yellow"
-                  : "red"
+                order.status === 'paid'
+                  ? 'green'
+                  : order.status === 'pending'
+                  ? 'yellow'
+                  : 'red'
               }
               variant="filled"
             >
-              {order.status === "paid"
-                ? "Paid"
-                : order.status === "pending"
-                ? "Pending"
-                : "Cancelled"}
+              {order.status === 'paid'
+                ? 'Paid'
+                : order.status === 'pending'
+                ? 'Pending'
+                : 'Cancelled'}
             </Badge>
             {order.isDelivered && (
               <Badge radius="xs" color="green" variant="filled">
@@ -133,21 +133,21 @@ const UserOrders = () => {
           <Grid.Col
             xs={12}
             sm={6}
-            sx={{ display: "flex", justifyContent: "center" }}
+            sx={{ display: 'flex', justifyContent: 'center' }}
           >
             <Container
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
               <Group position="center">
-                <Text sx={{ color: "var(--hunter-green)" }}>Total:</Text>
+                <Text sx={{ color: 'var(--hunter-green)' }}>Total:</Text>
                 <Text
                   weight={600}
-                  sx={{ color: "var(--hunter-green)", fontSize: "1.2rem" }}
+                  sx={{ color: 'var(--hunter-green)', fontSize: '1.2rem' }}
                 >
                   {formatPrice(order.total)}
                 </Text>
@@ -185,15 +185,15 @@ const UserOrders = () => {
     <>
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
         <Text
           sx={{
-            color: "var(--prussian-blue-500)",
-            fontSize: "1.1rem",
+            color: 'var(--prussian-blue-500)',
+            fontSize: '1.1rem',
             fontWeight: 500,
           }}
         >
@@ -204,7 +204,7 @@ const UserOrders = () => {
             leftIcon={<IconSearch size={14} />}
             onClick={() => setOpenFindOrderModal(true)}
           >
-            Find an Order
+            Track an Order
           </Button>
         </Group>
 
@@ -222,7 +222,7 @@ const UserOrders = () => {
           onChange={(event) =>
             dispatch(setUserOrdersQueryType(event.currentTarget.value))
           }
-          data={["All", "Pending", "Paid", "Delivered", "Cancelled"]}
+          data={['All', 'Pending', 'Paid', 'Delivered', 'Cancelled']}
         />
       </Group>
 

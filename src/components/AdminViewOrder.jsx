@@ -76,7 +76,6 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const AdminViewOrder = () => {
-  const { classes } = useStyles();
   const dispatch = useDispatch();
   const [itemId, setItemId] = useState(null);
   const { isFetchingOrder, actionConfirmModal, order_id, order } = useSelector(
