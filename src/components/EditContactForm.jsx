@@ -113,23 +113,18 @@ const EditContactForm = () => {
 
         <Group>
           <Text>Status:</Text>
-          {status === 'cancelled' ? (
-            <Text color="red">{status}</Text>
-          ) : (
-            <Select
-              data={[
-                { label: 'Pending', value: 'pending' },
-                { label: 'Resolved', value: 'resolved' },
-              ]}
-              sx={{ textTransform: 'capitalize' }}
-              value={status}
-              name="status"
-              onChange={(value) =>
-                dispatch(handleChange({ name: 'status', value: value }))
-              }
-              disabled={status === 'resolved'}
-            />
-          )}
+          <Text
+            transform="capitalize"
+            color={
+              status === 'pending'
+                ? 'yellow'
+                : status === 'resolved'
+                ? 'green'
+                : 'red'
+            }
+          >
+            {status}
+          </Text>
         </Group>
 
         <Divider my="sm" />
@@ -139,41 +134,23 @@ const EditContactForm = () => {
             <b>Actions:</b>
           </Text>
 
-          {status === 'resolved' && <Text color="green">Ticket Resolved</Text>}
-
-          {status === 'pending' && (
-            <Button
-              onClick={handleCloseTicket}
-              variant="outline"
-              color={status === 'cancelled' ? 'green' : 'red'}
-              disabled={status === 'cancelled'}
-            >
-              {status === 'cancelled' ? 'Canceled' : 'Close Ticket'}
-            </Button>
-          )}
-        </Group>
-
-        <Group mt={'xl'}>
           <Button
+            onClick={handleCloseTicket}
             variant="outline"
-            color="red"
-            onClick={() => dispatch(resetContactUsForm())}
-            loading={isUpdatingContactUsForm}
+            color={status === 'cancelled' ? 'green' : 'red'}
+            disabled={status === 'cancelled' || status === 'resolved'}
           >
-            Close
+            {status === 'cancelled' ? 'Canceled' : 'Close Ticket'}
           </Button>
 
-          {status !== 'cancelled' && (
-            <Button
-              variant="outline"
-              color="blue"
-              loading={isUpdatingContactUsForm}
-              onClick={handleSubmit}
-              disabled={status === 'resolved'}
-            >
-              Update
-            </Button>
-          )}
+          <Button
+            onClick={handleSubmit}
+            variant="outline"
+            color="green"
+            disabled={status === 'resolved' || status === 'cancelled'}
+          >
+            {status === 'resolved' ? 'Ticket Resolved' : 'Resolve Ticket'}
+          </Button>
         </Group>
       </Box>
     </Modal>
