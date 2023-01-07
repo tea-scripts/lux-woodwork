@@ -24,7 +24,6 @@ const initialState = {
   isViewing: false,
   user: {},
   orderItems: [],
-  tax: 0,
   shipping: 0,
   total: 0,
   subtotal: 0,
@@ -140,7 +139,6 @@ const orderSlice = createSlice({
   reducers: {
     setOrderValues: (state, { payload }) => {
       state.subtotal = payload.subtotal;
-      state.tax = payload.tax;
       state.shipping = payload.shippingFee;
       state.total = payload.total;
       state.orderItems = payload.orderItems;

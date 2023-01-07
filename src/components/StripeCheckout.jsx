@@ -24,7 +24,6 @@ const CheckoutForm = () => {
   const { defaultAddress } = useSelector((state) => state.address);
   const {
     cartItems,
-    tax,
     shipping_fee: shippingFee,
     total_amount,
   } = useSelector((state) => state.cart);
@@ -68,7 +67,6 @@ const CheckoutForm = () => {
     try {
       const { data } = await customFetch.post('/orders', {
         cartItems,
-        tax,
         shippingFee,
         defaultAddress,
       });
@@ -191,7 +189,7 @@ const CheckoutForm = () => {
           }}
         >
           <h4>Hello, {user && user.first_name + ' ' + user.last_name}</h4>
-          <p>Your total is {formatPrice(shippingFee + total_amount + tax)}</p>
+          <p>Your total is {formatPrice(shippingFee + total_amount)}</p>
           <p>Test Card Number : 4242 4242 4242 4242</p>
           <p>3D Secure Auth Test Card : 4000 0000 0000 3220</p>
           <p>Insufficient Funds Test Card : 4000 0000 0000 9995</p>
