@@ -144,7 +144,8 @@ const AdminViewProducts = () => {
 
   useEffect(() => {
     dispatch(fetchAllProducts());
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   return (
     <Container className={classes.container} fluid>
@@ -193,14 +194,14 @@ const AdminViewProducts = () => {
           )}
         </Container>
       </Container>
-      {/* {totalPages > 1 && (
+      {totalPages > 1 && (
         <PaginationButtons
           changePage={changePage}
           totalPages={totalPages}
           page={page}
           isLoading={isLoading}
         />
-      )} */}
+      )}
     </Container>
   );
 };

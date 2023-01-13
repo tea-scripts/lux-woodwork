@@ -191,14 +191,6 @@ const AdminAddProducts = () => {
               onChange={handleInputChange}
             />
 
-            <TextInput
-              type="number"
-              value={Math.round(price * 0.12).toFixed(0)}
-              label="VAT"
-              readOnly
-              mb={8}
-            />
-
             <Select
               data={[
                 { label: 'Office', value: 'office' },

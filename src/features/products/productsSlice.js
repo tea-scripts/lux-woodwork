@@ -64,7 +64,10 @@ export const uploadProductImage = createAsyncThunk(
 export const fetchAllProducts = createAsyncThunk(
   'products/fetchAllProducts',
   async (_, thunkAPI) => {
-    return fetchAllProductsThunk('/products', thunkAPI);
+    return fetchAllProductsThunk(
+      `/products?page${thunkAPI.getState().products.page}`,
+      thunkAPI
+    );
   }
 );
 
@@ -187,8 +190,15 @@ const productsSlice = createSlice({
     [fetchAllProducts.fulfilled]: (state, action) => {
       const { products, totalPages, totalProducts } = action.payload;
       state.products = products;
-      state.totalPages = totalPages;
-      state.totalProducts = totalProducts;
+      state.totalPages = Math.ceil(
+        products.filter(
+          (product) =>
+            product.isArchived === false && product.isDeleted === false
+        ).length / 10
+      );
+      state.totalProducts = products.filter(
+        (product) => product.isArchived === false && product.isDeleted === false
+      ).length;
       state.isLoading = false;
     },
     [fetchAllProducts.rejected]: (state, action) => {

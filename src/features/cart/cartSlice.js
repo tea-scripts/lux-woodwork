@@ -11,6 +11,7 @@ const initialState = {
   total_amount: 0,
   total_quantity: 0,
   shipping_fee: 0,
+  tax: 0,
   isCartOpen: false,
   shippingFees: shippingFees,
 };
@@ -97,6 +98,7 @@ const cartSlice = createSlice({
     calculateTotals: (state) => {
       let quantity = 0;
       let total = 0;
+      let taxPercent = 0.12;
 
       state.cartItems.forEach((item) => {
         quantity += item.quantity;
@@ -104,6 +106,7 @@ const cartSlice = createSlice({
       });
 
       state.total_quantity = quantity;
+      state.tax = (total * taxPercent) / 100;
       state.shipping_fee = getShippingFee(localStorage.getItem('city'));
       state.total_amount = total;
     },
