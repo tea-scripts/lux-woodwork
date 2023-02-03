@@ -169,7 +169,7 @@ const ViewProductModal = () => {
               </div>
               <div>
                 <Text className={classes.text} mb={5}>
-                  {formatPrice(price)}
+                  {formatPrice(price * 100)}
                 </Text>
                 <Text className={classes.text} mb={5}>
                   {inventory}

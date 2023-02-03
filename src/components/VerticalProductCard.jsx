@@ -209,7 +209,7 @@ const VerticalProductCard = ({ product, wishlistId = null }) => {
       </Text>
 
       <Text align="center" sx={{ color: 'var(--prussian-blue-500)' }}>
-        {formatPrice(product.price)}
+        {formatPrice(product.priceWithVAT)}
       </Text>
     </Card>
   );

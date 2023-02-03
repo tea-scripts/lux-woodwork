@@ -11,29 +11,29 @@ import {
   SimpleGrid,
   Text,
   Title,
-} from "@mantine/core";
-import { useDispatch, useSelector } from "react-redux";
-import { createStyles } from "@mantine/core";
-import Loading from "./Loading";
-import { formatPrice } from "../utils/helpers";
+} from '@mantine/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { createStyles } from '@mantine/core';
+import Loading from './Loading';
+import { formatPrice } from '../utils/helpers';
 import {
   cancelOrder,
   deliverOrder,
   shipOrder,
   togggleActionConfirmModal,
   toggleOrderView,
-} from "../features/orders/orderSlice";
-import { DateTime } from "luxon";
-import ActionConfirmationModal from "./ActionConfirmationModal";
-import { Link, useNavigate } from "react-router-dom";
+} from '../features/orders/orderSlice';
+import { DateTime } from 'luxon';
+import ActionConfirmationModal from './ActionConfirmationModal';
+import { Link, useNavigate } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
   image: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
     maxHeight: 200,
-    display: "block",
-    objectFit: "cover",
+    display: 'block',
+    objectFit: 'cover',
     borderRadius: theme.radius.md,
   },
 }));
@@ -112,8 +112,8 @@ const ViewOrderModal = () => {
       <Container>
         <Text
           sx={{
-            color: "var(--prussian-blue-500)",
-            fontSize: "1.1rem",
+            color: 'var(--prussian-blue-500)',
+            fontSize: '1.1rem',
             fontWeight: 500,
           }}
         >
@@ -132,23 +132,23 @@ const ViewOrderModal = () => {
         </Text>
 
         <Text mb={20} weight={500} color="gray">
-          Status:{" "}
+          Status:{' '}
           <Badge
             radius="xs"
             color={
-              status === "paid"
-                ? "green"
-                : status === "pending"
-                ? "yellow"
-                : "red"
+              status === 'paid'
+                ? 'green'
+                : status === 'pending'
+                ? 'yellow'
+                : 'red'
             }
             variant="filled"
           >
-            {status === "paid"
-              ? "Paid"
-              : status === "pending"
-              ? "Pending"
-              : "Cancelled"}
+            {status === 'paid'
+              ? 'Paid'
+              : status === 'pending'
+              ? 'Pending'
+              : 'Cancelled'}
           </Badge>
         </Text>
 
@@ -161,10 +161,10 @@ const ViewOrderModal = () => {
                 xs={12}
                 sm={5}
                 sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
               >
                 <Paper
@@ -178,16 +178,16 @@ const ViewOrderModal = () => {
               <Grid.Col xs={12} sm={6}>
                 <Container
                   sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
+                    display: 'flex',
+                    justifyContent: 'space-between',
                   }}
                 >
                   <Text align="center">{item.name}</Text>
                   <div>
-                    <Text weight={500} sx={{ color: "var(--hunter-green)" }}>
-                      {formatPrice(item.price)}
+                    <Text weight={500} sx={{ color: 'var(--hunter-green)' }}>
+                      {formatPrice(item.priceWithVAT)}
                     </Text>
-                    <Text align="right" sx={{ color: "#C0C0C0" }}>
+                    <Text align="right" sx={{ color: '#C0C0C0' }}>
                       Qty: {item.quantity}
                     </Text>
                   </div>
@@ -203,21 +203,21 @@ const ViewOrderModal = () => {
 
         <Container
           mb={10}
-          sx={{ display: "flex", justifyContent: "space-between" }}
+          sx={{ display: 'flex', justifyContent: 'space-between' }}
         >
           <Text
             size={20}
             weight={500}
-            sx={{ color: "var(--prussian-blue-500)" }}
+            sx={{ color: 'var(--prussian-blue-500)' }}
           >
             Delivery Address
           </Text>
         </Container>
 
         <Container mb={5}>
-          <Text sx={{ color: "var(--gray)", maxWidth: "380px" }}>
-            {shippingAddress?.street}, {shippingAddress?.barangay},{" "}
-            {shippingAddress?.city}, {shippingAddress?.province},{" "}
+          <Text sx={{ color: 'var(--gray)', maxWidth: '380px' }}>
+            {shippingAddress?.street}, {shippingAddress?.barangay},{' '}
+            {shippingAddress?.city}, {shippingAddress?.province},{' '}
             {shippingAddress?.region}, {shippingAddress?.zip}
           </Text>
         </Container>
@@ -226,12 +226,12 @@ const ViewOrderModal = () => {
 
         <Container
           mb={10}
-          sx={{ display: "flex", justifyContent: "space-between" }}
+          sx={{ display: 'flex', justifyContent: 'space-between' }}
         >
           <Text
             size={20}
             weight={500}
-            sx={{ color: "var(--prussian-blue-500)" }}
+            sx={{ color: 'var(--prussian-blue-500)' }}
           >
             Order Summary
           </Text>
@@ -239,16 +239,16 @@ const ViewOrderModal = () => {
 
         <Container
           mb={5}
-          sx={{ display: "flex", justifyContent: "space-between" }}
+          sx={{ display: 'flex', justifyContent: 'space-between' }}
         >
-          <Text weight={500} size={18} sx={{ color: "var(--gray)" }}>
+          <Text weight={500} size={18} sx={{ color: 'var(--gray)' }}>
             Subtotal
           </Text>
           <Text
             weight={500}
             align="right"
-            size={18}
-            sx={{ color: "var(--gray)" }}
+            size={17}
+            sx={{ color: 'var(--gray)' }}
           >
             {formatPrice(subtotal)}
           </Text>
@@ -256,49 +256,37 @@ const ViewOrderModal = () => {
 
         <Container
           mb={5}
-          sx={{ display: "flex", justifyContent: "space-between" }}
+          sx={{ display: 'flex', justifyContent: 'space-between' }}
         >
-          <Text size={16} sx={{ color: "var(--gray)" }}>
+          <Text size={16} sx={{ color: 'var(--gray)' }}>
             Shipping Fee
           </Text>
-          <Text align="right" size={16} sx={{ color: "var(--gray)" }}>
+          <Text align="right" size={16} sx={{ color: 'var(--gray)' }}>
             {formatPrice(shipping)}
           </Text>
         </Container>
 
         <Container
           mb={5}
-          sx={{ display: "flex", justifyContent: "space-between" }}
-        >
-          <Text size={16} sx={{ color: "var(--gray)" }}>
-            VAT
-          </Text>
-          <Text align="right" size={16} sx={{ color: "var(--gray)" }}>
-            {formatPrice(tax)}
-          </Text>
-        </Container>
-
-        <Container
-          mb={5}
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
+            display: 'flex',
+            justifyContent: 'space-between',
           }}
         >
-          <Text weight={500} size={18} sx={{ color: "var(--gray)" }}>
-            Total
+          <Text weight={500} size={17} sx={{ color: 'var(--gray)' }}>
+            Total (VAT Inclusive)
           </Text>
           <Text
             weight={500}
             align="right"
             size={22}
-            sx={{ color: "var(--hunter-green)" }}
+            sx={{ color: 'var(--hunter-green)' }}
           >
             {formatPrice(total)}
           </Text>
         </Container>
 
-        {status === "pending" && (
+        {status === 'pending' && (
           <Group position="right" mt={20}>
             <Button
               variant="subtle"
@@ -316,7 +304,7 @@ const ViewOrderModal = () => {
         )}
 
         <Group position="right" mt={15}>
-          {status === "paid" && isShipped === false && (
+          {status === 'paid' && isShipped === false && (
             <Button
               variant="filled"
               onClick={() => dispatch(shipOrder(orderId))}
@@ -342,7 +330,7 @@ const ViewOrderModal = () => {
             </Button>
           )}
 
-          {status === "cancelled" && (
+          {status === 'cancelled' && (
             <Button variant="subtle" disabled>
               Order Canceled
             </Button>

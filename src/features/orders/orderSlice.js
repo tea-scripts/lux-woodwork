@@ -43,6 +43,7 @@ const initialState = {
   shippedOrders: [],
   totalShippedOrders: 0,
   userOrdersQueryType: 'All',
+  orderPlaced: false,
 };
 
 export const fetchAllOrders = createAsyncThunk(

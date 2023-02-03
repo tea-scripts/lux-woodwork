@@ -22,12 +22,9 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 const CheckoutForm = () => {
   const { user } = useSelector((state) => state.users);
   const { defaultAddress } = useSelector((state) => state.address);
-  const {
-    cartItems,
-    tax,
-    shipping_fee: shippingFee,
-    total_amount,
-  } = useSelector((state) => state.cart);
+  const { cartItems, shipping_fee, total_amount } = useSelector(
+    (state) => state.cart
+  );
 
   const location = useLocation();
 
@@ -68,12 +65,10 @@ const CheckoutForm = () => {
     try {
       const { data } = await customFetch.post('/orders', {
         cartItems,
-        tax,
-        shippingFee,
+        shippingFee: shipping_fee,
         defaultAddress,
       });
       setClientSecret(data.order.clientSecret);
-      console.log(data.order.clientSecret);
       setOrderId(data.order._id);
       toast.success('Order placed successfully!');
     } catch (error) {
@@ -191,7 +186,7 @@ const CheckoutForm = () => {
           }}
         >
           <h4>Hello, {user && user.first_name + ' ' + user.last_name}</h4>
-          <p>Your total is {formatPrice(shippingFee + total_amount + tax)}</p>
+          <p>Your total is {formatPrice(shipping_fee + total_amount)}</p>
           <p>Test Card Number : 4242 4242 4242 4242</p>
           <p>3D Secure Auth Test Card : 4000 0000 0000 3220</p>
           <p>Insufficient Funds Test Card : 4000 0000 0000 9995</p>
@@ -224,6 +219,18 @@ const CheckoutForm = () => {
 };
 
 const StripeCheckout = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    document.title = 'Checkout Page';
+
+    const timer = setTimeout(() => {
+      dispatch(clearCart());
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [dispatch]);
+
   return (
     <Container
       size={1200}

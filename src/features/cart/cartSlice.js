@@ -37,7 +37,7 @@ const cartSlice = createSlice({
 
       state.total_items = state.cartItems.length;
       state.total_amount = state.cartItems.reduce(
-        (acc, item) => acc + item.quantity * item.price,
+        (acc, item) => acc + item.quantity * item.priceWithVAT,
         0
       );
       state.total_quantity = state.cartItems.reduce(
@@ -102,7 +102,7 @@ const cartSlice = createSlice({
 
       state.cartItems.forEach((item) => {
         quantity += item.quantity;
-        total += item.quantity * item.price;
+        total += item.quantity * item.priceWithVAT;
       });
 
       state.total_quantity = quantity;

@@ -18,6 +18,7 @@ import {
   uploadProductImage,
   updateProduct,
   handleChange,
+  clearProductValues,
 } from '../features/products/productsSlice';
 import { toast } from 'react-toastify';
 import { IconUpload } from '@tabler/icons';
@@ -137,7 +138,7 @@ const EditProductModal = () => {
       opened={isEditingProduct}
       onClose={() => {
         dispatch(toggleProductEdit());
-        dispatch(setProductValues({}));
+        dispatch(clearProductValues());
       }}
       centered
       size="xl"
@@ -169,11 +170,11 @@ const EditProductModal = () => {
           <TextInput
             type="number"
             placeholder="Enter product price"
-            label="Price (in cents)"
+            label="Price (VAT will be added)"
             name="price"
             mb={16}
             withAsterisk
-            value={price}
+            value={price || 0}
             onChange={handleInputChange}
           />
 

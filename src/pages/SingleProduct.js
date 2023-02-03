@@ -159,7 +159,7 @@ const SingleProduct = () => {
     name,
     _id,
     inventory,
-    price,
+    priceWithVAT,
     description,
     category,
     images,
@@ -199,7 +199,7 @@ const SingleProduct = () => {
             <section className={classes.content}>
               <h2>{name}</h2>
               <Stars stars={averageRating} reviewsCount={numOfReviews} />
-              <h5>{formatPrice(price)}</h5>
+              <h5>{formatPrice(priceWithVAT)}</h5>
               <p className={classes.description}>{description}</p>
 
               <p className={classes.info}>
@@ -242,7 +242,10 @@ const SingleProduct = () => {
             <h5>Related Products</h5>
             <Grid className={classes.products}>
               {products
-                .filter((item) => item._id !== product._id)
+                .filter(
+                  (item) =>
+                    item._id !== product._id && item.displayProduct === true
+                )
                 .map((item) => <Product {...item} key={item._id} />)
                 .slice(0, 3)}
             </Grid>

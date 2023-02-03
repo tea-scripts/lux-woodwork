@@ -30,7 +30,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const Product = ({ _id, name, images, price }) => {
+const Product = ({ _id, name, images, priceWithVAT }) => {
   const { classes } = useStyles();
   const navigateToProduct = () => {
     window.location.href = `/products/${_id}`;
@@ -49,7 +49,7 @@ const Product = ({ _id, name, images, price }) => {
           </Text>
 
           <Badge color="pink" variant="light" className={classes.price}>
-            {formatPrice(price)}
+            {formatPrice(priceWithVAT)}
           </Badge>
         </Group>
       </Card>

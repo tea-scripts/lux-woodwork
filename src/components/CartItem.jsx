@@ -120,7 +120,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const CartItem = ({ _id, name, images, quantity, price }) => {
+const CartItem = ({ _id, name, images, quantity, priceWithVAT }) => {
   const dispatch = useDispatch();
   const { classes } = useStyles();
 
@@ -131,12 +131,12 @@ const CartItem = ({ _id, name, images, quantity, price }) => {
         <img src={images[0]} alt={name} />
         <div>
           <h5 className={classes.name}>{name}</h5>
-          <h5 className={classes.smallPrice}>{formatPrice(price)}</h5>
+          <h5 className={classes.smallPrice}>{formatPrice(priceWithVAT)}</h5>
         </div>
       </div>
 
       {/* Second Column */}
-      <h5 className={classes.price}>{formatPrice(price)}</h5>
+      <h5 className={classes.price}>{formatPrice(priceWithVAT)}</h5>
 
       {/* Third Column */}
       <AmountButtons
@@ -147,7 +147,9 @@ const CartItem = ({ _id, name, images, quantity, price }) => {
       />
 
       {/* Fourth Column */}
-      <h5 className={classes.subTotal}>{formatPrice(price * quantity)}</h5>
+      <h5 className={classes.subTotal}>
+        {formatPrice(priceWithVAT * quantity)}
+      </h5>
 
       {/* Fifth Column */}
       <Button

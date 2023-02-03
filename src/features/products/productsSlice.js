@@ -18,7 +18,7 @@ const initialState = {
   isLoading: false,
   productId: '',
   name: '',
-  price: 0,
+  price: '',
   inventory: 0,
   category: '',
   featured: false,
@@ -64,10 +64,7 @@ export const uploadProductImage = createAsyncThunk(
 export const fetchAllProducts = createAsyncThunk(
   'products/fetchAllProducts',
   async (_, thunkAPI) => {
-    return fetchAllProductsThunk(
-      `/products?page${thunkAPI.getState().products.page}`,
-      thunkAPI
-    );
+    return fetchAllProductsThunk(`/products`, thunkAPI);
   }
 );
 
@@ -149,7 +146,7 @@ const productsSlice = createSlice({
     setProductValues: (state, { payload }) => {
       state.productId = payload._id;
       state.name = payload.name;
-      state.price = payload.price;
+      state.price = parseInt(payload.price) / 100;
       state.inventory = payload.inventory;
       state.category = payload.category;
       state.featured = payload.featured;
@@ -164,7 +161,7 @@ const productsSlice = createSlice({
     clearProductValues: (state) => {
       state.productId = '';
       state.name = '';
-      state.price = 0;
+      state.price = '';
       state.inventory = 0;
       state.category = '';
       state.featured = false;

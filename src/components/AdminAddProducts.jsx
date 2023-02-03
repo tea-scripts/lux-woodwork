@@ -183,11 +183,12 @@ const AdminAddProducts = () => {
             <TextInput
               type="number"
               placeholder="Enter product price"
-              label="Price (in cents)"
+              label="Price (VAT will be added)"
               name="price"
               mb={8}
               withAsterisk
               value={price}
+              width="50%"
               onChange={handleInputChange}
             />
 

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { formatPrice } from '../utils/helpers';
 import { toggleSignInModal } from '../features/users/userSlice';
+import { handleChange } from '../features/orders/orderSlice';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -32,9 +33,9 @@ const useStyles = createStyles((theme) => ({
       fontWeight: 600,
     },
 
-    h4: {
+    'h5.total': {
       marginTop: theme.spacing.md,
-      fontSize: theme.fontSizes.lg,
+      fontSize: theme.fontSizes.md,
       fontWeight: 600,
     },
 
@@ -55,9 +56,7 @@ const CartTotals = () => {
   const { classes } = useStyles();
   const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
-  const { shipping_fee, total_amount, tax } = useSelector(
-    (state) => state.cart
-  );
+  const { shipping_fee, total_amount } = useSelector((state) => state.cart);
 
   return (
     <div className={classes.wrapper}>
@@ -70,14 +69,13 @@ const CartTotals = () => {
             <p>
               shipping fee : <span>{formatPrice(shipping_fee)}</span>
             </p>
-            <p>
-              VAT : <span>{formatPrice(tax)}</span>
-            </p>
+
             <Divider />
-            <h4>
-              order total :{' '}
-              <span>{formatPrice(total_amount + shipping_fee + tax)}</span>
-            </h4>
+
+            <h5 className="total">
+              order total +VAT:{' '}
+              <span>{formatPrice(total_amount + shipping_fee)}</span>
+            </h5>
           </article>
         </Card>
 
@@ -88,6 +86,9 @@ const CartTotals = () => {
             className={classes.checkOutBtn}
             fw="normal"
             sx={{ fontSize: '.95rem' }}
+            onClick={() =>
+              dispatch(handleChange({ name: 'orderPlaced', value: true }))
+            }
           >
             place order
           </Button>
