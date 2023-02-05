@@ -12,6 +12,7 @@ import {
   shipOrderThunk,
   unarchiveOrderThunk,
   updateOrderThunk,
+  uploadProofOfDeliveryThunk,
 } from './ordersThunk';
 
 const initialState = {
@@ -44,6 +45,7 @@ const initialState = {
   totalShippedOrders: 0,
   userOrdersQueryType: 'All',
   orderPlaced: false,
+  proofOfDelivery: '',
 };
 
 export const fetchAllOrders = createAsyncThunk(
@@ -123,8 +125,12 @@ export const shipOrder = createAsyncThunk(
 
 export const deliverOrder = createAsyncThunk(
   'orders/deliverOrder',
-  async (orderId, thunkAPI) => {
-    return deliverOrderThunk(`/orders/deliver/${orderId}`, thunkAPI);
+  async ({ orderId, proofOfDelivery }, thunkAPI) => {
+    return deliverOrderThunk(
+      `/orders/deliver/${orderId}`,
+      proofOfDelivery,
+      thunkAPI
+    );
   }
 );
 
@@ -132,6 +138,13 @@ export const receiveOrder = createAsyncThunk(
   'orders/receiveOrder',
   async (orderId, thunkAPI) => {
     return receiveOrderThunk(`/orders/receive/${orderId}`, thunkAPI);
+  }
+);
+
+export const uploadProofOfDelivery = createAsyncThunk(
+  'orders/uploadProofOfDelivery',
+  async (formData, thunkAPI) => {
+    return uploadProofOfDeliveryThunk('/uploadImage', formData, thunkAPI);
   }
 );
 
@@ -153,6 +166,7 @@ const orderSlice = createSlice({
       state.shippingAddress = payload.shippingAddress;
       state.isShipped = payload.isShipped;
       state.isDelivered = payload.isDelivered;
+      state.proofOfDelivery = payload.proofOfDelivery;
     },
     toggleOrderView: (state) => {
       state.isViewing = !state.isViewing;
@@ -301,6 +315,18 @@ const orderSlice = createSlice({
       toast.success('Order received successfully');
     },
     [receiveOrder.rejected]: (state, action) => {
+      state.isLoading = false;
+      toast.error(action.payload.msg);
+    },
+    [uploadProofOfDelivery.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [uploadProofOfDelivery.fulfilled]: (state, action) => {
+      state.proofOfDelivery = action.payload.images[0].url;
+      state.isLoading = false;
+      toast.success('Proof of delivery uploaded successfully');
+    },
+    [uploadProofOfDelivery.rejected]: (state, action) => {
       state.isLoading = false;
       toast.error(action.payload.msg);
     },

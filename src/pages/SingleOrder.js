@@ -313,6 +313,30 @@ const SingleOrder = () => {
         </Group>
       )}
 
+      {order.isDelivered && (
+        <>
+          <Divider my={20} />
+          <Container mb={10}>
+            <Text
+              size={20}
+              weight={500}
+              sx={{ color: 'var(--prussian-blue-500)' }}
+              mb={16}
+            >
+              Proof of Delivery
+            </Text>
+            <Image
+              width={200}
+              height={250}
+              sx={{ border: '1px solid #C0C0C0', borderRadius: '5px' }}
+              src={order.proofOfDelivery ? order.proofOfDelivery : null}
+              alt="With default placeholder"
+              withPlaceholder
+            />
+          </Container>
+        </>
+      )}
+
       {order.isDelivered && !order.isReceived && (
         <Group position="right" mt={20}>
           <Button onClick={receive}>Order Received</Button>

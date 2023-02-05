@@ -1,5 +1,7 @@
 import {
+  Avatar,
   Badge,
+  Box,
   Button,
   Container,
   Divider,
@@ -22,10 +24,13 @@ import {
   shipOrder,
   togggleActionConfirmModal,
   toggleOrderView,
+  uploadProofOfDelivery,
 } from '../features/orders/orderSlice';
 import { DateTime } from 'luxon';
 import ActionConfirmationModal from './ActionConfirmationModal';
 import { Link, useNavigate } from 'react-router-dom';
+import { useRef } from 'react';
+import { IconUpload } from '@tabler/icons';
 
 const useStyles = createStyles((theme) => ({
   image: {
@@ -56,9 +61,26 @@ const ViewOrderModal = () => {
     expiryDate,
     isShipped,
     isDelivered,
+    proofOfDelivery,
   } = useSelector((store) => store.orders);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const hiddenFileInput = useRef(null);
+
+  const handleClick = (event) => {
+    hiddenFileInput.current.click();
+  };
+
+  const handleProofOfDelivery = (e) => {
+    const image = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image', image);
+
+    if (image) {
+      dispatch(uploadProofOfDelivery(formData));
+    }
+  };
 
   return (
     <Modal
@@ -303,6 +325,39 @@ const ViewOrderModal = () => {
           </Group>
         )}
 
+        <Divider my={20} />
+
+        {isShipped && (
+          <Container
+            mb={10}
+            // sx={{ display: 'flex', justifyContent: 'space-between' }}
+          >
+            <Text
+              size={20}
+              weight={500}
+              sx={{ color: 'var(--prussian-blue-500)' }}
+              mb={16}
+            >
+              Proof of Delivery
+            </Text>
+
+            <Image
+              width={200}
+              height={250}
+              sx={{ border: '1px solid #C0C0C0', borderRadius: '5px' }}
+              src={proofOfDelivery ? proofOfDelivery : null}
+              alt="With default placeholder"
+              withPlaceholder
+            />
+
+            {isDelivered === false && !proofOfDelivery && (
+              <Text size={12} color="red">
+                Upload proof to verify the delivery
+              </Text>
+            )}
+          </Container>
+        )}
+
         <Group position="right" mt={15}>
           {status === 'paid' && isShipped === false && (
             <Button
@@ -315,13 +370,36 @@ const ViewOrderModal = () => {
           )}
 
           {isShipped && isDelivered === false && (
-            <Button
-              variant="filled"
-              onClick={() => dispatch(deliverOrder(orderId))}
-              loading={isLoading}
-            >
-              Deliver Order
-            </Button>
+            <Group>
+              <Button
+                onClick={handleClick}
+                leftIcon={<IconUpload />}
+                variant="outline"
+                disabled={isLoading}
+              >
+                Upload Proof
+              </Button>
+              <input
+                type="file"
+                name="image"
+                style={{
+                  display: 'none',
+                }}
+                height={15}
+                onChange={handleProofOfDelivery}
+                ref={hiddenFileInput}
+              />
+              <Button
+                variant="filled"
+                onClick={() =>
+                  dispatch(deliverOrder({ orderId, proofOfDelivery }))
+                }
+                loading={isLoading}
+                disabled={!proofOfDelivery}
+              >
+                Deliver Order
+              </Button>
+            </Group>
           )}
 
           {isDelivered && (
